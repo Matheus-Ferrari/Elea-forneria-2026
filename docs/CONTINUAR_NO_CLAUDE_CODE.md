@@ -43,6 +43,14 @@ firebase emulators:start --only hosting --project demo-elea
 ```
 Site em http://localhost:5010 (Firestore/Auth não rodam em emulador aqui: só há Java 8; por isso o modo demonstração).
 
+## Repositório e link de teste (GitHub Pages)
+- Repositório (público, só esta pasta): https://github.com/Matheus-Ferrari/Elea-forneria-2026 — branch `main`.
+- Link de teste: https://matheus-ferrari.github.io/Elea-forneria-2026/ (noindex). Publicado por `.github/workflows/pages.yml` a cada push na `main` (o workflow roda o montador e publica `site/`).
+- Uma vez só: Settings → Pages → Source = **GitHub Actions**.
+- Os caminhos do site são **relativos** (o montador converte `/assets/...`, `/cardapio.html`, `/#visite`), por isso funciona na raiz e na subpasta do Pages. Em JS, use caminhos relativos também (`conta.html`, `assets/img/...`).
+- No Pages a loja roda em modo demonstração (sem Firebase). Login/pedidos reais → Firebase Hosting (abaixo).
+- Atenção: a pasta do usuário (`C:\Users\Meneleu`) também é um repositório git; os comandos git devem rodar DENTRO desta pasta.
+
 ## Para ligar o Firebase de verdade
 1. Criar o projeto (de preferência na conta da Elea), ativar Authentication (e-mail/senha + Google) e Firestore (`southamerica-east1`).
 2. Colar a config web em `site/assets/js/config.js` → `FIREBASE`.
