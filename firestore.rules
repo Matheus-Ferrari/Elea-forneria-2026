@@ -1,0 +1,41 @@
+rules_version = '2';
+// Elea Forneria — regras do Firestore (mesmo modelo de acesso do Cucina: equipe = admins/{uid}).
+service cloud.firestore {
+  match /databases/{db}/documents {
+    function logado() { return request.auth != null; }
+    function admin() { return logado() && exists(/databases/$(db)/documents/admins/$(request.auth.uid)); }
+
+    // Catálogo da forneria: público para leitura, só a equipe edita.
+    match /produtos/{id} {
+      allow read: if true;
+      allow write: if admin();
+    }
+
+    // Perfil da cliente: só ela (e a equipe).
+    match /usuarios/{uid} {
+      allow read, write: if (logado() && request.auth.uid == uid) || admin();
+    }
+
+    // Pedidos: a cliente cria o próprio (sempre "recebido", retirada >= ~24h) e lê os seus.
+    // Só a equipe muda a situação. O total é conferido pela equipe no painel antes do pagamento.
+    match /pedidos/{id} {
+      allow create: if logado()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == 'recebido'
+        && request.resource.data.itens is list
+        && request.resource.data.itens.size() > 0 && request.resource.data.itens.size() <= 20
+        && request.resource.data.total is int && request.resource.data.total > 0
+        && request.resource.data.retiradaEm is timestamp
+        && request.resource.data.retiradaEm > request.time + duration.value(23, 'h')
+        && request.resource.data.criadoEm == request.time;
+      allow read: if (logado() && resource.data.uid == request.auth.uid) || admin();
+      allow update, delete: if admin();
+    }
+
+    // Lista da equipe: criada à mão no console (documento com o uid da pessoa).
+    match /admins/{uid} {
+      allow read: if logado() && request.auth.uid == uid;
+      allow write: if false;
+    }
+  }
+}

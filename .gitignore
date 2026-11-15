@@ -1,0 +1,6 @@
+# Originais pesados do usuário ficam só no computador (versões otimizadas estão em site/assets/img)
+/img/
+node_modules/
+.firebase/
+*.log
+.env*

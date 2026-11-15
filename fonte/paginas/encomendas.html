@@ -1,0 +1,37 @@
+---
+titulo: Encomendas · Elea Forneria
+descricao: Encomende focaccias e tortano da Elea Forneria com 24h de antecedência e retire na Água Fria, São Paulo.
+ativo: encomendas
+scripts: loja
+imagem: /assets/img/pessoas/padeiro-focaccias.webp
+---
+<section class="pagina-topo">
+  <div class="container">
+    <p class="kicker kicker--claro">Forneria</p>
+    <h1>Encomendas da Elea</h1>
+    <p>Focaccias e tortano feitos na casa. Pedidos com 24h de antecedência; a retirada é na Elea, em horário combinado, após o pagamento.</p>
+  </div>
+</section>
+
+<section class="secao secao--papel">
+  <div class="container">
+    <div data-aviso-modo></div>
+    <div class="passos">
+      <div class="passo"><b>1</b>Escolha os itens e entre na sua conta.</div>
+      <div class="passo"><b>2</b>Agende o dia e o período de retirada (mínimo 24h).</div>
+      <div class="passo"><b>3</b>A equipe confirma, você paga e retira na Elea.</div>
+    </div>
+    <p class="aviso">Preços e itens <span class="tbc">a confirmar com a Elea</span> — base: story “Encomendas” do Instagram.</p>
+    <div class="produtos" data-produtos aria-live="polite"><p class="vazio">Carregando…</p></div>
+  </div>
+</section>
+
+<aside class="gaveta" id="carrinho" aria-label="Carrinho de encomendas" aria-hidden="true">
+  <div class="gaveta__topo">
+    <h2 data-gaveta-titulo>Sua encomenda</h2>
+    <button class="icone-btn" type="button" data-fechar-gaveta aria-label="Fechar">{{icone:fechar}}</button>
+  </div>
+  <div class="gaveta__corpo" data-gaveta-corpo></div>
+  <div class="gaveta__rodape" data-gaveta-rodape></div>
+</aside>
+<div class="gaveta-fundo" data-fechar-gaveta></div>

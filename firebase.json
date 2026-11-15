@@ -1,0 +1,22 @@
+{
+  "hosting": {
+    "public": "site",
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "predeploy": ["node ferramentas/montar-paginas.mjs"],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "headers": [
+      {
+        "source": "/assets/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }]
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "emulators": {
+    "hosting": { "port": 5010 },
+    "ui": { "enabled": false }
+  }
+}

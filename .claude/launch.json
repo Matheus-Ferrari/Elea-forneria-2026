@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "elea-site",
+      "runtimeExecutable": "firebase",
+      "runtimeArgs": ["emulators:start", "--only", "hosting", "--project", "demo-elea"],
+      "port": 5010
+    }
+  ]
+}
