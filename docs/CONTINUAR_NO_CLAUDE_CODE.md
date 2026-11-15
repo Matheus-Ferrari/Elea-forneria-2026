@@ -45,8 +45,9 @@ Site em http://localhost:5010 (Firestore/Auth não rodam em emulador aqui: só h
 
 ## Repositório e link de teste (GitHub Pages)
 - Repositório (público, só esta pasta): https://github.com/Matheus-Ferrari/Elea-forneria-2026 — branch `main`.
-- Link de teste: https://matheus-ferrari.github.io/Elea-forneria-2026/ (noindex). Publicado por `.github/workflows/pages.yml` a cada push na `main` (o workflow roda o montador e publica `site/`).
-- Uma vez só: Settings → Pages → Source = **GitHub Actions**.
+- Link de teste: https://matheus-ferrari.github.io/Elea-forneria-2026/ (noindex), publicado a partir do branch **`gh-pages`** (= conteúdo de `site/`). Settings → Pages → Deploy from a branch → `gh-pages` / (root).
+- **Para atualizar o link** depois de mudar algo: `node ferramentas/montar-paginas.mjs`, commit na `main`, `git push` e então `git subtree push --prefix site origin gh-pages`.
+- O workflow `.github/workflows/pages.yml` (publicação via Actions) está só manual: a conta do GitHub está com o Actions bloqueado por cobrança. Resolvido isso, dá para voltar o `push` nele e usar Source = GitHub Actions.
 - Os caminhos do site são **relativos** (o montador converte `/assets/...`, `/cardapio.html`, `/#visite`), por isso funciona na raiz e na subpasta do Pages. Em JS, use caminhos relativos também (`conta.html`, `assets/img/...`).
 - No Pages a loja roda em modo demonstração (sem Firebase). Login/pedidos reais → Firebase Hosting (abaixo).
 - Atenção: a pasta do usuário (`C:\Users\Meneleu`) também é um repositório git; os comandos git devem rodar DENTRO desta pasta.

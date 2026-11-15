@@ -1,11 +1,14 @@
-# Link de TESTE no GitHub Pages: a cada push na main, remonta as páginas (fonte/ -> site/) e publica site/.
-# Uma vez só: Settings > Pages > Build and deployment > Source = "GitHub Actions".
+# Link de TESTE no GitHub Pages via Actions: remonta as páginas (fonte/ -> site/) e publica site/.
+# DESLIGADO no push (15/11/2026): a conta está com o Actions bloqueado por cobrança. Enquanto isso o link
+# sai do branch gh-pages (Settings > Pages > Deploy from a branch > gh-pages / root), atualizado com:
+#   git subtree push --prefix site origin gh-pages
+# Resolvida a cobrança: volte o "push" abaixo e mude Source para "GitHub Actions".
 # O site continua com noindex (EM_TESTE = true em ferramentas/montar-paginas.mjs).
 name: Publicar teste (GitHub Pages)
 
 on:
-  push:
-    branches: [main]
+  # push:
+  #   branches: [main]
   workflow_dispatch:
 
 permissions:
