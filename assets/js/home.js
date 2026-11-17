@@ -253,6 +253,8 @@ if (secaoLinhas) {
 
 // Topo: fotos se revezando a cada 7 s. Pausa com a aba escondida ou com o topo fora da tela; com movimento reduzido fica a 1ª.
 const slides = [...document.querySelectorAll(".hero__slide")];
+// fundo desfocado das laterais: endereço ABSOLUTO da foto (url() relativo dentro de --foto seria lido a partir da pasta do CSS)
+slides.forEach((sl) => { const img = sl.querySelector("img"); if (img) sl.style.setProperty("--foto", `url("${img.src}")`); });
 if (slides.length > 1 && !calmo) {
   let atual = 0, noTopo = true;
   setInterval(() => {

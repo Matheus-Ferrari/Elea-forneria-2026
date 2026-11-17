@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 84" width="64" height="84">
+  <!-- Troféu dourado (selo "Bicampeã" do topo da Home). Ilustração, não foto. O brilho passa a cada 5 s; desliga com movimento reduzido. -->
+  <style>
+    .brilho { animation: passa 5s cubic-bezier(.45, 0, .25, 1) infinite; }
+    .faisca { transform-origin: 52px 6px; animation: pisca 5s ease-in-out infinite; }
+    @keyframes passa { 0%, 55% { transform: translateX(0) skewX(-22deg); } 85%, 100% { transform: translateX(96px) skewX(-22deg); } }
+    @keyframes pisca { 0%, 78% { opacity: 0; transform: scale(.2) rotate(0deg); } 86% { opacity: 1; transform: scale(1) rotate(45deg); } 96%, 100% { opacity: 0; transform: scale(.2) rotate(90deg); } }
+    @media (prefers-reduced-motion: reduce) { .brilho, .faisca { animation: none; opacity: 0; } }
+  </style>
+  <defs>
+    <linearGradient id="ouro" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6b470d"/>
+      <stop offset=".13" stop-color="#a8761d"/>
+      <stop offset=".28" stop-color="#eecb6c"/>
+      <stop offset=".36" stop-color="#fff3c4"/>
+      <stop offset=".46" stop-color="#e6b84c"/>
+      <stop offset=".7" stop-color="#b3821f"/>
+      <stop offset=".88" stop-color="#8a5f12"/>
+      <stop offset="1" stop-color="#5a3b08"/>
+    </linearGradient>
+    <linearGradient id="ouro-borda" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff0b8"/>
+      <stop offset=".5" stop-color="#e2b247"/>
+      <stop offset="1" stop-color="#9a6a16"/>
+    </linearGradient>
+    <linearGradient id="ouro-dentro" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a3006"/>
+      <stop offset="1" stop-color="#9c6d18"/>
+    </linearGradient>
+    <linearGradient id="ouro-alca" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7dc8a"/>
+      <stop offset=".5" stop-color="#c89530"/>
+      <stop offset="1" stop-color="#7a520f"/>
+    </linearGradient>
+    <linearGradient id="madeira" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2b190c"/>
+      <stop offset=".3" stop-color="#5b3a21"/>
+      <stop offset=".55" stop-color="#4a2e19"/>
+      <stop offset="1" stop-color="#22140a"/>
+    </linearGradient>
+    <linearGradient id="luz" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#fffbe8" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="sombra" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#000" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="forma-ouro">
+      <path d="M13 9H51V12C51 29 44 39.5 32 41C20 39.5 13 29 13 12Z"/>
+      <path d="M28.4 40.4H35.6L34 47H30Z"/>
+      <ellipse cx="32" cy="48" rx="5.2" ry="2.3"/>
+      <path d="M30.4 49.6H33.6L35.2 55H28.8Z"/>
+      <path d="M22.5 57.6C22.5 55.6 26.8 54.6 32 54.6S41.5 55.6 41.5 57.6L43.2 61.5H20.8Z"/>
+      <rect x="23" y="65.4" width="18" height="6.8" rx="1"/>
+    </clipPath>
+  </defs>
+
+  <!-- sombra no chão -->
+  <ellipse cx="32" cy="79.5" rx="27" ry="3.6" fill="url(#sombra)"/>
+
+  <!-- alças (contorno escuro por baixo dá volume) -->
+  <path d="M15 14.2C4.6 13.2 4 28.6 18 31.6" fill="none" stroke="#4d3307" stroke-width="5.2" stroke-linecap="round"/>
+  <path d="M49 14.2C59.4 13.2 60 28.6 46 31.6" fill="none" stroke="#4d3307" stroke-width="5.2" stroke-linecap="round"/>
+  <path d="M15 14.2C4.6 13.2 4 28.6 18 31.6" fill="none" stroke="url(#ouro-alca)" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M49 14.2C59.4 13.2 60 28.6 46 31.6" fill="none" stroke="url(#ouro-alca)" stroke-width="3.2" stroke-linecap="round"/>
+
+  <!-- taça -->
+  <path d="M13 9H51V12C51 29 44 39.5 32 41C20 39.5 13 29 13 12Z" fill="url(#ouro)"/>
+  <path d="M13 12C13 29 20 39.5 32 41C44 39.5 51 29 51 12" fill="none" stroke="#5a3b08" stroke-opacity=".55" stroke-width=".7"/>
+  <!-- reflexo vertical à esquerda -->
+  <path d="M18.4 13.5C18.6 25.5 21.6 33 26.2 37.4C23.4 31.2 21.6 23.6 21.4 13.5Z" fill="#fffbe6" fill-opacity=".7"/>
+  <!-- estrela gravada -->
+  <path d="M32 16.6l1.9 3.9 4.3.6-3.1 3 .7 4.3-3.8-2-3.8 2 .7-4.3-3.1-3 4.3-.6Z" fill="#fff0b3" stroke="#8a5f12" stroke-width=".6" stroke-linejoin="round"/>
+  <!-- boca da taça -->
+  <ellipse cx="32" cy="9" rx="19.2" ry="3.7" fill="url(#ouro-borda)"/>
+  <ellipse cx="32" cy="9.3" rx="16.6" ry="2.5" fill="url(#ouro-dentro)"/>
+
+  <!-- haste e nó -->
+  <path d="M28.4 40.4H35.6L34 47H30Z" fill="url(#ouro)"/>
+  <ellipse cx="32" cy="48" rx="5.2" ry="2.3" fill="url(#ouro)"/>
+  <ellipse cx="31" cy="47.3" rx="2.6" ry=".7" fill="#fff6d0" fill-opacity=".75"/>
+  <path d="M30.4 49.6H33.6L35.2 55H28.8Z" fill="url(#ouro)"/>
+  <!-- pé -->
+  <path d="M22.5 57.6C22.5 55.6 26.8 54.6 32 54.6S41.5 55.6 41.5 57.6L43.2 61.5H20.8Z" fill="url(#ouro)"/>
+  <path d="M24 56.6C26 55.6 29 55.3 32 55.3" fill="none" stroke="#fff6d0" stroke-opacity=".8" stroke-width=".8" stroke-linecap="round"/>
+
+  <!-- base de madeira com placa -->
+  <rect x="14.5" y="61" width="35" height="16" rx="2" fill="url(#madeira)"/>
+  <rect x="14.5" y="61" width="35" height="2.2" rx="1" fill="#7a5234"/>
+  <rect x="23" y="65.4" width="18" height="6.8" rx="1" fill="url(#ouro)"/>
+  <path d="M26 67.8H38M27.5 69.9H36.5" stroke="#6b470d" stroke-width=".7" stroke-linecap="round"/>
+
+  <!-- brilho passando por todo o metal -->
+  <g clip-path="url(#forma-ouro)">
+    <rect class="brilho" x="-26" y="0" width="12" height="84" fill="url(#luz)"/>
+  </g>
+  <!-- faísca na borda -->
+  <path class="faisca" d="M52 1.5l1 3.5 3.5 1-3.5 1-1 3.5-1-3.5-3.5-1 3.5-1Z" fill="#fffbe6"/>
+</svg>

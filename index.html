@@ -52,17 +52,17 @@
 <section class="hero" aria-labelledby="hero-titulo">
   <!-- Fotos que se revezam a cada 7 s (home.js). Para trocar/adicionar: mesma proporção 1672×941. Sem JS ou com movimento reduzido: fica a 1ª. -->
   <div class="hero__bg" aria-hidden="true">
-    <div class="hero__slide is-ativa" style="--foto: url('assets/img/hero/nhoque-verde.webp')"><img src="assets/img/hero/nhoque-verde.webp" alt="" width="1672" height="941" fetchpriority="high"></div>
-    <div class="hero__slide" style="--foto: url('assets/img/hero/hero-2.webp')"><img src="assets/img/hero/hero-2.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
-    <div class="hero__slide" style="--foto: url('assets/img/hero/hero-3.webp')"><img src="assets/img/hero/hero-3.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
-    <div class="hero__slide" style="--foto: url('assets/img/hero/hero-4.webp')"><img src="assets/img/hero/hero-4.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
+    <div class="hero__slide is-ativa"><img src="assets/img/hero/nhoque-verde.webp" alt="" width="1672" height="941" fetchpriority="high"></div>
+    <div class="hero__slide"><img src="assets/img/hero/hero-2.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
+    <div class="hero__slide"><img src="assets/img/hero/hero-3.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
+    <div class="hero__slide"><img src="assets/img/hero/hero-4.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
   </div>
   <div class="container hero__centro">
     <h1 id="hero-titulo" class="hero__marca">Elea <span>Forneria</span></h1>
     <p class="hero__tagline">Cucina, vino e buoni incontri.</p>
     <a class="hero__cta" href="#a-elea">Conheça a Elea <svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
   </div>
-  <a class="premio-pill" href="#imprensa"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg><span><strong>Bicampeã</strong> · Melhor Trattoria — Veja SP Comer &amp; Beber 2025 e 2026</span></a>
+  <a class="premio-pill" href="#imprensa"><img class="premio-pill__trofeu" src="assets/img/brand/trofeu.svg" alt="" width="64" height="84"><span><strong>Bicampeã</strong> · Melhor Trattoria — Veja SP Comer &amp; Beber 2025 e 2026</span></a>
 </section>
 
 <!-- Letreiro: as duas <ul> precisam ser IGUAIS (o loop anda metade do trilho). Cada uma repete os itens 3x para cobrir telas largas. -->
@@ -77,7 +77,6 @@
   <div class="container sobre">
     <div class="sobre__foto revelar">
       <img src="assets/img/pessoas/manuela-e-enrico.webp" alt="Manuela Fernandes e Enrico Villela na entrada da Elea Forneria" width="750" height="1000" loading="lazy">
-      <span class="selo-limao" aria-hidden="true"></span>
     </div>
     <div class="revelar">
       <p class="kicker">A Elea</p>
@@ -161,11 +160,13 @@
         <p>A revista apresenta a Elea como a trattoria número 1 do Comer &amp; Beber 2025 e conta os próximos passos da casa.</p>
         <p class="jornal__fonte">Fonte: Veja São Paulo, edição impressa. <span class="tbc">data/link</span></p>
       </article>
-      <article class="jornal">
+      <!-- Recorte da matéria (img/Elea estadao.png, cortado sem o botão desenhado). O título e o resumo já estão na imagem:
+           no card ficam só para leitores de tela e Google (sr-only). -->
+      <article class="jornal jornal--recorte">
         <div class="jornal__cabeca"><span>Estadão</span><span>Paladar</span></div>
-        <div class="jornal__foto"><img src="assets/img/imprensa/estadao-paladar.webp" alt="Reportagem do Estadão Paladar sobre o aniversário de 1 ano da Elea" width="520" height="625" loading="lazy"></div>
-        <h3>“Elea Forneria celebra 1 ano com pratos especiais”</h3>
-        <p>Para comemorar o primeiro aniversário, a casa recebeu chefs convidados do Borgo Mooca e do Bar Moela.</p>
+        <div class="jornal__foto"><img src="assets/img/imprensa/estadao-recorte.webp" alt="Recorte da reportagem do Estadão: Elea Forneria celebra 1 ano com pratos especiais dos chefs da casa, do Borgo Mooca e do Bar Moela, com foto de um prato de massa ao lado do cardápio da Elea" width="655" height="900" loading="lazy"></div>
+        <h3 class="sr-only">“Elea Forneria celebra 1 ano com pratos especiais”</h3>
+        <p class="sr-only">Para comemorar o primeiro aniversário, a casa recebeu chefs convidados do Borgo Mooca e do Bar Moela.</p>
         <p class="jornal__fonte"><a class="jornal__link" href="https://www.estadao.com.br/paladar/restaurantes-e-bares/elea-forneria-celebra-1-ano-com-pratos-especiais-dos-chefs-da-casa-do-borgo-mooca-e-do-bar-moela/" target="_blank" rel="noopener">Ler no Estadão →</a></p>
       </article>
     </div>
@@ -269,12 +270,15 @@
 <footer class="rodape">
   <div class="container">
     <!-- Vagas fica aqui (aparece em todas as páginas); o menu "Vagas" aponta para #vagas -->
+    <!-- Arte oficial da Elea ("Estamos com vagas abertas"). Ao mudar as vagas, troque a imagem e a lista. -->
     <div class="rodape__vagas" id="vagas">
-      <div>
-        <p class="kicker kicker--claro">Vagas</p>
+      <img class="rodape__vagas-foto" src="assets/img/pessoas/vagas-abertas.webp" alt="Cozinheiros da Elea sorrindo enquanto abrem massa fresca, com o anúncio: estamos com vagas abertas para cozinheiro, auxiliar de cozinha e atendimento" width="900" height="779" loading="lazy">
+      <div class="rodape__vagas-texto">
+        <p class="kicker kicker--claro">Vagas abertas</p>
         <h2>Venha trabalhar com a gente</h2>
+        <ul class="rodape__vagas-lista"><li>Cozinheiro</li><li>Auxiliar de cozinha</li><li>Atendimento</li></ul>
+        <p>Envie seu currículo para <span class="tbc">e-mail de vagas</span> e conte em qual área quer trabalhar.</p>
       </div>
-      <p>Envie seu currículo para <span class="tbc">e-mail de vagas</span> e conte em qual área quer trabalhar.</p>
     </div>
     <div class="rodape__grid">
       <div>
@@ -308,7 +312,7 @@
     </div>
   </div>
 </footer>
-<a class="whats-flutuante" href="https://wa.me/5511945099155?text=Ol%C3%A1%2C%20Elea!%20Vim%20pelo%20site." target="_blank" rel="noopener" aria-label="Falar com a Elea no WhatsApp"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg><span>WhatsApp</span></a>
+<a class="whats-flutuante" href="https://wa.me/5511945099155?text=Ol%C3%A1%2C%20Elea!%20Vim%20pelo%20site." target="_blank" rel="noopener" aria-label="Falar com a Elea no WhatsApp"><span class="whats-flutuante__logo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.42.25-.69.25-1.29.18-1.41-.08-.13-.27-.2-.57-.35m-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9a11.82 11.82 0 0 0-3.48-8.4Z"/></svg></span><span class="whats-flutuante__texto">WhatsApp</span></a>
 <div class="toast" role="status" aria-live="polite" data-toast></div>
 <script type="module" src="assets/js/site.js"></script>
 <script type="module" src="assets/js/home.js"></script>
