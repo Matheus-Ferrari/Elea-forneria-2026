@@ -21,6 +21,7 @@ Fonte: `BRAND_KIT_ELEA_V2.md`. Tokens em `site/assets/css/style.css` (`:root`) �
 | Apoio | `--vinho` / `--grafite` | #6B2E2E / #2F2A26 | links de imprensa, rodapé |
 
 Verde e limão **só em detalhes** (traços, ícones, selos, padrão de limões). Nunca em blocos grandes.
+Exceção: o botão flutuante de WhatsApp usa o logo oficial no verde do WhatsApp (#25D366), pedido da agência (16/11/2026).
 
 ## Tipografia
 - Títulos: **Cormorant Garamond** 500/600 (itálico para ênfase). Texto e interface: **DM Sans** 400–700.
@@ -37,6 +38,7 @@ Verde e limão **só em detalhes** (traços, ícones, selos, padrão de limões)
 - Imprensa "jornal vivo": recortes levemente inclinados, foto em sépia que "respira" (Ken Burns) e ganha cor no hover, parallax de até 24 px.
 - **Prato a prato** (inspirado em qissa.co.uk, com as cores da Elea): carrossel arrastável e infinito sobre fundo marrom-escuro com "farinha" (não prende a rolagem). Prato do centro reto, à esquerda −10°, à direita +10°, transição 0,7 s `cubic-bezier(.22,1,.36,1)`, avança sozinho a cada 2,2 s e para ao passar o mouse/arrastar. Pratos recortados em círculo por `ferramentas/recortar_pratos.py`.
 - **Janela**: foto parada (orecchiette com guardanapo de limões) e a página passando por cima (`clip-path` + `position: fixed`, funciona no iPhone).
+- **Cardápio em livro**: folhas viram em volta da lombada (`rotateY(-180deg)`, 0,95 s) com sombra passando na página; o livro fica sobre a madeira escurecida. Fotos dos capítulos com pontos amarelos pulsando (rótulo creme com nome e preço). Com movimento reduzido, as páginas trocam sem animação.
 - `prefers-reduced-motion`: desliga animações, parallax e vídeos (fica o poster). Economia de dados também desliga os vídeos.
 
 ## Acessibilidade

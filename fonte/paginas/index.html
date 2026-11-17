@@ -10,17 +10,17 @@ ativo: home
 <section class="hero" aria-labelledby="hero-titulo">
   <!-- Fotos que se revezam a cada 7 s (home.js). Para trocar/adicionar: mesma proporção 1672×941. Sem JS ou com movimento reduzido: fica a 1ª. -->
   <div class="hero__bg" aria-hidden="true">
-    <div class="hero__slide is-ativa" style="--foto: url('/assets/img/hero/nhoque-verde.webp')"><img src="/assets/img/hero/nhoque-verde.webp" alt="" width="1672" height="941" fetchpriority="high"></div>
-    <div class="hero__slide" style="--foto: url('/assets/img/hero/hero-2.webp')"><img src="/assets/img/hero/hero-2.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
-    <div class="hero__slide" style="--foto: url('/assets/img/hero/hero-3.webp')"><img src="/assets/img/hero/hero-3.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
-    <div class="hero__slide" style="--foto: url('/assets/img/hero/hero-4.webp')"><img src="/assets/img/hero/hero-4.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
+    <div class="hero__slide is-ativa"><img src="/assets/img/hero/nhoque-verde.webp" alt="" width="1672" height="941" fetchpriority="high"></div>
+    <div class="hero__slide"><img src="/assets/img/hero/hero-2.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
+    <div class="hero__slide"><img src="/assets/img/hero/hero-3.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
+    <div class="hero__slide"><img src="/assets/img/hero/hero-4.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
   </div>
   <div class="container hero__centro">
     <h1 id="hero-titulo" class="hero__marca">Elea <span>Forneria</span></h1>
     <p class="hero__tagline">Cucina, vino e buoni incontri.</p>
     <a class="hero__cta" href="#a-elea">Conheça a Elea {{icone:seta-direita}}</a>
   </div>
-  <a class="premio-pill" href="#imprensa">{{icone:trofeu}}<span><strong>Bicampeã</strong> · Melhor Trattoria — Veja SP Comer &amp; Beber 2025 e 2026</span></a>
+  <a class="premio-pill" href="#imprensa"><img class="premio-pill__trofeu" src="/assets/img/brand/trofeu.svg" alt="" width="64" height="84"><span><strong>Bicampeã</strong> · Melhor Trattoria — Veja SP Comer &amp; Beber 2025 e 2026</span></a>
 </section>
 
 <!-- Letreiro: as duas <ul> precisam ser IGUAIS (o loop anda metade do trilho). Cada uma repete os itens 3x para cobrir telas largas. -->
@@ -35,7 +35,6 @@ ativo: home
   <div class="container sobre">
     <div class="sobre__foto revelar">
       <img src="/assets/img/pessoas/manuela-e-enrico.webp" alt="Manuela Fernandes e Enrico Villela na entrada da Elea Forneria" width="750" height="1000" loading="lazy">
-      <span class="selo-limao" aria-hidden="true"></span>
     </div>
     <div class="revelar">
       <p class="kicker">A Elea</p>
@@ -119,11 +118,13 @@ ativo: home
         <p>A revista apresenta a Elea como a trattoria número 1 do Comer &amp; Beber 2025 e conta os próximos passos da casa.</p>
         <p class="jornal__fonte">Fonte: Veja São Paulo, edição impressa. <span class="tbc">data/link</span></p>
       </article>
-      <article class="jornal">
+      <!-- Recorte da matéria (img/Elea estadao.png, cortado sem o botão desenhado). O título e o resumo já estão na imagem:
+           no card ficam só para leitores de tela e Google (sr-only). -->
+      <article class="jornal jornal--recorte">
         <div class="jornal__cabeca"><span>Estadão</span><span>Paladar</span></div>
-        <div class="jornal__foto"><img src="/assets/img/imprensa/estadao-paladar.webp" alt="Reportagem do Estadão Paladar sobre o aniversário de 1 ano da Elea" width="520" height="625" loading="lazy"></div>
-        <h3>“Elea Forneria celebra 1 ano com pratos especiais”</h3>
-        <p>Para comemorar o primeiro aniversário, a casa recebeu chefs convidados do Borgo Mooca e do Bar Moela.</p>
+        <div class="jornal__foto"><img src="/assets/img/imprensa/estadao-recorte.webp" alt="Recorte da reportagem do Estadão: Elea Forneria celebra 1 ano com pratos especiais dos chefs da casa, do Borgo Mooca e do Bar Moela, com foto de um prato de massa ao lado do cardápio da Elea" width="655" height="900" loading="lazy"></div>
+        <h3 class="sr-only">“Elea Forneria celebra 1 ano com pratos especiais”</h3>
+        <p class="sr-only">Para comemorar o primeiro aniversário, a casa recebeu chefs convidados do Borgo Mooca e do Bar Moela.</p>
         <p class="jornal__fonte"><a class="jornal__link" href="https://www.estadao.com.br/paladar/restaurantes-e-bares/elea-forneria-celebra-1-ano-com-pratos-especiais-dos-chefs-da-casa-do-borgo-mooca-e-do-bar-moela/" target="_blank" rel="noopener">Ler no Estadão →</a></p>
       </article>
     </div>

@@ -23,6 +23,15 @@ M=[ # (src, dest, maxdim)
  (J(I,'Imagem 4 hero.png'),'hero/hero-4.webp',1920),
  (J(I,'Orecchiette.jpg'),'pratos/orecchiette.webp',1100),
  (J(I,'Orecchiette.jpg'),'janela/orecchiette.webp',2000),
+ (J(I,'Cardapio Banner.png'),'janela/cardapio-1.webp',1920), # abertura do Cardápio: 3 fotos revezando
+ (J(I,'Cardapio banner 2.png'),'janela/cardapio-2.webp',1920),
+ (J(I,'Cardapio 3.png'),'janela/cardapio-3.webp',1920),
+ (J(I,'Vinhos Manu Elea.jpg'),'pessoas/manuela-tacas.webp',1000), # capítulo Vinhos do cardápio
+ (J(I,'Vagas abertase elea.jpg'),'pessoas/vagas-abertas.webp',900), # cartão de Vagas (rodapé)
+ (J(I,'Focaccia tomilho ealecrim .png'),'forneria/focaccia-tomilho-alecrim.webp',900), # loja + cardápio (Pães)
+ (J(I,'Focaccia azeitonas.png'),'forneria/focaccia-azeitonas.webp',900),
+ (J(I,'Focaccia pesto & coalhada de ovelha.png'),'forneria/focaccia-pesto-coalhada.webp',900),
+ (J(I,'Tortano.png'),'forneria/tortano.webp',900),
  (J(I,'instagram','2026-10-25_massa-ervilha_De60tHqTtL7.jpg'),'pratos/massa-ervilha.webp',1100),
  (J(I,'instagram','2026-11-04_pizza-salame_DfVV01BzNk-.jpg'),'pratos/pizza-salame.webp',1100),
  (J(WP,'02','464582953_1087020502772069_1801015080609400596_n.jpg'),'pratos/massa-verde.webp',1100),

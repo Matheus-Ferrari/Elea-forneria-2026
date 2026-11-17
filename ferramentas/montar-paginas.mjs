@@ -50,7 +50,11 @@ const ICONES = {
   trofeu: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
   taca: '<path d="M8 22h8M12 15v7M7 2h10l-.6 6.4A4.4 4.4 0 0 1 12 12.5a4.4 4.4 0 0 1-4.4-4.1Z"/>',
   email: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+  camera: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
 };
+
+// Logo oficial do WhatsApp (balão com telefone), branco sobre o verde oficial #25D366 (CSS .whats-flutuante__logo)
+const WHATS_LOGO = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.42.25-.69.25-1.29.18-1.41-.08-.13-.27-.2-.57-.35m-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9a11.82 11.82 0 0 0-3.48-8.4Z"/></svg>';
 
 export const icone = (nome, classe = "icone") =>
   `<svg class="${classe}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICONES[nome] || ""}</svg>`;
@@ -113,7 +117,7 @@ function montar(arquivo) {
     links: LINKS.map(([k, r, h]) => `<a href="${h}"${meta.ativo === k ? ' aria-current="page"' : ""}>${r}</a>`).join("\n        "),
     scripts: scripts.map((s) => `<script type="module" src="/assets/js/${s}.js"></script>`).join("\n"),
     // botão flutuante de WhatsApp: só nas páginas públicas (não em conta/admin, que são noindex)
-    flutuante: meta.noindex === "sim" ? "" : '<a class="whats-flutuante" href="{{whatsapp:Olá, Elea! Vim pelo site.}}" target="_blank" rel="noopener" aria-label="Falar com a Elea no WhatsApp">{{icone:conversa}}<span>WhatsApp</span></a>',
+    flutuante: meta.noindex === "sim" ? "" : `<a class="whats-flutuante" href="{{whatsapp:Olá, Elea! Vim pelo site.}}" target="_blank" rel="noopener" aria-label="Falar com a Elea no WhatsApp"><span class="whats-flutuante__logo">${WHATS_LOGO}</span><span class="whats-flutuante__texto">WhatsApp</span></a>`,
   };
   const preencher = (t) => t.replace(/\{\{(\w+)\}\}/g, (todo, k) => (k in vars ? vars[k] : todo));
   const html = ["cabecalho", null, "rodape"]

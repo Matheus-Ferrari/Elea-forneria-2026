@@ -1,67 +1,297 @@
 ---
 titulo: Cardápio · Elea Forneria
-descricao: Massas frescas, pizzas de forno e pratos para dividir na Elea Forneria, trattoria na Água Fria, Zona Norte de São Paulo.
+descricao: Cardápio da Elea Forneria: pratos para compartilhar, massas frescas, pizzas de forno, sobremesas, pães por encomenda e vinhos, na Água Fria, Zona Norte de São Paulo.
 ativo: cardapio
-imagem: /assets/img/janela/orecchiette.webp
+scripts: cardapio
+imagem: /assets/img/janela/cardapio-1.webp
 ---
-<!-- Itens com class="tbc" estão A CONFIRMAR com a Elea antes de publicar.
-     Enquanto não chega o cardápio oficial (nomes e preços), a página mostra os pratos por categoria, com fotos reais. -->
+<!-- CARDÁPIO
+     Fonte: destaques "Cardápio!" do Instagram da Elea (stories de ~jul/2026). Itens com class="tbc" = A CONFIRMAR.
+     Atenção: os prints cortavam o fim de "Principais" (depois da Coda alla vaccinara) e de "Encomende nossos pães"
+     (depois do Tortano). Conferir com a Elea se há mais itens.
 
-<!-- Abertura: "janela" (a foto fica parada e a página passa por cima). -->
-<section class="janela janela--topo" aria-labelledby="cardapio-titulo">
-  <div class="janela__foto"><img src="/assets/img/janela/orecchiette.webp" alt="" width="2000" height="2667"></div>
+     COMO FUNCIONA
+     - Esta lista (data-lista) é o conteúdo. Sem JS ela aparece como está (cardápio em lista, bom para o Google).
+     - Com JS (assets/js/cardapio.js) a lista vira um LIVRO: capa, sumário e, para cada capítulo, a página de abertura
+       (foto interativa) e as páginas de itens, paginadas sozinhas conforme o tamanho da tela. Botão "Lista" volta a esta lista.
+     - Para mudar um prato: edite o <li class="prato-item">. Preço em <span class="prato-item__preco">.
+       data-foto (caminho SEM barra inicial) = foto do prato (ícone de câmera); data-recorte = foto redonda sem fundo;
+       data-confirmar = a foto ainda não foi confirmada como sendo desse prato.
+     - Pontos na foto (.ponto): --x/--y = posição do prato em % da foto; data-ir = id do item; data-lado="esq" = rótulo à esquerda. -->
+
+<section class="janela janela--topo janela--cardapio" aria-labelledby="cardapio-titulo">
+  <!-- Carrossel de 3 fotos (cardapio.js: troca a cada 6 s; botões 1-2-3 escolhem). Sem JS ou com movimento reduzido: fica a 1ª.
+       Mesma proporção 1672×941. Depois de escolher a melhor, dá para deixar só ela (apague as outras e os botões). -->
+  <div class="janela__foto janela__foto--revezando" data-janela-fotos>
+    <img src="/assets/img/janela/cardapio-1.webp" alt="" width="1672" height="941" fetchpriority="high">
+    <img src="/assets/img/janela/cardapio-2.webp" alt="" width="1672" height="941">
+    <img src="/assets/img/janela/cardapio-3.webp" alt="" width="1672" height="941">
+  </div>
+  <div class="janela__pontos" data-janela-pontos hidden>
+    <button type="button" aria-label="Foto 1" aria-current="true">1</button>
+    <button type="button" aria-label="Foto 2">2</button>
+    <button type="button" aria-label="Foto 3">3</button>
+  </div>
   <div class="container janela__texto">
     <p class="kicker kicker--claro">Cardápio</p>
-    <h1 id="cardapio-titulo">Massa fresca, <em>feita para dividir.</em></h1>
-    <p>Massas, pizzas de forno e pratos para o centro da mesa, servidos entre a madeira, as plantas e a varanda da Água Fria.</p>
+    <h1 id="cardapio-titulo">Massas frescas, pizzas de forno <em>e bons encontros.</em></h1>
+    <p>Cozinha italiana, vinhos escolhidos pela sommelière e pães da casa, entre a madeira, as plantas e a varanda da Água Fria.</p>
+    <a class="hero__cta" href="#cardapio">Abrir o cardápio {{icone:seta-direita}}</a>
   </div>
 </section>
 
-<section class="secao secao--papel" id="pratos">
+<section class="mesa-livro" id="cardapio" data-cardapio aria-labelledby="livro-titulo">
   <div class="container">
-    <div class="secao__topo revelar">
-      <p class="kicker">Da cozinha</p>
-      <p class="lead">O cardápio completo está na casa e no nosso Instagram. <span class="tbc">cardápio oficial com nomes e preços (PDF ou lista da Elea)</span></p>
-    </div>
-
-    <div class="cardapio-cat">
-      <h2 class="revelar">Para começar <em>e dividir</em></h2>
-      <div class="galeria-pratos">
-        <figure class="prato revelar"><img src="/assets/img/pratos/mesa-antepastos.webp" alt="Mesa com antepastos, croquetes, burrata e pão" width="741" height="895" loading="lazy"><figcaption>Antepastos</figcaption></figure>
-        <figure class="prato revelar"><img src="/assets/img/pratos/antepasto-presunto.webp" alt="Presunto cru em flor com tomates no ramo, pesto e pão" width="902" height="904" loading="lazy"><figcaption>Presunto, tomate e pão</figcaption></figure>
-        <figure class="prato revelar"><img src="/assets/img/pratos/entrada-tomate.webp" alt="Entrada de tomates com queijo e ervas" width="880" height="1100" loading="lazy"><figcaption>Tomates e ervas</figcaption></figure>
+    <div class="mesa-livro__topo">
+      <div>
+        <p class="kicker kicker--claro">O cardápio</p>
+        <h2 id="livro-titulo">Folheie <em>com calma</em></h2>
+      </div>
+      <div class="modo" role="group" aria-label="Formato do cardápio" data-modos hidden>
+        <button type="button" data-modo="livro" aria-pressed="true">Livro</button>
+        <button type="button" data-modo="lista" aria-pressed="false">Lista</button>
       </div>
     </div>
 
-    <div class="cardapio-cat">
-      <h2 class="revelar">Massas <em>frescas</em></h2>
-      <div class="galeria-pratos">
-        <figure class="prato revelar"><img src="/assets/img/pratos/orecchiette.webp" alt="Orecchiette com folhas e queijo ralado" width="825" height="1100" loading="lazy"><figcaption>Orecchiette</figcaption></figure>
-        <figure class="prato revelar"><img src="/assets/img/pratos/massa-verde.webp" alt="Caramelle sobre creme com azeite de ervas e farofa crocante" width="880" height="1100" loading="lazy"><figcaption>Caramelle</figcaption></figure>
-        <figure class="prato revelar"><img src="/assets/img/pratos/massa-recheada.webp" alt="Massa recheada com queijo ralado" width="880" height="1100" loading="lazy"><figcaption>Massa recheada</figcaption></figure>
-        <figure class="prato revelar"><img src="/assets/img/pratos/pappardelle.webp" alt="Pappardelle com molho e folhas" width="650" height="652" loading="lazy"><figcaption>Pappardelle</figcaption></figure>
-        <figure class="prato revelar"><img src="/assets/img/pratos/massa-polvo.webp" alt="Massa curta com polvo e ervas" width="796" height="885" loading="lazy"><figcaption>Massa com polvo</figcaption></figure>
-        <figure class="prato revelar"><img src="/assets/img/pratos/massa-ervilha.webp" alt="Mesa vista de cima com massa verde com burrata, rigatoni ao sugo e entrada" width="1039" height="1100" loading="lazy"><figcaption>Mesa cheia</figcaption></figure>
+    <!-- Marcadores: sem JS são âncoras; no livro, viram as páginas até o capítulo. -->
+    <nav class="marcadores" aria-label="Seções do cardápio" data-marcadores>
+      <a href="#para-compartilhar" data-ir="para-compartilhar">Para compartilhar</a>
+      <a href="#principais" data-ir="principais">Principais</a>
+      <a href="#pizzas" data-ir="pizzas">Pizzas</a>
+      <a href="#sobremesas" data-ir="sobremesas">Sobremesas</a>
+      <a href="#paes" data-ir="paes">Pães</a>
+      <a href="#vinhos" data-ir="vinhos">Vinhos</a>
+    </nav>
+
+    <!-- Livro (montado por cardapio.js a partir da lista abaixo) -->
+    <div class="livro" data-livro hidden>
+      <div class="livro__palco" data-palco tabindex="0" role="region" aria-roledescription="livro" aria-label="Cardápio da Elea. Use as setas do teclado para virar as páginas.">
+        <div class="livro__miolo" data-miolo>
+          <span class="livro__sombra" aria-hidden="true"></span>
+          <span class="livro__borda livro__borda--esq" aria-hidden="true"></span>
+          <span class="livro__borda livro__borda--dir" aria-hidden="true"></span>
+          <button class="livro__canto livro__canto--ant" type="button" data-virar="-1" aria-label="Página anterior"></button>
+          <button class="livro__canto livro__canto--prox" type="button" data-virar="1" aria-label="Próxima página"></button>
+        </div>
       </div>
+      <div class="livro__controles">
+        <button class="livro__seta" type="button" data-virar="-1" aria-label="Página anterior">{{icone:seta-esquerda}}</button>
+        <p class="livro__conta" data-conta>Capa</p>
+        <button class="livro__seta" type="button" data-virar="1" aria-label="Próxima página">{{icone:seta-direita}}</button>
+      </div>
+      <p class="livro__dica" data-dica>Arraste a página, use as setas ou toque nos marcadores.</p>
+      <p class="sr-only" aria-live="polite" data-anuncio></p>
     </div>
 
-    <div class="cardapio-cat">
-      <h2 class="revelar">Pizzas <em>de forno</em></h2>
-      <div class="galeria-pratos">
-        <figure class="prato revelar"><img src="/assets/img/pratos/pizza.webp" alt="Pizza de forno com borda tostada" width="705" height="881" loading="lazy"><figcaption>Pizza de forno</figcaption></figure>
-        <figure class="prato revelar"><img src="/assets/img/pratos/pizza-verde.webp" alt="Pizza de forno com brócolis e queijo" width="705" height="884" loading="lazy"><figcaption>Pizza verde</figcaption></figure>
-        <figure class="prato revelar"><img src="/assets/img/pratos/pizza-salame.webp" alt="Pizza de salame e folhas sobre a mesa" width="1100" height="1100" loading="lazy"><figcaption>Salame e folhas</figcaption></figure>
-      </div>
-    </div>
+    <div class="cardapio-lista" data-lista>
 
-    <div class="cardapio-cat">
-      <h2 class="revelar">Pratos <em>principais</em></h2>
-      <div class="galeria-pratos">
-        <figure class="prato revelar"><img src="/assets/img/pratos/polvo.webp" alt="Polvo grelhado sobre arroz cremoso de tomate" width="893" height="905" loading="lazy"><figcaption>Polvo com arroz de tomate</figcaption></figure>
-        <figure class="prato revelar"><img src="/assets/img/pratos/cotoletta.webp" alt="Cotoletta empanada com salada e limão" width="862" height="904" loading="lazy"><figcaption>Cotoletta</figcaption></figure>
-      </div>
-    </div>
+      <!-- I · PARA COMPARTILHAR -->
+      <section class="capitulo" id="para-compartilhar" data-capitulo data-num="I" aria-labelledby="t-compartilhar">
+        <div class="capitulo__abertura">
+          <header class="capitulo__topo">
+            <p class="capitulo__num" aria-hidden="true">I</p>
+            <h2 id="t-compartilhar">Para compartilhar</h2>
+            <p class="capitulo__sub">Antipasti</p>
+          </header>
+          <figure class="foto-viva">
+            <div class="foto-viva__palco">
+              <div class="foto-viva__quadro" style="--r: .828">
+                <img class="foto-viva__img" src="/assets/img/pratos/mesa-antepastos.webp" alt="Pratos para compartilhar vistos de cima: bolovos de bacalhau, carne cruda com aioli, arancini, peixe cru, salada e focaccias" width="741" height="895" loading="lazy">
+                <!-- pontos identificados pela foto: confirmar com a Elea -->
+                <span class="ponto" style="--x: 20%; --y: 10%"><button class="ponto__alvo" type="button" aria-label="Mostrar prato: Bolovo de bacalhau"></button><button class="ponto__rotulo" type="button" data-ir="bolovo-de-bacalhau">Bolovo de bacalhau <b>53</b></button></span>
+                <span class="ponto" style="--x: 61%; --y: 20%" data-lado="esq"><button class="ponto__alvo" type="button" aria-label="Mostrar prato: Carne cruda"></button><button class="ponto__rotulo" type="button" data-ir="carne-cruda">Carne cruda <b>79</b></button></span>
+                <span class="ponto" style="--x: 79%; --y: 61%" data-lado="esq"><button class="ponto__alvo" type="button" aria-label="Mostrar prato: Cacio &amp; pepe arancini"></button><button class="ponto__rotulo" type="button" data-ir="cacio-pepe-arancini">Cacio &amp; pepe arancini <b>53</b></button></span>
+              </div>
+            </div>
+            <figcaption>Toque nos pontos para ver o que está na mesa.</figcaption>
+          </figure>
+        </div>
+        <ul class="pratos-lista">
+          <li class="prato-item" id="cacio-pepe-arancini"><h3 class="prato-item__nome">Cacio &amp; pepe arancini <span class="prato-item__preco"><span class="sr-only">R$ </span>53</span></h3><p>Bolinhos de risotto cacio &amp; pepe, peito de pato curado na casa.</p></li>
+          <li class="prato-item" id="panzanella"><h3 class="prato-item__nome">Panzanella <span class="prato-item__preco"><span class="sr-only">R$ </span>76</span></h3><p>Tomate tostado, alcachofra, ricotta, cebola roxa, chili crisp, manjericão e focaccia crocante.</p></li>
+          <li class="prato-item" id="burrata"><h3 class="prato-item__nome">Burrata <span class="prato-item__preco"><span class="sr-only">R$ </span>74</span></h3><p>Com picles doce de tomate, pesto da casa, castanha de baru e focaccia de fermentação natural. Pode acompanhar prosciutto ou escabeche de abobrinha (R$ 20 | R$ 14).</p></li>
+          <li class="prato-item" id="bolovo-de-bacalhau"><h3 class="prato-item__nome">Bolovo de bacalhau <span class="prato-item__preco"><span class="sr-only">R$ </span>53</span></h3><p>Ovo caipira com gema mole envolto em massa de bacalhau e tapenade de azeitonas.</p></li>
+          <li class="prato-item" id="mil-folhas-de-atum" data-foto="assets/img/pratos-recorte/mil-folhas-atum.webp" data-recorte data-foto-alt="Mil-folhas de atum em camadas crocantes, com uvas e ervas frescas"><h3 class="prato-item__nome">Mil-folhas de atum <span class="prato-item__preco"><span class="sr-only">R$ </span>88</span></h3><p>Crudo de atum, azeite de laranja, coalhada de ovelha, uvas assadas e bottarga entre camadas crocantes de massa filo.</p></li>
+          <li class="prato-item" id="carne-cruda"><h3 class="prato-item__nome">Carne cruda <span class="prato-item__preco"><span class="sr-only">R$ </span>79</span></h3><p>Coxão mole angus na ponta da faca, azeite extravirgem, alcaparra, queijo tulha e aioli. Acompanha focaccia de fermentação natural.</p></li>
+          <li class="prato-item" id="polvo-e-sardella"><h3 class="prato-item__nome">Polvo e sardella <span class="prato-item__preco"><span class="sr-only">R$ </span>97</span></h3><p>Polvo e cebola chalota tostada em conserva de azeite, sardella da casa, salada de salsa, aioli levemente picante e siciliano. Acompanha pão de fermentação natural.</p></li>
+          <li class="prato-item" id="salada-da-casa"><h3 class="prato-item__nome">Salada da casa <span class="prato-item__preco"><span class="sr-only">R$ </span>68</span></h3><p>Alface romana, erva-doce, focaccia, manjericão, laranja bahia e queijo tulha.</p></li>
+        </ul>
+      </section>
 
+      <!-- II · PRINCIPAIS -->
+      <section class="capitulo" id="principais" data-capitulo data-num="II" aria-labelledby="t-principais">
+        <div class="capitulo__abertura">
+          <header class="capitulo__topo">
+            <p class="capitulo__num" aria-hidden="true">II</p>
+            <h2 id="t-principais">Principais</h2>
+            <p class="capitulo__sub">Massas frescas e pratos da casa</p>
+          </header>
+          <figure class="foto-viva">
+            <div class="foto-viva__palco">
+              <div class="foto-viva__quadro" style="--r: .9445">
+                <img class="foto-viva__img" src="/assets/img/pratos/massa-ervilha.webp" alt="Mesa vista de cima com mezze rigate verde com stracciatella e pistache, mezze rigate ao molho de tomate e mil-folhas de atum" width="1039" height="1100" loading="lazy">
+                <span class="ponto" style="--x: 26%; --y: 18%"><button class="ponto__alvo" type="button" aria-label="Mostrar prato: Pesto e pistacchio"></button><button class="ponto__rotulo" type="button" data-ir="pesto-e-pistacchio">Pesto e pistacchio <b>83</b></button></span>
+                <span class="ponto" style="--x: 50%; --y: 77%"><button class="ponto__alvo" type="button" aria-label="Mostrar prato: Amatriciana"></button><button class="ponto__rotulo" type="button" data-ir="amatriciana">Amatriciana <b>92</b></button></span>
+                <span class="ponto" style="--x: 89%; --y: 29%" data-lado="esq"><button class="ponto__alvo" type="button" aria-label="Mostrar prato: Mil-folhas de atum"></button><button class="ponto__rotulo" type="button" data-ir="mil-folhas-de-atum">Mil-folhas de atum <b>88</b></button></span>
+              </div>
+            </div>
+            <figcaption>Toque nos pontos. Pratos com {{icone:camera:icone icone--mini}} têm foto.</figcaption>
+          </figure>
+        </div>
+        <ul class="pratos-lista">
+          <li class="prato-item" id="pesto-e-pistacchio"><h3 class="prato-item__nome">Pesto e pistacchio <span class="prato-item__preco"><span class="sr-only">R$ </span>83</span></h3><p>Mezze rigate, pesto da casa, stracciatella, siciliano, pistache e pangrattato.</p></li>
+          <li class="prato-item" id="amatriciana"><h3 class="prato-item__nome">Amatriciana <span class="prato-item__preco"><span class="sr-only">R$ </span>92</span></h3><p>Mezze rigate, molho de tomate da casa, peperoncino, guanciale e queijo de ovelha.</p></li>
+          <li class="prato-item" id="ravioli-doppio"><h3 class="prato-item__nome">Ravioli doppio <span class="prato-item__preco"><span class="sr-only">R$ </span>86</span></h3><p>Pasta fresca recheada com creme de milho doce, ricota fresca e espinafre. Finalizada na manteiga e queijo araritaguaba.</p></li>
+          <li class="prato-item" id="spaghetti-al-mare"><h3 class="prato-item__nome">Spaghetti al mare <span class="prato-item__preco"><span class="sr-only">R$ </span>87</span></h3><p>Spaghetti alla chitarra, lulinhas na manteiga de ervas, crudo de atum e bottarga.</p></li>
+          <li class="prato-item" id="papardelle-portobello" data-foto="assets/img/pratos/pappardelle.webp" data-confirmar data-foto-alt="Pappardelle com cogumelos e folhas"><h3 class="prato-item__nome">Papardelle &amp; portobello <span class="prato-item__preco"><span class="sr-only">R$ </span>79</span></h3><p>Pasta fresca, portobello, espinafre aglio &amp; olio, manteiga noisette e ricota fresca.</p></li>
+          <li class="prato-item" id="tortelli-di-ossobuco" data-foto="assets/img/pratos-recorte/ig-tortelli.webp" data-recorte data-confirmar data-foto-alt="Tortelli com queijo ralado e manteiga"><h3 class="prato-item__nome">Tortelli di ossobuco <span class="prato-item__preco"><span class="sr-only">R$ </span>82</span></h3><p>Pasta fresca recheada com ragu de ossobuco bovino, manteiga noisette, queijo tulha e melaço de cebola.</p></li>
+          <li class="prato-item" id="caramelle" data-foto="assets/img/pratos-recorte/caramelle.webp" data-recorte data-foto-alt="Caramelle sobre fonduta, com azeite de ervas e pangrattato"><h3 class="prato-item__nome">Caramelle <span class="prato-item__preco"><span class="sr-only">R$ </span>89</span></h3><p>Pasta fresca recheada com ragu de copa lombo suíno ao pomodoro, fonduta de coalhada de ovelha e pangrattato.</p></li>
+          <li class="prato-item" id="orecchiette" data-foto="assets/img/pratos-recorte/orecchiette.webp" data-recorte data-foto-alt="Orecchiette com folhas e queijo ralado"><h3 class="prato-item__nome">Orecchiette <span class="prato-item__preco"><span class="sr-only">R$ </span>86</span></h3><p>Pasta grano duro feita na casa, linguiça finocchiona, friarielli, peperoncino, pangrattato e queijo de ovelha.</p></li>
+          <li class="prato-item" id="lasagna"><h3 class="prato-item__nome">Lasagna <span class="prato-item__preco"><span class="sr-only">R$ </span>90</span></h3><p>Pancetta curada, queijo tulha, cogumelos e compota de tomates entre camadas de pasta fresca e fonduta de gorgonzola dolce.</p></li>
+          <li class="prato-item" id="cotoletta-alla-milanese" data-foto="assets/img/pratos/cotoletta.webp" data-foto-alt="Cotoletta empanada com osso, picles de mostarda, aioli e salada"><h3 class="prato-item__nome">Cotoletta alla milanese <span class="prato-item__preco"><span class="sr-only">R$ </span>93</span></h3><p>Prime rib suíno empanado e frito em migas de pão da casa, picles de mostarda e aioli. Acompanha salada da casa.</p></li>
+          <li class="prato-item" id="coda-alla-vaccinara"><h3 class="prato-item__nome">Coda alla vaccinara <span class="prato-item__preco"><span class="sr-only">R$ </span>88</span></h3><p>Rabada cozida lentamente, polenta taragna cremosa, alho crocante e saladinha de agrião.</p></li>
+        </ul>
+      </section>
+
+      <!-- III · PIZZAS -->
+      <section class="capitulo" id="pizzas" data-capitulo data-num="III" aria-labelledby="t-pizzas">
+        <div class="capitulo__abertura">
+          <header class="capitulo__topo">
+            <p class="capitulo__num" aria-hidden="true">III</p>
+            <h2 id="t-pizzas">Pizzas</h2>
+            <p class="capitulo__sub">Do forno</p>
+          </header>
+          <figure class="foto-viva">
+            <div class="foto-viva__palco">
+              <div class="foto-viva__quadro" style="--r: 1">
+                <img class="foto-viva__img" src="/assets/img/pratos/pizza-salame.webp" alt="Pizza de forno com pancetta, espinafre e gorgonzola, vista de cima" width="1100" height="1100" loading="lazy">
+                <span class="ponto" style="--x: 75%; --y: 43%" data-lado="esq"><button class="ponto__alvo" type="button" aria-label="Mostrar pizza: Pancetta"></button><button class="ponto__rotulo" type="button" data-ir="pancetta">Pancetta <b>72</b></button></span>
+              </div>
+            </div>
+            <figcaption>Toque no ponto para ver a pizza.</figcaption>
+          </figure>
+        </div>
+        <ul class="pratos-lista">
+          <li class="prato-item" id="marguerita"><h3 class="prato-item__nome">Marguerita <span class="prato-item__preco"><span class="sr-only">R$ </span>65</span></h3><p>Pelati, mozzarella, queijo tulha, picles doce de tomate e manjericão.</p></li>
+          <li class="prato-item" id="calabresa"><h3 class="prato-item__nome">Calabresa <span class="prato-item__preco"><span class="sr-only">R$ </span>68</span></h3><p>Pelati, calabresa, queijo tulha, pétalas de cebola, tapenade de azeitonas, salsa verde e pimenta calabresa.</p></li>
+          <li class="prato-item" id="quatro-queijos-brasileiros"><h3 class="prato-item__nome">Quatro queijos brasileiros <span class="prato-item__preco"><span class="sr-only">R$ </span>69</span></h3><p>Pizza bianca. Queijo tulha Atalaia, mozzarella Roni, requeijão de corte Atalaia e gorgonzola dolce Serra das Antas.</p></li>
+          <li class="prato-item" id="caprese"><h3 class="prato-item__nome">Caprese <span class="prato-item__preco"><span class="sr-only">R$ </span>66</span></h3><p>Pelati, stracciatella, tomatinhos confit, pesto da casa e tapenade de azeitonas.</p></li>
+          <li class="prato-item" id="pesto-e-patate"><h3 class="prato-item__nome">Pesto &amp; patate <span class="prato-item__preco"><span class="sr-only">R$ </span>69</span></h3><p>Pesto de manjericão, cebola roxa, requeijão de corte, caciocavallo, tomilho fresco, limão siciliano e batatas assadas com alecrim.</p></li>
+          <li class="prato-item" id="carciofi"><h3 class="prato-item__nome">Carciofi <span class="prato-item__preco"><span class="sr-only">R$ </span>71</span></h3><p>Pelati, alcachofra, mozzarella, tapenade de azeitona e manjericão.</p></li>
+          <li class="prato-item" id="prosciutto-e-alho-negro"><h3 class="prato-item__nome">Prosciutto e alho negro <span class="prato-item__preco"><span class="sr-only">R$ </span>71</span></h3><p>Pelati, prosciutto, alho negro, mozzarella, gorgonzola dolce, rúcula selvática e figo.</p></li>
+          <li class="prato-item" id="zucchine"><h3 class="prato-item__nome">Zucchine <span class="prato-item__preco"><span class="sr-only">R$ </span>67</span></h3><p>Pelati, mozzarella, queijo tulha, escabeche de abobrinha, coalhada de ovelha e ciboulette.</p></li>
+          <li class="prato-item" id="cipolla"><h3 class="prato-item__nome">Cipolla <span class="prato-item__preco"><span class="sr-only">R$ </span>69</span></h3><p>Pizza bianca, mozzarella, requeijão de corte, cebolas tostadas, creme de cebola, melaço de cebola e ciboulette.</p></li>
+          <li class="prato-item" id="finocchiona"><h3 class="prato-item__nome">Finocchiona <span class="prato-item__preco"><span class="sr-only">R$ </span>72</span></h3><p>Pelati, mozzarella, finocchiona, queijo tulha, cogumelo portobello e cavolo nero.</p></li>
+          <li class="prato-item" id="pancetta" data-foto="assets/img/pratos/pizza-salame.webp" data-foto-alt="Pizza de forno com pancetta, espinafre e gorgonzola"><h3 class="prato-item__nome">Pancetta <span class="prato-item__preco"><span class="sr-only">R$ </span>72</span></h3><p>Pelati, pancetta curada, requeijão de corte, gorgonzola dolce e espinafre aglio &amp; olio.</p></li>
+        </ul>
+        <div class="capitulo__fim">
+          <p class="capitulo__nota">*Consultar opções veganas com a nossa equipe.</p>
+        </div>
+      </section>
+
+      <!-- IV · SOBREMESAS (ainda sem foto: a abertura usa o padrão de limões) -->
+      <section class="capitulo" id="sobremesas" data-capitulo data-num="IV" aria-labelledby="t-sobremesas">
+        <div class="capitulo__abertura">
+          <header class="capitulo__topo">
+            <p class="capitulo__num" aria-hidden="true">IV</p>
+            <h2 id="t-sobremesas">Sobremesas</h2>
+            <p class="capitulo__sub">Para fechar a mesa</p>
+          </header>
+          <figure class="foto-viva foto-viva--limoes" aria-hidden="true">
+            <div class="foto-viva__palco">
+              <div class="foto-viva__quadro" style="--r: .8"><span class="foto-viva__selo">Dolci</span></div>
+            </div>
+          </figure>
+        </div>
+        <ul class="pratos-lista">
+          <li class="prato-item" id="tiramissu"><h3 class="prato-item__nome">Tiramissu <span class="prato-item__preco"><span class="sr-only">R$ </span>49</span></h3><p>Camadas de bolacha champagne embebida em café e marsala, creme de mascarpone, cacau e nibs de cacau.</p></li>
+          <li class="prato-item" id="torta-de-ciocolatto"><h3 class="prato-item__nome">Torta de ciocolatto <span class="prato-item__preco"><span class="sr-only">R$ </span>56</span></h3><p>Torta cremosa de chocolate 75%, frangipane de laranja e suprême de tangerina.</p></li>
+          <li class="prato-item" id="pavlova"><h3 class="prato-item__nome">Pavlova <span class="prato-item__preco"><span class="sr-only">R$ </span>44</span></h3><p>Pavlova de morango, merengue, geleia de morango, chantilly fresco, creme pâtissière e creme anglaise.</p></li>
+          <li class="prato-item" id="cannolo"><h3 class="prato-item__nome">Cannolo <span class="prato-item__preco"><span class="sr-only">R$ </span>26</span></h3><p>Amarena ou pistache.</p></li>
+        </ul>
+      </section>
+
+      <!-- V · ENCOMENDE NOSSOS PÃES -->
+      <section class="capitulo" id="paes" data-capitulo data-num="V" aria-labelledby="t-paes">
+        <div class="capitulo__abertura">
+          <header class="capitulo__topo">
+            <p class="capitulo__num" aria-hidden="true">V</p>
+            <h2 id="t-paes">Encomende nossos pães</h2>
+            <p class="capitulo__sub">Forneria · por encomenda</p>
+          </header>
+          <figure class="foto-viva">
+            <div class="foto-viva__palco">
+              <div class="foto-viva__quadro" style="--r: .8433">
+                <img class="foto-viva__img" src="/assets/img/pessoas/padeiro-focaccias.webp" alt="Cozinheiro da Elea segurando focaccias saídas do forno" width="759" height="900" loading="lazy">
+                <span class="ponto" style="--x: 45%; --y: 82%"><button class="ponto__alvo" type="button" aria-label="Mostrar: focaccias da casa"></button><button class="ponto__rotulo" type="button" data-ir="focaccia-tomilho-alecrim">Focaccias da casa <b>desde 58</b></button></span>
+              </div>
+            </div>
+            <figcaption>Passe o mouse ou toque na câmera para ver cada pão.</figcaption>
+          </figure>
+        </div>
+        <ul class="pratos-lista">
+          <li class="prato-item" id="focaccia-tomilho-alecrim" data-foto="assets/img/forneria/focaccia-tomilho-alecrim.webp" data-foto-alt="Focaccias de tomilho e alecrim douradas sobre a mesa de madeira"><h3 class="prato-item__nome">Focaccia tomilho &amp; alecrim <span class="prato-item__preco"><span class="sr-only">R$ </span>58</span></h3></li>
+          <li class="prato-item" id="focaccia-azeitonas" data-foto="assets/img/forneria/focaccia-azeitonas.webp" data-foto-alt="Focaccias de azeitonas empilhadas sobre tábua de madeira"><h3 class="prato-item__nome">Focaccia azeitonas <span class="prato-item__preco"><span class="sr-only">R$ </span>68</span></h3></li>
+          <li class="prato-item" id="focaccia-pesto-coalhada" data-foto="assets/img/forneria/focaccia-pesto-coalhada.webp" data-foto-alt="Focaccia com pesto e coalhada de ovelha em travessa"><h3 class="prato-item__nome">Focaccia pesto &amp; coalhada de ovelha <span class="prato-item__preco"><span class="sr-only">R$ </span>68</span></h3></li>
+          <li class="prato-item" id="tortano" data-foto="assets/img/forneria/tortano.webp" data-foto-alt="Tortano recheado, com uma fatia cortada mostrando o recheio"><h3 class="prato-item__nome">Tortano <span class="prato-item__preco"><span class="sr-only">R$ </span>72</span></h3></li>
+        </ul>
+        <div class="capitulo__fim">
+          <p class="capitulo__nota">Encomendas pelo site com 24h de antecedência, para retirar na Elea em horário combinado.</p>
+          <p class="capitulo__acao"><a class="btn btn--primario btn--pequeno" href="/encomendas.html">Fazer encomenda {{icone:seta-direita}}</a></p>
+        </div>
+      </section>
+
+      <!-- VI · VINHOS (carta ainda não recebida) -->
+      <section class="capitulo" id="vinhos" data-capitulo data-num="VI" aria-labelledby="t-vinhos">
+        <div class="capitulo__abertura">
+          <header class="capitulo__topo">
+            <p class="capitulo__num" aria-hidden="true">VI</p>
+            <h2 id="t-vinhos">Vinhos</h2>
+            <p class="capitulo__sub">A carta da sommelière</p>
+          </header>
+          <!-- Pilha de fotos: toque troca a da frente (cardapio.js, [data-pilha]). -->
+          <figure class="foto-viva foto-viva--pilha">
+            <div class="foto-viva__palco">
+              <div class="foto-viva__quadro" style="--r: .75" data-pilha>
+                <img class="foto-viva__img pilha__foto" src="/assets/img/pessoas/manuela-tacas.webp" alt="Manuela Fernandes, sommelière da Elea, segurando duas taças de vinho diante do rosto" width="750" height="1000" loading="lazy">
+                <img class="foto-viva__img pilha__foto" src="/assets/img/pessoas/manuela-vinhos.webp" alt="Manuela Fernandes cercada de mãos brindando com taças de vinho" width="750" height="1000" loading="lazy">
+                <button class="pilha__trocar" type="button" data-trocar-foto>{{icone:camera}}Outra foto</button>
+              </div>
+            </div>
+            <figcaption>Manuela Fernandes, sommelière e sócia da Elea.</figcaption>
+          </figure>
+        </div>
+        <!-- Quando chegar a carta: um <ul class="pratos-lista"> por grupo (ex.: taças, garrafas), no mesmo formato dos pratos. -->
+        <div class="capitulo__fim">
+          <p class="capitulo__texto" id="carta-de-vinhos">Uma carta de vinhos pensada pela sommelière Manuela Fernandes para acompanhar a cozinha da casa.</p>
+          <p class="capitulo__nota"><span class="tbc">carta de vinhos (rótulos, taças e garrafas, com preços) a receber da Elea</span></p>
+          <p class="capitulo__nota">Peça uma sugestão à nossa equipe no salão.</p>
+        </div>
+      </section>
+
+      <p class="cardapio-lista__rodape">Valores em reais (R$).</p>
+    </div>
+  </div>
+</section>
+
+<!-- Foto do prato (ícone de câmera): preenchido por cardapio.js. Mesmo visual do "Prato a prato" da Home. -->
+<dialog class="prato-pop" data-foto-pop aria-labelledby="foto-pop-nome">
+  <div class="prato-pop__foto"><img data-pop-img src="" alt="" width="1000" height="1000"></div>
+  <div class="prato-pop__texto">
+    <p class="kicker" data-pop-cap>Cardápio</p>
+    <h3 id="foto-pop-nome" data-pop-nome></h3>
+    <p class="prato-pop__preco" data-pop-preco></p>
+    <p class="prato-pop__desc" data-pop-desc></p>
+    <p class="prato-pop__nota" data-pop-nota hidden><span class="tbc">foto a confirmar com a Elea</span></p>
+    <div class="prato-pop__acoes">
+      <a class="btn btn--terracota" href="{{whatsapp:Olá! Gostaria de fazer uma reserva na Elea.}}" target="_blank" rel="noopener">{{icone:conversa}}Reservar uma mesa</a>
+    </div>
+  </div>
+  <button class="icone-btn prato-pop__fechar" type="button" data-fechar aria-label="Fechar">{{icone:fechar}}</button>
+</dialog>
+
+<section class="secao secao--papel">
+  <div class="container">
     <div class="cardapio-forneria revelar">
       <img src="/assets/img/pessoas/padeiro-focaccias.webp" alt="Cozinheiro da Elea segurando focaccias saídas do forno" width="759" height="900" loading="lazy">
       <div>
