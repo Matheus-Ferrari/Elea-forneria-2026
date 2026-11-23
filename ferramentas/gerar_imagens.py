@@ -92,11 +92,20 @@ shutil.copy2(J(DL,'Logo elea fundo branco.jpg'),J(A,'brand','logo-elea-original.
 for name,rgb in (('creme',(245,239,230)),('caramelo',(169,122,76)),('escuro',(59,36,21))):  # escuro: carimbo sobre a madeira (Prato a prato)
     im=Image.new('RGBA',lg.size,rgb+(0,)); im.putalpha(Image.fromarray(alpha)); im=im.crop(bbox); im.thumbnail((640,640),Image.LANCZOS)
     im.save(J(A,'brand',f'logo-elea-{name}.png'),optimize=True); print('logo',name,im.size)
-# favicon / apple-touch: logo caramelo sobre creme
-base=Image.open(J(A,'brand','logo-elea-caramelo.png'))
-for n,s in (('favicon-64.png',64),('apple-touch-icon.png',180)):
-    c=Image.new('RGBA',(s,s),(245,239,230,255)); b=base.copy(); b.thumbnail((int(s*.9),int(s*.9)),Image.LANCZOS)
-    c.alpha_composite(b,((s-b.size[0])//2,(s-b.size[1])//2)); c.save(J(A,'brand',n))
+# favicon / apple-touch: a mão com os dedos pinçados (desenho do logo, sem o círculo; enviado em 23/11/2026),
+# marrom sobre creme (o creme deixa a mão visível também em abas escuras). Aba: cantos arredondados; iPhone: quadrado
+# cheio (o iOS arredonda sozinho). Desenha 4x maior e reduz, para o traço ficar suave.
+mao_src=J(I,'Ícone de mão com dedos pinçados.png')
+if os.path.exists(mao_src):
+    from PIL import ImageDraw
+    usados.add(os.path.normcase(os.path.abspath(mao_src)))
+    mao=Image.open(mao_src).convert('RGBA'); mao=mao.crop(mao.getchannel('A').getbbox())
+    for n,s,raio,ocupa in (('favicon-32.png',32,.22,.9),('favicon-192.png',192,.22,.8),('apple-touch-icon.png',180,0,.78)):  # na aba, a mão maior
+        G=s*4; c=Image.new('RGBA',(G,G),(245,239,230,255)); b=mao.copy(); b.thumbnail((int(G*ocupa),int(G*ocupa)),Image.LANCZOS)
+        c.alpha_composite(b,((G-b.size[0])//2,(G-b.size[1])//2))
+        if raio: m=Image.new('L',(G,G),0); ImageDraw.Draw(m).rounded_rectangle((0,0,G-1,G-1),int(G*raio),fill=255); c.putalpha(m)
+        c.resize((s,s),Image.LANCZOS).save(J(A,'brand',n),optimize=True); print('icone',n)
+else: print('AVISO: falta',mao_src)
 shutil.copy2(J(I,'731632131_1683834186071283_560968052898150836_n.jpg'),J(A,'brand','padrao-limoes.jpg'))
 # vídeos reais do WordPress (cópia sem recodificar) + poster
 V=[(J(WP,'02','AQNpsKx5WdvDVQDFSaDxUD3pJ1DN3AAUqNBR84L8_vAuvoiGUTf4RHBdOSFV8WZ5wQZnnhCBkYDtwLVfgIGLInItZyi2ngZOgFq5BTg.mp4'),'massas',0.05),

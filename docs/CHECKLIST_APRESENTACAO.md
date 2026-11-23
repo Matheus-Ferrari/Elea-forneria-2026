@@ -15,6 +15,7 @@ Documentos relacionados:
   - em cada capítulo, **os pratos com foto vêm primeiro**. O `cardapio.js` mantém isso sozinho quando entrar uma foto nova.
 - [x] **Cardápio, "dois Para compartilhar":** o capítulo tem 8 pratos e ocupa duas páginas. A página de frente para o título não repete mais o nome, e as seguintes dizem "continuação" no cabeçalho.
 - [x] **Bloco "Focaccias e tortano por encomenda"** (fim do Cardápio): a foto em tela cheia, que ficava gigante em monitores grandes, virou uma foto em arco de tamanho contido (até ~370–430 px), sobre um painel de limões, com o selo da Elea. Texto ao lado; no celular, foto em cima.
+- [x] **Favicon novo:** a mão com os dedos pinçados (desenho do logo, sem o círculo), marrom sobre creme: `brand/favicon-32.png` (aba), `favicon-192.png` (Android) e `apple-touch-icon.png` (iPhone), gerados pelo `gerar_imagens.py` a partir de `img/Ícone de mão com dedos pinçados.png`.
 - [x] **Home, selo do topo:** dois troféus (bicampeã, 2025 e 2026).
 - [x] **Home, carrossel "Prato a prato" vazio:** com várias passadas seguidas (setas, arraste) ou com a aba em segundo plano, o carrossel passava do fim das cópias e mostrava só a madeira. Agora ele sempre volta para o bloco do meio antes de andar (5 blocos de pratos, arraste limitado). Testado com 14 passadas rápidas e arrastes de 6.000 px em 390, 1440 e 1880 px: sempre 2 ou 3 pratos na tela.
 - [x] **Home, Imprensa:**
