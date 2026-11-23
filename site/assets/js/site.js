@@ -1,6 +1,14 @@
 /* Comum a todas as páginas: menu, cabeçalho, contador do carrinho, toast e revelar ao rolar. */
 import { quantidadeTotal } from "./carrinho.js";
 
+// Modo revisão (para conferir com a Elea): ?revisao mostra grifados os itens "a confirmar" (.tbc) e as notas
+// internas (.so-revisao), e continua ligado ao navegar pelo site; ?revisao=0 desliga. Visitantes nunca veem.
+try {
+  const r = new URLSearchParams(location.search).get("revisao");
+  if (r !== null) sessionStorage.setItem("elea_revisao", r === "0" ? "" : "1");
+  if (sessionStorage.getItem("elea_revisao")) document.documentElement.classList.add("revisao");
+} catch {}
+
 const topo = document.getElementById("topo");
 const botaoMenu = topo?.querySelector(".menu-toggle");
 botaoMenu?.addEventListener("click", () => {

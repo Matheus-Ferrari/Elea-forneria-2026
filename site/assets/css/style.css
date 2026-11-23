@@ -62,9 +62,13 @@ p { margin: 0 0 1em; }
 .kicker--claro { color: var(--bege); }
 .kicker--claro::before { background: var(--limao); }
 
-/* Marcador de conteÃºdo A CONFIRMAR antes de publicar (remover a classe quando confirmado) */
-.tbc { background: rgba(244, 196, 48, .32); border-bottom: 1px dashed var(--caramelo-escuro); padding: 0 .2em; border-radius: 3px; }
-.tbc::after { content: " \26A0"; font-size: .75em; }
+/* Marcador de conteÃºdo A CONFIRMAR antes de publicar (remover a classe quando confirmado).
+   Visitante: .tbc aparece como texto normal e .so-revisao (nota interna) fica oculta.
+   Revisão com a Elea: abra qualquer página com ?revisao (site.js) e tudo volta grifado em amarelo; ?revisao=0 desliga. */
+.so-revisao { display: none; }
+.revisao .so-revisao { display: inline; }
+.revisao .tbc { background: rgba(244, 196, 48, .32); border-bottom: 1px dashed var(--caramelo-escuro); padding: 0 .2em; border-radius: 3px; }
+.revisao .tbc::after { content: " \26A0"; font-size: .75em; }
 
 /* ---------- BotÃµes ---------- */
 .btn {
@@ -343,6 +347,7 @@ p { margin: 0 0 1em; }
 .pessoa figcaption { padding-top: 14px; }
 .pessoa strong { display: block; font: 600 1.5rem/1.15 var(--serif); color: var(--madeira-escura); }
 .pessoa span { color: var(--texto-suave); font-size: .92rem; }
+.pessoa .pessoa__desc { display: block; margin-top: 4px; color: var(--texto); font-size: .9rem; line-height: 1.5; } /* descrição curta do papel (Quem somos) */
 @media (max-width: 820px) {
   .pessoas { grid-template-columns: repeat(3, 78%); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; margin-inline: -20px; padding-inline: 20px; }
   .pessoa { scroll-snap-align: center; }
@@ -356,6 +361,7 @@ p { margin: 0 0 1em; }
 .momentos .prato { margin: 0; }
 .momentos .prato img { aspect-ratio: 3 / 4; object-fit: cover; }
 .subtitulo { font-size: clamp(1.7rem, 3vw, 2.4rem); margin: clamp(40px, 6vw, 72px) 0 18px; }
+.subtitulo__texto { margin: -6px 0 22px; } /* frase de contexto logo abaixo do subtítulo (Ambiente) */
 .chamada-final { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: clamp(32px, 5vw, 56px); }
 @media (max-width: 820px) {
   .pessoas--pagina { display: grid; grid-template-columns: repeat(5, 78%); justify-content: start; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -20px; padding: 0 20px 10px; }
@@ -368,13 +374,43 @@ p { margin: 0 0 1em; }
 .cardapio-cat + .cardapio-cat { margin-top: clamp(36px, 5vw, 64px); }
 .cardapio-cat h2 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); margin-bottom: 18px; }
 .cardapio-cat h2 em { color: var(--caramelo-escuro); }
-.cardapio-forneria {
-  display: grid; grid-template-columns: minmax(0, 280px) 1fr; gap: clamp(20px, 4vw, 48px); align-items: center;
-  margin-top: clamp(40px, 6vw, 72px); padding: clamp(18px, 3vw, 28px); border-radius: 20px; background: var(--bege-claro);
+/* Forneria por encomenda (fim do Cardápio): foto real sangrando até a borda esquerda, texto ao lado no papel.
+   Sem cartão nem moldura: a foto É o bloco. No celular, foto em cima (largura toda) e texto embaixo. */
+.forneria {
+  display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); align-items: center;
+  background: var(--papel); overflow: hidden;
 }
-.cardapio-forneria img { border-radius: var(--raio); aspect-ratio: 4 / 5; object-fit: cover; width: 100%; }
-.cardapio-forneria h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); }
-@media (max-width: 700px) { .cardapio-forneria { grid-template-columns: 1fr; } .cardapio-forneria img { max-width: 280px; } }
+/* foto inteira na proporção dela (759×900); só em telas muito altas/largas corta um pouco, guardando as focaccias */
+.forneria__foto { position: relative; margin: 0; align-self: stretch; aspect-ratio: 759 / 900; max-height: 92vh; background: var(--madeira-escura); }
+.forneria__foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
+.forneria__foto::after { /* fio caramelo na junção foto/texto: amarra a foto ao papel sem criar caixa */
+  content: ""; position: absolute; top: 12%; bottom: 12%; right: 0; width: 3px; background: var(--caramelo); opacity: .85;
+}
+.forneria__texto { padding: clamp(44px, 6vw, 96px) clamp(24px, 6vw, 88px); max-width: 640px; }
+.forneria__texto h2 { font-size: clamp(2.1rem, 3.6vw, 3.1rem); margin-bottom: .35em; }
+/* "Aproximadamente 900 g de focaccia artesanal": número grande em serifa, entre dois fios finos */
+.forneria__peso {
+  display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 16px; row-gap: 4px;
+  margin: 26px 0 18px; padding: 16px 0 18px; border-block: 1px solid var(--bege);
+}
+.forneria__peso-aprox { flex-basis: 100%; font: 700 .72rem/1.3 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--texto-suave); }
+.forneria__peso strong { font: 500 clamp(3.4rem, 6vw, 4.7rem)/.9 var(--serif); color: var(--caramelo-escuro); letter-spacing: -.02em; white-space: nowrap; }
+.forneria__peso-de { font: italic 500 clamp(1.3rem, 1.9vw, 1.55rem)/1.15 var(--serif); color: var(--madeira-escura); }
+.forneria__frase { font: 500 clamp(1.15rem, 1.5vw, 1.3rem)/1.45 var(--serif); color: var(--texto); margin-bottom: 22px; }
+.forneria__condicoes { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 10px; }
+.forneria__condicoes li { display: flex; align-items: flex-start; gap: 12px; font-size: .98rem; }
+.forneria__condicoes svg { width: 22px; height: 22px; color: var(--ervas); margin-top: 1px; }
+.forneria__condicoes strong { color: var(--madeira-escura); font-weight: 600; }
+.forneria__nota { margin: 16px 0 0; font: italic 500 .98rem/1.4 var(--serif); color: var(--texto-suave); }
+.secao--chamada { padding-block: clamp(36px, 5vw, 64px); }
+.secao--chamada .chamada-final { margin-top: 0; }
+@media (max-width: 820px) {
+  .forneria { grid-template-columns: 1fr; }
+  .forneria__foto { aspect-ratio: 4 / 4.4; max-height: none; }
+  .forneria__foto::after { top: auto; bottom: 0; left: 20px; right: 20px; width: auto; height: 3px; }
+  .forneria__texto { padding: 34px 20px 8px; max-width: none; }
+  .forneria__texto .btn { width: 100%; }
+}
 
 /* ---------- Popup do prato (Prato a prato) ----------
    Prato GRANDE sobre a mesa de madeira (luz quente por cima), entrando girando como se fosse servido.
@@ -704,32 +740,34 @@ p { margin: 0 0 1em; }
 
 /* ---------- RodapÃ© ---------- */
 /* mesmo marrom do cabeçalho (antes era grafite) */
-.rodape { background: var(--cabecalho); color: rgba(245, 239, 230, .8); padding-block: 48px 28px; font-size: .92rem; }
-/* Vagas: cartão no topo do rodapé (antes era uma faixa bege solta acima dele) */
-.rodape__vagas {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 32px;
-  margin-bottom: 44px; padding: clamp(20px, 3vw, 30px) clamp(20px, 3.5vw, 36px);
-  border: 1px solid rgba(245, 239, 230, .14); border-radius: 18px; background: rgba(245, 239, 230, .05);
-  scroll-margin-top: calc(var(--header-h) + 16px);
-}
-.rodape__vagas .kicker { margin-bottom: 8px; }
-.rodape__vagas h2 { color: var(--creme); font-size: clamp(1.7rem, 3vw, 2.3rem); margin: 0; }
-.rodape__vagas p { margin: 0; max-width: 46ch; color: rgba(245, 239, 230, .85); }
-/* com a arte de vagas: foto à esquerda, texto à direita (no celular, empilha) */
-.rodape__vagas:has(.rodape__vagas-foto) { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: clamp(20px, 4vw, 44px); align-items: center; }
-.rodape .rodape__vagas-foto { width: 100%; height: auto; margin: 0; border-radius: 12px; box-shadow: 0 20px 40px -22px rgba(0, 0, 0, .8); }
+/* compacto: menos espaço vertical (era 48px 28px, com 40px antes da linha de base) */
+.rodape { background: var(--cabecalho); color: rgba(245, 239, 230, .8); padding-block: 40px 22px; font-size: .92rem; }
+/* Vagas: faixa própria em bege-claro logo ACIMA do rodapé marrom (antes era um cartão dentro do marrom e se
+   confundia com ele). Foto à esquerda, texto à direita; no celular, empilha. */
+.vagas-faixa { background: var(--bege-claro); padding-block: clamp(36px, 5vw, 56px); border-top: 1px solid rgba(122, 90, 58, .14); }
+.rodape__vagas { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: clamp(20px, 4vw, 44px); align-items: center; }
+.rodape__vagas-foto { width: 100%; height: auto; margin: 0; border-radius: 12px; box-shadow: var(--sombra); }
 .rodape__vagas-texto { display: grid; gap: 14px; justify-items: start; }
-.rodape__vagas-lista { display: flex !important; flex-wrap: wrap; gap: 8px !important; }
-.rodape__vagas-lista li { padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(244, 196, 48, .45); color: var(--creme); font: 600 .78rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; }
-@media (max-width: 700px) { .rodape__vagas:has(.rodape__vagas-foto) { grid-template-columns: 1fr; } .rodape .rodape__vagas-foto { max-width: 420px; } }
-.rodape__grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 32px; }
-.rodape img { width: 84px; height: 84px; margin-bottom: 14px; }
-.rodape h3 { font: 700 .74rem/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--bege); margin-bottom: 14px; }
-.rodape ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.rodape__vagas .kicker { margin-bottom: 0; }
+.rodape__vagas h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); margin: 0; }
+.rodape__vagas p { margin: 0; max-width: 46ch; color: var(--texto); }
+.rodape__vagas-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.rodape__vagas-lista li { padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(138, 95, 54, .45); color: var(--madeira-escura); font: 600 .78rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; }
+@media (max-width: 700px) { .rodape__vagas { grid-template-columns: 1fr; } .rodape__vagas-foto { max-width: 420px; } }
+.rodape__grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 28px; }
+.rodape img { width: 76px; height: 76px; margin-bottom: 12px; }
+.rodape__grid p { margin: 0; }
+.rodape h3 { font: 700 .74rem/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--bege); margin-bottom: 12px; }
+.rodape ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
 .rodape a { text-decoration: none; }
 .rodape a:hover { color: var(--creme); text-decoration: underline; }
-.rodape__base { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(245, 239, 230, .12); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-size: .8rem; }
-@media (max-width: 760px) { .rodape__grid { grid-template-columns: 1fr; } }
+.rodape__base { margin-top: 28px; padding-top: 16px; border-top: 1px solid rgba(245, 239, 230, .12); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-size: .8rem; }
+/* celular: logo ao lado da frase; "Visite" e "Elea" lado a lado (rodapé bem mais curto) */
+@media (max-width: 760px) {
+  .rodape__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 18px; }
+  .rodape__grid > :first-child { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; }
+  .rodape__grid > :first-child img { width: 60px; height: 60px; margin: 0; flex: none; }
+}
 
 /* ---------- Revelar ao rolar (sÃ³ com JS) ---------- */
 .js .revelar { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s cubic-bezier(.2, .7, .2, 1); }
@@ -749,6 +787,8 @@ p { margin: 0 0 1em; }
 .aviso { padding: 14px 18px; border-radius: 10px; background: rgba(244, 196, 48, .18); border: 1px solid rgba(169, 122, 76, .35); font-size: .9rem; margin-bottom: 22px; }
 .aviso--demo { background: rgba(142, 161, 120, .2); border-color: var(--salvia); }
 .aviso--erro { background: rgba(107, 46, 46, .1); border-color: rgba(107, 46, 46, .4); color: var(--vinho); }
+/* nota neutra e discreta (Encomendas: combinar pelo WhatsApp, valores sujeitos à confirmação) */
+.aviso--nota { background: var(--creme); border-color: var(--bege); color: var(--texto-suave); }
 
 .produtos { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; }
 .produto { background: var(--papel); border: 1px solid var(--bege); border-radius: var(--raio); overflow: hidden; display: flex; flex-direction: column; }
@@ -760,6 +800,7 @@ p { margin: 0 0 1em; }
 .produto p { margin: 0; font-size: .9rem; color: var(--texto-suave); }
 .produto__rodape { margin-top: auto; padding-top: 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .preco { font: 700 1.1rem/1 var(--sans); color: var(--madeira-escura); }
+.preco__nota { margin-left: 2px; color: var(--caramelo-escuro); font-weight: 600; }
 
 .qtd { display: inline-flex; align-items: center; border: 1px solid var(--bege); border-radius: 999px; overflow: hidden; background: #fff; }
 .qtd button { width: 36px; height: 36px; border: 0; background: transparent; cursor: pointer; font-size: 1.1rem; color: var(--madeira-escura); }
@@ -785,6 +826,7 @@ p { margin: 0 0 1em; }
 .item-carrinho small { color: var(--texto-suave); }
 .total { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; font-weight: 700; }
 .total span:last-child { font-size: 1.3rem; color: var(--madeira-escura); }
+.gaveta__nota { margin: 10px 0 0; font-size: .82rem; line-height: 1.5; color: var(--texto-suave); text-align: center; }
 .vazio { text-align: center; color: var(--texto-suave); padding: 40px 10px; }
 
 /* FormulÃ¡rios */
@@ -1024,11 +1066,39 @@ p { margin: 0 0 1em; }
 .foto-viva__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
 .foto-viva figcaption { margin-top: 12px; text-align: center; font: italic 500 .95rem/1.3 var(--serif); color: var(--tinta-suave-livro, #8E7257); }
 .foto-viva figcaption .icone { vertical-align: -.1em; }
-/* foto do prato que aparece por cima ao passar o mouse num item com foto */
-.foto-viva__troca { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; object-fit: cover; border-radius: 4px; opacity: 0; transition: opacity .45s ease; pointer-events: none; }
+/* foto do prato que aparece por cima ao passar o mouse num item com foto (2 camadas: uma entra enquanto a outra sai) */
+.foto-viva__troca { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; object-fit: cover; border-radius: 4px; opacity: 0; transition: opacity .5s ease; pointer-events: none; }
 .foto-viva__troca.is-recorte { object-fit: contain; padding: 7%; background: radial-gradient(70% 60% at 50% 42%, rgba(255, 226, 180, .3), transparent 70%), url("../img/texturas/madeira-mesa.webp") center / cover; }
-.foto-viva.is-trocada .foto-viva__troca { opacity: 1; }
+.foto-viva__troca.is-on { opacity: 1; }
 .foto-viva.is-trocada .ponto { opacity: 0; pointer-events: none; }
+/* Itens com foto: clique/toque abre a foto; no desktop, passar o mouse mostra o prato na foto da página */
+.prato-item[data-foto] { cursor: pointer; transition: background-color .25s ease; }
+@media (hover: hover) {
+  .prato-item[data-foto]:hover { background: rgba(169, 122, 76, .1); }
+  .prato-item[data-foto]:hover .prato-item__foto { background: var(--caramelo-escuro); color: var(--creme); }
+}
+/* Mesma ideia quando a abertura do capítulo não está aberta: a foto aparece na página ao lado, como uma página de foto */
+.livro__vitrine {
+  position: absolute; top: 0; bottom: 0; left: 50%; width: 50%; z-index: 8000; margin: 0; padding: 34px 36px 24px;
+  display: flex; flex-direction: column; pointer-events: none; opacity: 0; transition: opacity .45s ease;
+  border-radius: 2px 6px 6px 2px; box-shadow: inset 22px 0 26px -18px rgba(90, 58, 26, .42);
+  background: radial-gradient(120% 80% at 30% 15%, rgba(255, 255, 255, .55), transparent 60%), radial-gradient(90% 90% at 100% 100%, rgba(169, 122, 76, .12), transparent 60%), var(--papel-livro);
+}
+.livro__vitrine[data-lado="esq"] { left: 0; border-radius: 6px 2px 2px 6px; box-shadow: inset -22px 0 26px -18px rgba(90, 58, 26, .42); }
+.livro__vitrine.is-on { opacity: 1; }
+.livro__vitrine-palco { position: relative; flex: 1; min-height: 0; container-type: size; }
+.livro__vitrine-palco img {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: auto; height: auto; max-width: 100cqw; max-height: 100cqh;
+  border-radius: 3px; opacity: 0; transition: opacity .45s ease; box-shadow: 0 16px 30px -18px rgba(40, 25, 12, .65), 0 0 0 5px #fff;
+}
+.livro__vitrine-palco img.is-recorte { width: min(100cqw, 100cqh); border-radius: 50%; box-shadow: none; filter: drop-shadow(0 18px 22px rgba(52, 30, 12, .4)); }
+.livro__vitrine-palco img.is-on { opacity: 1; }
+.livro__vitrine figcaption { margin-top: 16px; text-align: center; font: italic 500 1.2rem/1.3 var(--serif); color: #4a3423; }
+.livro__vitrine figcaption b { display: block; margin-top: 4px; font: 600 .78rem/1 var(--sans); font-style: normal; letter-spacing: .12em; color: var(--caramelo-escuro); }
+.livro--simples .livro__vitrine { display: none; }
+/* Salto de várias páginas (marcadores, sumário): as folhas do meio passam em branco, só o papel,
+   para não aparecer o conteúdo de outras páginas no caminho. */
+.face.is-folheando > .pg { visibility: hidden; }
 /* Sobremesas: sem foto ainda, padrão de limões com selo */
 .foto-viva--limoes .foto-viva__quadro { display: grid; place-items: center; background: url("../img/brand/padrao-limoes.jpg") 0 0 / 120px; }
 .foto-viva__selo { padding: 18px 34px; border-radius: 999px; background: var(--papel-livro, #F7F0E3); box-shadow: 0 10px 24px -12px rgba(0, 0, 0, .5); font: italic 500 2.2rem/1 var(--serif); color: #4a3423; }
@@ -1057,7 +1127,7 @@ html:not(.js) .ponto { display: none; }
 .ponto__alvo::after { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: #fff; transition: transform .25s ease; }
 .ponto:nth-of-type(2) .ponto__alvo { animation-delay: .8s; }
 .ponto:nth-of-type(3) .ponto__alvo { animation-delay: 1.6s; }
-.ponto:hover .ponto__alvo::after, .ponto.is-ativo .ponto__alvo::after { transform: scale(.45); }
+.ponto:hover .ponto__alvo::after, .ponto.is-ativo .ponto__alvo::after, .ponto.is-realce .ponto__alvo::after { transform: scale(.45); }
 @keyframes ponto-pulsa {
   0% { box-shadow: 0 0 0 0 rgba(244, 196, 48, .75), 0 4px 10px rgba(0, 0, 0, .4); }
   70%, 100% { box-shadow: 0 0 0 16px rgba(244, 196, 48, 0), 0 4px 10px rgba(0, 0, 0, .4); }
@@ -1071,8 +1141,8 @@ html:not(.js) .ponto { display: none; }
 .ponto__rotulo b { color: var(--caramelo-escuro); }
 .ponto__rotulo::after { content: "→"; color: var(--caramelo-escuro); }
 .ponto[data-lado="esq"] .ponto__rotulo { left: auto; right: 24px; transform: translateX(6px) scale(.95); }
-.ponto:hover .ponto__rotulo, .ponto:focus-within .ponto__rotulo, .ponto.is-ativo .ponto__rotulo { opacity: 1; transform: none; pointer-events: auto; }
-.ponto:hover, .ponto:focus-within, .ponto.is-ativo { z-index: 6; }
+.ponto:hover .ponto__rotulo, .ponto:focus-within .ponto__rotulo, .ponto.is-ativo .ponto__rotulo, .ponto.is-realce .ponto__rotulo { opacity: 1; transform: none; pointer-events: auto; }
+.ponto:hover, .ponto:focus-within, .ponto.is-ativo, .ponto.is-realce { z-index: 6; }
 
 /* Capa, guarda, sumário, páginas de enfeite e página final */
 .pg--capa { align-items: center; justify-content: center; text-align: center; padding: 12%; }

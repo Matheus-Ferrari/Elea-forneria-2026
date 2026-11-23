@@ -38,8 +38,8 @@
         <a class="btn btn--terracota menu__reservar" href="https://wa.me/5511945099155?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva%20na%20Elea." target="_blank" rel="noopener">Reservar</a>
     </nav>
     <div class="topo__acoes">
-      <a class="icone-btn" href="conta.html" aria-label="Minha conta"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4.5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg></a>
-      <a class="icone-btn" href="encomendas.html#carrinho" aria-label="Carrinho de encomendas"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="badge" data-carrinho-qtd hidden>0</span></a>
+      <!-- "Minha conta" (conta.html) fica fora do menu até a área do cliente ser contratada (docs/EVOLUCOES_FUTURAS.md). -->
+      <a class="icone-btn" href="encomendas.html#carrinho" aria-label="Lista de encomenda"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="badge" data-carrinho-qtd hidden>0</span></a>
       <a class="btn btn--terracota topo__reservar" href="https://wa.me/5511945099155?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva%20na%20Elea." target="_blank" rel="noopener">Reservar</a>
       <button class="icone-btn menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
     </div>
@@ -57,19 +57,23 @@
   <div class="container" data-conta><p class="vazio">Carregando…</p></div>
 </section>
 </main>
+<!-- Vagas: faixa própria em bege logo acima do rodapé marrom (aparece em todas as páginas); o menu "Vagas" aponta para #vagas.
+     Arte oficial da Elea ("Estamos com vagas abertas"). Ao mudar as vagas, troque a imagem e a lista.
+     PENDENTE: a Elea não informou um e-mail de vagas; por enquanto o contato é o WhatsApp oficial do site. -->
+<section class="vagas-faixa" id="vagas" aria-labelledby="vagas-titulo">
+  <div class="container rodape__vagas">
+    <img class="rodape__vagas-foto" src="assets/img/pessoas/vagas-abertas.webp" alt="Cozinheiros da Elea sorrindo enquanto abrem massa fresca, com o anúncio: estamos com vagas abertas para cozinheiro, auxiliar de cozinha e atendimento" width="900" height="779" loading="lazy">
+    <div class="rodape__vagas-texto">
+      <p class="kicker">Vagas abertas</p>
+      <h2 id="vagas-titulo">Venha trabalhar com a gente</h2>
+      <ul class="rodape__vagas-lista"><li>Cozinheiro</li><li>Auxiliar de cozinha</li><li>Atendimento</li></ul>
+      <p>Quer fazer parte da equipe? Fale com a Elea pelo WhatsApp e conte em qual área quer trabalhar.</p>
+      <a class="btn btn--primario btn--pequeno" href="https://wa.me/5511945099155?text=Ol%C3%A1!%20Tenho%20interesse%20nas%20vagas%20da%20Elea." target="_blank" rel="noopener"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>Falar sobre as vagas</a>
+    </div>
+  </div>
+</section>
 <footer class="rodape">
   <div class="container">
-    <!-- Vagas fica aqui (aparece em todas as páginas); o menu "Vagas" aponta para #vagas -->
-    <!-- Arte oficial da Elea ("Estamos com vagas abertas"). Ao mudar as vagas, troque a imagem e a lista. -->
-    <div class="rodape__vagas" id="vagas">
-      <img class="rodape__vagas-foto" src="assets/img/pessoas/vagas-abertas.webp" alt="Cozinheiros da Elea sorrindo enquanto abrem massa fresca, com o anúncio: estamos com vagas abertas para cozinheiro, auxiliar de cozinha e atendimento" width="900" height="779" loading="lazy">
-      <div class="rodape__vagas-texto">
-        <p class="kicker kicker--claro">Vagas abertas</p>
-        <h2>Venha trabalhar com a gente</h2>
-        <ul class="rodape__vagas-lista"><li>Cozinheiro</li><li>Auxiliar de cozinha</li><li>Atendimento</li></ul>
-        <p>Envie seu currículo para <span class="tbc">e-mail de vagas</span> e conte em qual área quer trabalhar.</p>
-      </div>
-    </div>
     <div class="rodape__grid">
       <div>
         <img src="assets/img/brand/logo-elea-creme.png" alt="Elea Forneria" width="84" height="84">
@@ -89,7 +93,6 @@
           <li><a href="cardapio.html">Cardápio</a></li>
           <li><a href="quem-somos.html">Quem somos</a></li>
           <li><a href="encomendas.html">Encomendas</a></li>
-          <li><a href="conta.html">Minha conta</a></li>
           <li><a href="#vagas">Trabalhe conosco</a></li>
           <li><a href="https://www.instagram.com/eleaforneria/" target="_blank" rel="noopener">Instagram @eleaforneria</a></li>
           <li><a href="https://wa.me/5511945099155?text=Ol%C3%A1%2C%20Elea!" target="_blank" rel="noopener">WhatsApp</a></li>

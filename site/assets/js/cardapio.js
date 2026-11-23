@@ -7,6 +7,9 @@
  * Cada capítulo abre na página da ESQUERDA (foto interativa) de frente para os itens; quando precisa,
  * entra uma página de enfeite (foto ou frase) antes, como num livro de verdade.
  * Também: carrossel de fotos da abertura, foto do prato (ícone de câmera) e pilha de fotos dos vinhos.
+ * Fotos dos pratos: só itens com data-foto (data-foto-reserva = foto guardada, fora da demonstração).
+ *   - mouse: passar sobre o item mostra o prato na foto da abertura (ou na página ao lado); sair volta ao original;
+ *   - clique/toque no item ou na câmera: abre a foto grande, sem virar a página nem mexer na rolagem.
  */
 const calmo = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const VIRA_MS = 950; // igual ao transition da .folha no CSS
@@ -77,15 +80,13 @@ function iniciarLivro(raiz) {
     });
     const quadro = cap.querySelector(".foto-viva__quadro");
     if (quadro && !quadro.hasAttribute("data-pilha") && quadro.querySelector("img")) {
-      const troca = el("img", "foto-viva__troca");
-      troca.alt = "";
-      quadro.append(troca);
+      for (let k = 0; k < 2; k++) { const troca = el("img", "foto-viva__troca"); troca.alt = ""; quadro.append(troca); }
     }
   });
 
   // 2) Estado
   let modo = "livro", duplo = largo.matches, paginas = [], folhas = [], s = 0, L = 0;
-  let zTopo = 1000, fimTimer = null, emVoo = new Set(), mexeu = false, chaveMedida = "";
+  let fimTimer = null, emVoo = new Set(), mexeu = false, chaveMedida = "";
 
   const medida = el("div", "face face--medida");
   medida.setAttribute("aria-hidden", "true");
@@ -132,14 +133,22 @@ function iniciarLivro(raiz) {
     return pg;
   };
 
-  // Páginas de enfeite (só no livro aberto em duas páginas), para o capítulo começar sempre à esquerda
-  const ENFEITES = [
-    () => pagina("frase", { conteudo: el("div", "", '<div class="pg__frase-fio"></div><p class="pg__frase">Cucina, vino<br>e buoni incontri.</p>') }),
-    () => fotoEnfeite("assets/img/pessoas/equipe-massa.webp", 1, "Equipe da Elea preparando massa fresca", "Massa fresca, feita na casa."),
-    () => fotoEnfeite("assets/img/ambiente/salao-plantas.webp", .8, "Salão da Elea com plantas, mesas de madeira e janelas verdes", "Água Fria, Zona Norte de São Paulo."),
-    () => fotoEnfeite("assets/img/pessoas/equipe-salao.webp", .75, "Equipe do salão da Elea sorrindo com garrafas de vinho", "A equipe que recebe você."),
-    () => fotoEnfeite("assets/img/ambiente/mesa-varanda.webp", .8, "Mesa posta na varanda da Elea", "Mesa posta na varanda."),
-  ];
+  // Páginas editoriais (só no livro aberto em duas páginas). Entram quando o capítulo seguinte precisa começar
+  // à esquerda, e cada uma FECHA o capítulo a que pertence (a da massa fresca fecha "Principais", a da equipe
+  // com os vinhos fecha "Vinhos"). Antes elas se revezavam pela ordem, e a foto caía em qualquer capítulo.
+  const frase = () => pagina("frase", { conteudo: el("div", "", '<div class="pg__frase-fio"></div><p class="pg__frase">Cucina, vino<br>e buoni incontri.</p>') });
+  const ENFEITES = {
+    "para-compartilhar": () => fotoEnfeite("assets/img/momentos/comer-em-fartura.webp", .75, "Mesa vista de cima com vários pratos sendo compartilhados", "Pratos no centro da mesa, para dividir."),
+    principais: () => fotoEnfeite("assets/img/pessoas/equipe-massa.webp", 1, "Dois cozinheiros da Elea abrindo massa fresca com as mãos", "Massa fresca, feita na casa."),
+    pizzas: () => fotoEnfeite("assets/img/ambiente/salao-plantas.webp", .8, "Salão da Elea com plantas, mesas de madeira e janelas verdes", "Água Fria, Zona Norte de São Paulo."),
+    sobremesas: () => fotoEnfeite("assets/img/ambiente/mesa-varanda.webp", .8, "Mesa posta na varanda da Elea", "Mesa posta na varanda."),
+    paes: frase,
+    vinhos: () => fotoEnfeite("assets/img/pessoas/equipe-salao.webp", .75, "Equipe do salão da Elea sorrindo com garrafas de vinho", "A equipe que recebe você."),
+  };
+  const enfeite = (cap, fazer = ENFEITES[cap?.id] || frase) => { const pg = fazer(); if (cap) pg.dataset.cap = cap.id; return pg; };
+  // capítulos cuja página editorial não pode faltar: se o capítulo já terminou à direita, ela entra numa
+  // dupla editorial (foto + frase) antes do capítulo seguinte, em vez de sumir naquele tamanho de tela
+  const EDITORIAL_FIXA = new Set(["principais"]);
   function fotoEnfeite(src, r, alt, legenda) {
     return pagina("foto", { conteudo: el("figure", "pg-foto", `<div class="pg-foto__palco"><img src="${src}" alt="${alt}" style="--r: ${r}" loading="lazy"></div><figcaption>${legenda}</figcaption>`) });
   }
@@ -188,6 +197,7 @@ function iniciarLivro(raiz) {
 
   // 3) Monta o livro (de novo quando a tela muda de tamanho)
   function montar() {
+    soltarFoto(true);
     const capAntes = s > 0 ? capAtual() : "";
     duplo = largo.matches;
     livro.classList.toggle("livro--duplo", duplo);
@@ -200,13 +210,15 @@ function iniciarLivro(raiz) {
     if (duplo) add(paginaGuarda());
     const sumario = paginaSumario();
     add(sumario);
-    let k = 0;
+    let anterior = null;
     for (const cap of capitulos) {
-      if (duplo && paginas.length % 2 === 0) add(ENFEITES[k++ % ENFEITES.length]());
+      if (duplo && paginas.length % 2 === 0) add(enfeite(anterior));
+      else if (duplo && EDITORIAL_FIXA.has(anterior?.id)) { add(enfeite(anterior)); add(enfeite(anterior, frase)); }
       add(paginaAbertura(cap));
       paginarItens(cap).forEach(add);
+      anterior = cap;
     }
-    if (duplo && paginas.length % 2 === 1) add(ENFEITES[k++ % ENFEITES.length]());
+    if (duplo && paginas.length % 2 === 1) add(enfeite(anterior));
     const fim = paginaFim();
     const logo = fim.querySelector("img");
     Object.assign(logo, { src: "assets/img/brand/logo-elea-caramelo.png", alt: "", width: 86, height: 86 });
@@ -248,27 +260,47 @@ function iniciarLivro(raiz) {
   }
 
   // 4) Virar
+  // Ordem das folhas (z-index): na pilha da direita a folha de número menor fica por cima; na da esquerda, a maior.
+  // Cada folha em voo troca de pilha no meio da virada (90°). Antes, todas as folhas de um salto subiam por cima
+  // de uma vez e a última (uma página do MEIO do caminho, ex.: a foto editorial antes de Pizzas) aparecia de repente.
+  // Num salto, as páginas do meio passam em branco (.is-folheando) e só algumas folhas voam (MAX_VOO).
+  const MAX_VOO = 4;
+  const zPilha = (k, esquerda) => (esquerda ? 3000 + k : 2000 - k);
+  const trocaPilha = new Map();
   function ir(alvo, animar = !calmo) {
     alvo = Math.max(0, Math.min(L - 1, alvo));
     if (alvo === s) return false;
+    soltarFoto(true);
     const frente = alvo > s;
     const virar = [];
     if (frente) for (let k = s; k < alvo; k++) virar.push(k); else for (let k = s - 1; k >= alvo; k--) virar.push(k);
-    const passo = Math.min(120, 520 / virar.length);
+    let voam = virar;
+    if (animar && virar.length > MAX_VOO) {
+      const n = virar.length - 1, escolhidas = new Set([0, Math.round(n / 3), Math.round((2 * n) / 3), n]);
+      voam = virar.filter((_, i) => escolhidas.has(i));
+    }
+    const passo = Math.min(120, 520 / voam.length);
     const antes = visiveis();
-    // durante a virada: mostra as páginas de antes, as de depois e as das folhas em voo
-    virar.forEach((k) => emVoo.add(folhas[k]));
     s = alvo;
+    // durante a virada: páginas de antes e de depois com conteúdo; folhas em voo só com o papel; o resto escondido
     const mostrar = new Set([...antes, ...visiveis()]);
+    voam.forEach((k) => emVoo.add(folhas[k]));
     folhas.forEach((f) => f.querySelectorAll(".face").forEach((face) => {
-      const pg = face.firstElementChild, i = pg ? paginas.indexOf(pg) : -1;
-      face.classList.toggle("is-oculta", !(emVoo.has(f) || mostrar.has(i)));
+      const pg = face.firstElementChild, i = pg ? paginas.indexOf(pg) : -1, voa = emVoo.has(f);
+      face.classList.toggle("is-oculta", !(voa || mostrar.has(i)));
+      face.classList.toggle("is-folheando", voa && !mostrar.has(i));
     }));
     if (!animar) livro.classList.add("livro--sem-animacao");
-    virar.forEach((k, i) => {
+    // folhas do meio de um salto longo: viram escondidas, sem animação
+    const pulam = virar.filter((k) => !voam.includes(k)).map((k) => folhas[k]);
+    pulam.forEach((f) => { f.style.transition = "none"; f.classList.toggle("is-virada", frente); });
+    if (pulam.length) { void miolo.offsetWidth; pulam.forEach((f) => (f.style.transition = "")); }
+    voam.forEach((k, i) => {
       const f = folhas[k];
       const atraso = animar ? Math.round(i * passo) : 0;
-      f.style.zIndex = ++zTopo;
+      clearTimeout(trocaPilha.get(f));
+      f.style.zIndex = zPilha(k, !frente); // sai por cima da pilha de onde está...
+      trocaPilha.set(f, setTimeout(() => { f.style.zIndex = zPilha(k, frente); }, animar ? atraso + VIRA_MS / 2 : 0)); // ...e no meio passa para a outra
       f.style.transitionDelay = `${atraso}ms`;
       f.style.setProperty("--atraso", `${atraso}ms`);
       if (animar) { f.classList.remove("is-virando"); void f.offsetWidth; f.classList.add("is-virando"); }
@@ -276,7 +308,7 @@ function iniciarLivro(raiz) {
     });
     atualizar();
     clearTimeout(fimTimer);
-    const total = animar ? VIRA_MS + (virar.length - 1) * passo + 40 : 0;
+    const total = animar ? VIRA_MS + (voam.length - 1) * passo + 40 : 0;
     fimTimer = setTimeout(assentar, total);
     if (!animar) { void miolo.offsetWidth; livro.classList.remove("livro--sem-animacao"); }
     return true;
@@ -292,15 +324,17 @@ function iniciarLivro(raiz) {
   }
   // fim da virada: ordem de empilhamento definitiva e só as páginas abertas visíveis/acessíveis
   function assentar() {
+    trocaPilha.forEach((t) => clearTimeout(t));
+    trocaPilha.clear();
     emVoo.forEach((f) => { f.classList.remove("is-virando"); f.style.transitionDelay = ""; });
     emVoo.clear();
-    zTopo = 1000;
     const v = new Set(visiveis());
     folhas.forEach((f, k) => {
       f.style.zIndex = k < s ? k + 1 : L - k + 1;
       f.querySelectorAll(".face").forEach((face) => {
         const i = face.firstElementChild ? paginas.indexOf(face.firstElementChild) : -1;
         face.classList.toggle("is-oculta", !v.has(i));
+        face.classList.remove("is-folheando");
       });
     });
   }
@@ -351,10 +385,11 @@ function iniciarLivro(raiz) {
     item.classList.add("is-destaque");
   }
 
-  // 6) Foto do prato: popup (câmera) e troca da foto da abertura ao passar o mouse
-  function abrirFoto(id) {
+  // 6) Foto do prato: popup (clique/toque no item ou na câmera) e foto na página ao passar o mouse
+  function abrirFoto(id, foco) {
     const item = document.getElementById(id);
-    if (!item || !pop || typeof pop.showModal !== "function") return;
+    if (!item?.dataset.foto || !pop || typeof pop.showModal !== "function") return;
+    soltarFoto(true);
     const img = pop.querySelector("[data-pop-img]");
     pop.classList.toggle("prato-pop--foto", !item.hasAttribute("data-recorte"));
     img.src = item.dataset.foto;
@@ -367,33 +402,103 @@ function iniciarLivro(raiz) {
     pop.classList.remove("is-trocando");
     void pop.offsetWidth;
     pop.classList.add("is-trocando");
+    // Ao fechar, o navegador devolve o foco a quem estava focado. Se fosse o palco do livro (que recebe o foco
+    // ao clicar numa página), a tela rolaria até ele: foca antes a câmera do prato, sem rolar.
+    foco?.focus({ preventScroll: true });
     if (!pop.open) pop.showModal();
   }
   pop?.addEventListener("click", (e) => { if (e.target === pop || e.target.closest("[data-fechar]")) pop.close(); });
 
-  let figTrocada = null, itemSobre = null;
-  function figuraDoCapitulo(cap) {
-    if (modo === "lista") return capPorId[cap]?.querySelector(".foto-viva");
-    if (!duplo) return null;
-    const esq = paginas[2 * s - 1];
-    return esq?.dataset.abre === cap ? esq.querySelector(".foto-viva") : null;
+  // Destino da foto ao passar o mouse: a foto da abertura do capítulo, se ela estiver aberta (ou na lista);
+  // senão, a página ao lado vira uma "página de foto" (vitrine). No celular não há hover: vale o toque.
+  const vitrine = el("figure", "livro__vitrine", '<div class="livro__vitrine-palco"><img alt=""><img alt=""></div><figcaption><span></span><b></b></figcaption>');
+  vitrine.setAttribute("aria-hidden", "true");
+  miolo.append(vitrine);
+  const camadas = (no, sel) => [...no.querySelectorAll(sel)];
+  function destinoFoto(item) {
+    const cap = item.dataset.cap || capitulos.find((c) => c.contains(item))?.id;
+    if (modo === "lista") {
+      const fig = capPorId[cap]?.querySelector(".foto-viva");
+      return fig?.querySelector(".foto-viva__troca") ? { no: fig, imgs: camadas(fig, ".foto-viva__troca") } : null;
+    }
+    if (!duplo || emVoo.size) return null;
+    const vis = visiveis();
+    const fig = vis.map((i) => paginas[i]).find((p) => p.dataset.abre === cap)?.querySelector(".foto-viva");
+    if (fig?.querySelector(".foto-viva__troca")) return { no: fig, imgs: camadas(fig, ".foto-viva__troca") };
+    const outra = vis.find((j) => j !== paginas.indexOf(item.closest(".pg")));
+    if (outra == null) return null;
+    return { no: vitrine, imgs: camadas(vitrine, "img"), lado: outra % 2 === 1 ? "esq" : "dir" };
   }
-  function trocarFoto(item) {
-    const fig = figuraDoCapitulo(item.dataset.cap || capitulos.find((c) => c.contains(item))?.id);
-    const troca = fig?.querySelector(".foto-viva__troca");
-    if (figTrocada && figTrocada !== fig) figTrocada.classList.remove("is-trocada");
-    if (!troca) return;
-    troca.src = item.dataset.foto;
-    troca.classList.toggle("is-recorte", item.hasAttribute("data-recorte"));
-    fig.classList.add("is-trocada");
-    figTrocada = fig;
+
+  let fotoAtiva = null, soltarTimer = 0, pedido = 0, realce = null, itemSobre = null;
+  function esconder(d) {
+    d.imgs.forEach((i) => i.classList.remove("is-on"));
+    d.no.classList.remove(d.no === vitrine ? "is-on" : "is-trocada");
+  }
+  function trocarCamada(imgs, src, recorte, meu) {
+    const atual = imgs.find((i) => i.classList.contains("is-on"));
+    if (atual && atual.dataset.src === src) return;
+    const nova = imgs.find((i) => i !== atual);
+    nova.dataset.src = src;
+    nova.classList.toggle("is-recorte", recorte);
+    if (nova.getAttribute("src") !== src) nova.src = src;
+    const mostrar = () => { if (meu === pedido) imgs.forEach((i) => i.classList.toggle("is-on", i === nova)); };
+    if (nova.complete && nova.naturalWidth) mostrar(); else (nova.decode ? nova.decode() : Promise.resolve()).then(mostrar, mostrar);
+  }
+  function mostrarFoto(item) {
+    clearTimeout(soltarTimer);
+    const d = destinoFoto(item);
+    if (!d) return soltarFoto(true);
+    if (fotoAtiva && fotoAtiva.no !== d.no) esconder(fotoAtiva);
+    const meu = ++pedido;
+    const src = item.dataset.foto, recorte = item.hasAttribute("data-recorte");
+    if (d.no === vitrine) {
+      const entrar = () => {
+        if (meu !== pedido) return;
+        vitrine.dataset.lado = d.lado;
+        vitrine.querySelector("figcaption span").textContent = nomeItem(item);
+        vitrine.querySelector("figcaption b").textContent = item.querySelector(".prato-item__preco").textContent.trim();
+        vitrine.classList.add("is-on");
+        trocarCamada(d.imgs, src, recorte, meu);
+      };
+      // mudou de página (esquerda/direita): a vitrine sai e entra do outro lado, sem pular
+      if (vitrine.classList.contains("is-on") && vitrine.dataset.lado !== d.lado) { esconder(d); setTimeout(entrar, 260); }
+      else entrar();
+    } else {
+      d.no.classList.add("is-trocada");
+      trocarCamada(d.imgs, src, recorte, meu);
+    }
+    fotoAtiva = d;
+  }
+  // sair do item volta a foto original (com uma pequena espera, para não piscar ao passar de um prato a outro)
+  function soltarFoto(agora = false) {
+    clearTimeout(soltarTimer);
+    const fazer = () => { pedido++; if (fotoAtiva) esconder(fotoAtiva); fotoAtiva = null; };
+    if (agora) { itemSobre = null; realcar(null); fazer(); } else soltarTimer = setTimeout(fazer, 160);
+  }
+  // item sem foto própria que aparece na foto da abertura (ponto amarelo): acende o ponto dele
+  function realcar(item) {
+    realce?.classList.remove("is-realce");
+    realce = null;
+    if (!item) return;
+    const id = item.dataset.ref || item.id, cap = item.dataset.cap;
+    const base = modo === "lista" ? capPorId[cap] : visiveis().map((i) => paginas[i]).find((p) => p.dataset.abre === cap);
+    const ponto = base?.querySelector(`.ponto__rotulo[data-ir="${id}"]`)?.parentElement;
+    if (ponto) { ponto.classList.add("is-realce"); realce = ponto; }
   }
   raiz.addEventListener("pointerover", (e) => {
     if (e.pointerType !== "mouse") return;
-    const item = e.target.closest(".prato-item[data-foto]");
+    const item = e.target.closest(".prato-item");
     if (item === itemSobre) return;
     itemSobre = item;
-    if (item) trocarFoto(item); else { figTrocada?.classList.remove("is-trocada"); figTrocada = null; }
+    realcar(item && !item.dataset.foto ? item : null);
+    if (item?.dataset.foto) mostrarFoto(item); else soltarFoto();
+  });
+  raiz.addEventListener("pointerleave", (e) => {
+    if (e.pointerType !== "mouse") return;
+    itemSobre = null;
+    realcar(null);
+    soltarFoto();
   });
 
   // 7) Cliques (um ouvinte só, vale para o livro e para a lista)
@@ -403,7 +508,13 @@ function iniciarLivro(raiz) {
     const virar = t.closest("[data-virar]");
     if (virar) { mexeu = true; return ir(s + Number(virar.dataset.virar)); }
     const ver = t.closest("[data-ver-foto]");
-    if (ver) return abrirFoto(ver.dataset.verFoto);
+    if (ver) return abrirFoto(ver.dataset.verFoto, ver);
+    // clique/toque no prato com foto abre a foto (não vira a página); arrastar para o lado continua virando
+    const itemFoto = t.closest(".prato-item[data-foto]");
+    if (itemFoto && !t.closest("a, button")) {
+      if (arrastou) { arrastou = false; return; }
+      return abrirFoto(itemFoto.dataset.ref || itemFoto.id, itemFoto.querySelector("[data-ver-foto]"));
+    }
     const alvoPonto = t.closest(".ponto__alvo");
     if (alvoPonto) {
       const ponto = alvoPonto.parentElement, ativo = !ponto.classList.contains("is-ativo");
@@ -448,6 +559,7 @@ function iniciarLivro(raiz) {
 
   // 8) Livro ou lista
   function trocarModo(m) {
+    soltarFoto(true);
     modo = m;
     livro.hidden = m !== "livro";
     lista.hidden = m === "livro";

@@ -37,13 +37,16 @@ imagem: /assets/img/pessoas/manuela-e-enrico.webp
     <div class="secao__topo revelar">
       <p class="kicker">Quem faz</p>
       <h2>As pessoas por trás da Elea</h2>
+      <p class="lead">Os irmãos e sócios Enrico Villela e Manuela Fernandes, ao lado das equipes da cozinha e do salão.</p>
     </div>
+    <!-- Cards: nome em <strong>, papel em <span>, descrição curta em .pessoa__desc. Só informações confirmadas (Veja SP, Instagram, página). -->
     <div class="pessoas pessoas--pagina">
-      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="/assets/img/pessoas/enrico-villela.webp" alt="Enrico Villela provando uma massa" width="750" height="1000" loading="lazy"></div><figcaption><strong>Enrico Villela</strong><span>Chef e sócio</span></figcaption></figure>
-      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="/assets/img/pessoas/manuela-vinhos.webp" alt="Manuela Fernandes cercada de taças de vinho" width="750" height="1000" loading="lazy"></div><figcaption><strong>Manuela Fernandes</strong><span>Sommelière e sócia</span></figcaption></figure>
-      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="/assets/img/pessoas/equipe.webp" alt="Três cozinheiros da Elea provando a comida na cozinha" width="750" height="1000" loading="lazy"></div><figcaption><strong>Na cozinha</strong><span>Quem faz tudo acontecer, todos os dias</span></figcaption></figure>
-      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="/assets/img/pessoas/equipe-salao.webp" alt="Equipe do salão da Elea sorrindo com garrafas de vinho" width="900" height="1200" loading="lazy"></div><figcaption><strong>No salão</strong><span>A equipe que recebe você</span></figcaption></figure>
-      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="/assets/img/pessoas/equipe-massa.webp" alt="Dois cozinheiros da Elea abrindo massa fresca com as mãos" width="1200" height="1200" loading="lazy"></div><figcaption><strong>Massa fresca</strong><span>Aberta à mão na cozinha da casa</span></figcaption></figure>
+      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="/assets/img/pessoas/enrico-villela.webp" alt="Enrico Villela provando uma massa" width="750" height="1000" loading="lazy"></div><figcaption><strong>Enrico Villela</strong><span>Chef e sócio</span><span class="pessoa__desc">À frente da cozinha da Elea.</span></figcaption></figure>
+      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="/assets/img/pessoas/manuela-vinhos.webp" alt="Manuela Fernandes cercada de taças de vinho" width="750" height="1000" loading="lazy"></div><figcaption><strong>Manuela Fernandes</strong><span>Sommelière e sócia</span><span class="pessoa__desc">Responsável pela carta de vinhos da casa.</span></figcaption></figure>
+      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="/assets/img/pessoas/equipe.webp" alt="Três cozinheiros da Elea provando a comida na cozinha" width="750" height="1000" loading="lazy"></div><figcaption><strong>Equipe da cozinha</strong><span>Preparo dos pratos</span><span class="pessoa__desc">Os profissionais responsáveis pela preparação de cada prato.</span></figcaption></figure>
+      <!-- Mesma equipe da cozinha, mostrando o preparo da massa (não é outro cargo). A foto também é usada como página editorial no cardápio. -->
+      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="/assets/img/pessoas/equipe-massa.webp" alt="Dois cozinheiros da Elea abrindo massa fresca com as mãos" width="1200" height="1200" loading="lazy"></div><figcaption><strong>Massa fresca</strong><span>Feita na casa</span><span class="pessoa__desc">Aberta à mão pela equipe da cozinha.</span></figcaption></figure>
+      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="/assets/img/pessoas/equipe-salao.webp" alt="Equipe do salão da Elea sorrindo com garrafas de vinho" width="900" height="1200" loading="lazy"></div><figcaption><strong>Equipe do salão</strong><span>Atendimento</span><span class="pessoa__desc">A equipe que recebe você no salão e na varanda.</span></figcaption></figure>
     </div>
   </div>
 </section>
@@ -56,20 +59,22 @@ imagem: /assets/img/pessoas/manuela-e-enrico.webp
       <p class="lead">Pratos no centro da mesa, taças cheias e encontros sem pressa.</p>
     </div>
     <div class="momentos">
-      <figure class="prato revelar"><img src="/assets/img/momentos/momento-juntos.webp" alt="Amigos à mesa da Elea com pizzas, massas e vinho" width="1050" height="1400" loading="lazy"><figcaption>Juntos à mesa</figcaption></figure>
-      <figure class="prato revelar"><img src="/assets/img/momentos/comer-em-fartura.webp" alt="Mesa vista de cima com vários pratos sendo compartilhados" width="1050" height="1400" loading="lazy"><figcaption>Para dividir</figcaption></figure>
+      <figure class="prato revelar"><img src="/assets/img/momentos/momento-juntos.webp" alt="Amigos à mesa da Elea com pizzas, massas e vinho" width="1050" height="1400" loading="lazy"><figcaption>Amigos à mesa</figcaption></figure>
+      <figure class="prato revelar"><img src="/assets/img/momentos/comer-em-fartura.webp" alt="Mesa vista de cima com vários pratos sendo compartilhados" width="1050" height="1400" loading="lazy"><figcaption>Pratos para dividir</figcaption></figure>
       <figure class="prato revelar"><img src="/assets/img/pessoas/manuela-fernandes.webp" alt="Manuela Fernandes brincando com um fio de espaguete" width="750" height="1000" loading="lazy"><figcaption>Sem cerimônia</figcaption></figure>
     </div>
 
     <h2 class="subtitulo revelar" id="ambiente">Madeira, plantas e mesa longa</h2>
-    <!-- Fotos do local INTEIRAS (mosaico em colunas, cada uma na proporção original). Clique amplia (site.js, [data-galeria]). -->
+    <p class="lead subtitulo__texto revelar">Da varanda coberta pela pérgola ao salão de pé-direito alto: madeira, plantas e janelas verdes, de dia e à noite.</p>
+    <!-- Fotos do local INTEIRAS (mosaico em colunas, cada uma na proporção original). Clique amplia (site.js, [data-galeria]).
+         Ordem conta um passeio: varanda → mesa posta → salão → fachada à noite (é também a ordem da caixa de luz). -->
     <div class="galeria-local" data-galeria>
-      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Salão"><img src="/assets/img/ambiente/salao-plantas.webp" alt="Salão da Elea com plantas, mesas de madeira e janelas verdes" width="960" height="1200" loading="lazy"></button><figcaption>Salão</figcaption></figure>
-      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Pé-direito alto"><img src="/assets/img/ambiente/salao-pe-direito.webp" alt="Salão de pé-direito alto com janelões" width="750" height="854" loading="lazy"></button><figcaption>Pé-direito alto</figcaption></figure>
-      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Varanda"><img src="/assets/img/ambiente/mesa-varanda.webp" alt="Mesa posta na varanda" width="750" height="938" loading="lazy"></button><figcaption>Varanda</figcaption></figure>
-      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Pérgola"><img src="/assets/img/ambiente/varanda.webp" alt="Varanda coberta com pérgola de madeira" width="750" height="779" loading="lazy"></button><figcaption>Pérgola</figcaption></figure>
+      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Varanda com pérgola"><img src="/assets/img/ambiente/varanda.webp" alt="Varanda coberta com pérgola de madeira" width="750" height="779" loading="lazy"></button><figcaption>Varanda com pérgola</figcaption></figure>
+      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Mesa posta na varanda"><img src="/assets/img/ambiente/mesa-varanda.webp" alt="Mesa posta na varanda" width="750" height="938" loading="lazy"></button><figcaption>Mesa posta na varanda</figcaption></figure>
+      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Salão de pé-direito alto"><img src="/assets/img/ambiente/salao-pe-direito.webp" alt="Salão de pé-direito alto com janelões" width="750" height="854" loading="lazy"></button><figcaption>Salão de pé-direito alto</figcaption></figure>
+      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Salão entre plantas"><img src="/assets/img/ambiente/salao-plantas.webp" alt="Salão da Elea com plantas, mesas de madeira e janelas verdes" width="960" height="1200" loading="lazy"></button><figcaption>Salão entre plantas</figcaption></figure>
       <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Banco do salão"><img src="/assets/img/ambiente/salao-banco.webp" alt="Banco estofado e mesas no salão" width="1100" height="1200" loading="lazy"></button><figcaption>Banco do salão</figcaption></figure>
-      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Fachada à noite"><img src="/assets/img/ambiente/fachada-noite-2.webp" alt="Fachada da Elea iluminada à noite, com clientes na varanda" width="960" height="1200" loading="lazy"></button><figcaption>Fachada à noite</figcaption></figure>
+      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Fachada à noite"><img src="/assets/img/ambiente/fachada-noite-2.webp" alt="Fachada da Elea iluminada à noite, com clientes na varanda" width="960" height="1200" loading="lazy"></button><figcaption>Fachada à noite, varanda cheia</figcaption></figure>
     </div>
 
     <div class="chamada-final">
