@@ -1,12 +1,31 @@
 # Checklist da apresentação — site da Elea Forneria
 
-Atualizado em 22/11/2026. Versão institucional de demonstração, a ser apresentada aos sócios da Elea.
+Atualizado em 23/11/2026. Versão institucional de demonstração, a ser apresentada aos sócios da Elea.
 
 Documentos relacionados:
 - `docs/PENDENCIAS_IMAGENS_CARDAPIO.md`: fotos do cardápio, prato a prato.
 - `docs/EVOLUCOES_FUTURAS.md`: funcionalidades para uma proposta futura.
 
 > **Link de teste:** https://matheus-ferrari.github.io/Elea-forneria-2026/ (GitHub Pages, publicado a partir da `main`). As mudanças desta rodada foram publicadas em 22/11/2026. O site continua com `noindex`, ou seja, fora do Google, até a publicação definitiva. Se o link parecer desatualizado, recarregue com Ctrl+F5. Também dá para apresentar localmente: Live Server em `site/`, ou `python -m http.server -d site`.
+
+## 0. Rodada de 23/11/2026 (pedidos depois da 1ª revisão)
+
+- [x] **Cardápio, fotos dos pratos:**
+  - as 3 fotos que tinham saído pelo limite de 3 por capítulo voltaram: Pappardelle, Tortelli e Focaccia azeitonas. São 13 pratos com foto e o limite foi abandonado;
+  - em cada capítulo, **os pratos com foto vêm primeiro**. O `cardapio.js` mantém isso sozinho quando entrar uma foto nova.
+- [x] **Cardápio, "dois Para compartilhar":** o capítulo tem 8 pratos e ocupa duas páginas. A página de frente para o título não repete mais o nome, e as seguintes dizem "continuação" no cabeçalho.
+- [x] **Bloco "Focaccias e tortano por encomenda"** (fim do Cardápio): a foto em tela cheia, que ficava gigante em monitores grandes, virou uma foto em arco de tamanho contido (até ~370–430 px), sobre um painel de limões, com o selo da Elea. Texto ao lado; no celular, foto em cima.
+- [x] **Home, selo do topo:** dois troféus (bicampeã, 2025 e 2026).
+- [x] **Home, carrossel "Prato a prato" vazio:** com várias passadas seguidas (setas, arraste) ou com a aba em segundo plano, o carrossel passava do fim das cópias e mostrava só a madeira. Agora ele sempre volta para o bloco do meio antes de andar (5 blocos de pratos, arraste limitado). Testado com 14 passadas rápidas e arrastes de 6.000 px em 390, 1440 e 1880 px: sempre 2 ou 3 pratos na tela.
+- [x] **Home, Imprensa:**
+  - as fotos dos cards aparecem inteiras desde o início. O zoom animado cortava as bordas, e o "veja" do logo da Veja sumia;
+  - links verificados em 23/11/2026: Veja SP Comer & Beber 2025 e 2026 (Melhor Trattoria), a matéria da filial em Higienópolis (online com o título "Elea Forneria se prepara para abrir a primeira filial em Higienópolis"), a crítica da Veja SP (2023) e a matéria do Terra (2024). O link do Estadão continua.
+- [x] **Vagas:** o contato é o e-mail **eleaforneria@gmail.com**, tirado do destaque "Vagas" do Instagram: "Vagas abertas para salão e cozinha. Envie seu currículo para…". Tem botão "Enviar currículo", que abre o e-mail com o assunto preenchido.
+- [x] **Quem Somos repensado:**
+  - **Quem faz:** um perfil por pessoa ou equipe (Enrico, Manuela, cozinha e salão), com foto grande, papel, texto curto e uma segunda foto quando há. Os cartões com o rosto de cada um trocam o perfil; tem setas, teclado e deslizar no celular;
+  - **Momentos e Ambiente** viraram uma faixa só, que corre para o lado, com as fotos inteiras. Clique amplia;
+  - a página ficou com metade da altura, sem grades de foto empilhadas;
+  - textos só com o que é verificado (Veja SP e o próprio site).
 
 ## 1. O que já está pronto
 
@@ -22,10 +41,10 @@ Documentos relacionados:
   - virada de página com setas, cantos, arrastar, teclado e marcadores;
   - fotos de abertura com pontos amarelos;
   - modo "Lista", que também é a versão sem JavaScript e a lida pelo Google.
-- [x] **Fotos dos pratos no cardápio:** 10 pratos de demonstração, com no máximo 3 por capítulo.
+- [x] **Fotos dos pratos no cardápio:** 13 pratos com foto, que aparecem primeiro em cada capítulo.
   - Desktop: passar o mouse mostra o prato na foto da página; clicar abre a foto grande.
   - Celular: tocar abre a foto.
-- [x] **Quem Somos:** história, equipe com o papel de cada um, momentos e ambiente.
+- [x] **Quem Somos:** história, um perfil por pessoa (Enrico, Manuela, cozinha e salão) e uma faixa de fotos com momentos e ambiente.
 - [x] **Encomendas:** catálogo das focaccias e do tortano, lista de encomenda e contato direto pelo WhatsApp.
 - [x] **Vagas:** faixa própria acima do rodapé, em todas as páginas.
 - [x] **Rodapé:** compacto, com todos os links.
@@ -50,7 +69,7 @@ Documentos relacionados:
   - Antes elas se revezavam sem relação com o capítulo. A foto dos cozinheiros caía depois de Pizzas ou no fim do livro, conforme o tamanho da tela.
   - Agora cada uma fecha o seu capítulo, e a dos cozinheiros ("Massa fresca, feita na casa.") sempre fecha Principais.
 - [x] **Fotos dos pratos:**
-  - limite de 3 por capítulo;
+  - limite de 3 por capítulo (abandonado em 23/11/2026: as fotos voltaram);
   - as fotos que ficaram fora da demonstração não mostram câmera;
   - nenhuma foto de prato diferente foi vinculada;
   - a foto do Pappardelle, que parece outra receita, saiu da demonstração.
@@ -80,7 +99,7 @@ Documentos relacionados:
 
 ## 3. O que depende de aprovação da Elea
 
-- [ ] **WhatsApp (11) 94509-9155** como canal oficial de reservas, encomendas e vagas. O número veio do site antigo, de 2025. Se mudar, troque em `ferramentas/montar-paginas.mjs` e em `site/assets/js/config.js`.
+- [ ] **WhatsApp (11) 94509-9155** como canal oficial de reservas e encomendas (vagas vão para eleaforneria@gmail.com, do Instagram). O número veio do site antigo, de 2025. Se mudar, troque em `ferramentas/montar-paginas.mjs` e em `site/assets/js/config.js`.
 - [ ] **Horários de funcionamento.** São de 2025. Na Home, aparecem grifados no modo revisão.
 - [ ] **Encomendas:**
   - preços: focaccia tomilho & alecrim R$ 58, azeitonas R$ 68, pesto & coalhada R$ 68, tortano R$ 72;
@@ -90,12 +109,12 @@ Documentos relacionados:
 - [ ] **Cardápio:**
   - os prints do Instagram cortavam o fim de "Principais" (depois da Coda alla vaccinara) e de "Encomende nossos pães" (depois do Tortano); confirmar se há mais itens;
   - confirmar os preços (stories de jul/2026).
-- [ ] **Fotos identificadas pela imagem.** São 8 das 10 da demonstração; a lista está em `PENDENCIAS_IMAGENS_CARDAPIO.md`.
+- [ ] **Fotos identificadas pela imagem.** São 11 das 13 do cardápio; a lista está em `PENDENCIAS_IMAGENS_CARDAPIO.md`.
 - [ ] **Origem das fotos dos pães** (focaccias e tortano): têm aparência de foto de estúdio ou gerada. As diretrizes pedem fotos reais da casa.
 - [ ] **Foto principal da Home.** O nhoque verde é a imagem do mockup, marcada como provisória.
 - [ ] **Caramelle:** descrição oficial do prato. No popup da Home está marcada como a confirmar.
 - [ ] **Imprensa:**
-  - data e link da matéria da Veja SP impressa;
+  - links encontrados e verificados em 23/11/2026 (ver seção 0);
   - nome oficial do prêmio de 2026;
   - autorização de uso das fotos do Instagram e das matérias.
 - [ ] **Reservas:** WhatsApp ou o Google Forms que está na bio do Instagram?
@@ -123,7 +142,7 @@ Detalhes em `PENDENCIAS_IMAGENS_CARDAPIO.md`.
 | Área do cliente (`conta.html`) | Código de demonstração: os dados ficam só no navegador. **Sem link público** | Não mostrar como pronta |
 | Painel da equipe (`admin.html`) | Código de demonstração, sem link público | Não mostrar como pronto |
 | Banco de dados e login (Firebase) | **Não configurado** (`config.js` vazio) | Proposta futura |
-| Fotos do cardápio | 10 de 38 pratos, como demonstração | "O cardápio cresce conforme chegam as fotos." |
+| Fotos do cardápio | 13 de 38 pratos | "O cardápio cresce conforme chegam as fotos." |
 
 ## 6. Integrações e ajustes antes da publicação definitiva
 

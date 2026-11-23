@@ -17,8 +17,9 @@ imagem: /assets/img/janela/cardapio-1.webp
      - Para mudar um prato: edite o <li class="prato-item">. Preço em <span class="prato-item__preco">.
        data-foto (caminho SEM barra inicial) = foto do prato (ícone de câmera); data-recorte = foto redonda sem fundo;
        data-confirmar = a foto foi identificada pela imagem e falta a Elea confirmar que é desse prato.
-       data-foto-reserva = foto encontrada mas FORA da demonstração (máx. 3 fotos por capítulo, ou aguardando confirmação):
-       não mostra câmera. Para ativar, troque data-foto-reserva por data-foto. Inventário: docs/PENDENCIAS_IMAGENS_CARDAPIO.md
+       Pratos COM foto vêm primeiro em cada capítulo (pedido da Elea/agência; cardapio.js também garante isso).
+       data-foto-reserva = foto guardada FORA do site (não mostra câmera); troque por data-foto para ativar.
+       Inventário: docs/PENDENCIAS_IMAGENS_CARDAPIO.md
      - Pontos na foto (.ponto): --x/--y = posição do prato em % da foto; data-ir = id do item; data-lado="esq" = rótulo à esquerda. -->
 
 <section class="janela janela--topo janela--cardapio" aria-labelledby="cardapio-titulo">
@@ -109,11 +110,11 @@ imagem: /assets/img/janela/cardapio-1.webp
           </figure>
         </div>
         <ul class="pratos-lista">
+          <li class="prato-item" id="burrata" data-foto="assets/img/pratos/antepasto-presunto.webp" data-confirmar data-foto-alt="Burrata coberta com prosciutto, tomates no ramo, pesto da casa e focaccia"><h3 class="prato-item__nome">Burrata <span class="prato-item__preco"><span class="sr-only">R$ </span>74</span></h3><p>Com picles doce de tomate, pesto da casa, castanha de baru e focaccia de fermentação natural. Pode acompanhar prosciutto ou escabeche de abobrinha (R$ 20 | R$ 14).</p></li>
+          <li class="prato-item" id="mil-folhas-de-atum" data-foto="assets/img/pratos-recorte/mil-folhas-atum.webp" data-recorte data-foto-alt="Mil-folhas de atum em camadas crocantes, com uvas e ervas frescas"><h3 class="prato-item__nome">Mil-folhas de atum <span class="prato-item__preco"><span class="sr-only">R$ </span>88</span></h3><p>Crudo de atum, azeite de laranja, coalhada de ovelha, uvas assadas e bottarga entre camadas crocantes de massa filo.</p></li>
           <li class="prato-item" id="cacio-pepe-arancini"><h3 class="prato-item__nome">Cacio &amp; pepe arancini <span class="prato-item__preco"><span class="sr-only">R$ </span>53</span></h3><p>Bolinhos de risotto cacio &amp; pepe, peito de pato curado na casa.</p></li>
           <li class="prato-item" id="panzanella"><h3 class="prato-item__nome">Panzanella <span class="prato-item__preco"><span class="sr-only">R$ </span>76</span></h3><p>Tomate tostado, alcachofra, ricotta, cebola roxa, chili crisp, manjericão e focaccia crocante.</p></li>
-          <li class="prato-item" id="burrata" data-foto="assets/img/pratos/antepasto-presunto.webp" data-confirmar data-foto-alt="Burrata coberta com prosciutto, tomates no ramo, pesto da casa e focaccia"><h3 class="prato-item__nome">Burrata <span class="prato-item__preco"><span class="sr-only">R$ </span>74</span></h3><p>Com picles doce de tomate, pesto da casa, castanha de baru e focaccia de fermentação natural. Pode acompanhar prosciutto ou escabeche de abobrinha (R$ 20 | R$ 14).</p></li>
           <li class="prato-item" id="bolovo-de-bacalhau"><h3 class="prato-item__nome">Bolovo de bacalhau <span class="prato-item__preco"><span class="sr-only">R$ </span>53</span></h3><p>Ovo caipira com gema mole envolto em massa de bacalhau e tapenade de azeitonas.</p></li>
-          <li class="prato-item" id="mil-folhas-de-atum" data-foto="assets/img/pratos-recorte/mil-folhas-atum.webp" data-recorte data-foto-alt="Mil-folhas de atum em camadas crocantes, com uvas e ervas frescas"><h3 class="prato-item__nome">Mil-folhas de atum <span class="prato-item__preco"><span class="sr-only">R$ </span>88</span></h3><p>Crudo de atum, azeite de laranja, coalhada de ovelha, uvas assadas e bottarga entre camadas crocantes de massa filo.</p></li>
           <li class="prato-item" id="carne-cruda"><h3 class="prato-item__nome">Carne cruda <span class="prato-item__preco"><span class="sr-only">R$ </span>79</span></h3><p>Coxão mole angus na ponta da faca, azeite extravirgem, alcaparra, queijo tulha e aioli. Acompanha focaccia de fermentação natural.</p></li>
           <li class="prato-item" id="polvo-e-sardella"><h3 class="prato-item__nome">Polvo e sardella <span class="prato-item__preco"><span class="sr-only">R$ </span>97</span></h3><p>Polvo e cebola chalota tostada em conserva de azeite, sardella da casa, salada de salsa, aioli levemente picante e siciliano. Acompanha pão de fermentação natural.</p></li>
           <li class="prato-item" id="salada-da-casa"><h3 class="prato-item__nome">Salada da casa <span class="prato-item__preco"><span class="sr-only">R$ </span>68</span></h3><p>Alface romana, erva-doce, focaccia, manjericão, laranja bahia e queijo tulha.</p></li>
@@ -141,16 +142,16 @@ imagem: /assets/img/janela/cardapio-1.webp
           </figure>
         </div>
         <ul class="pratos-lista">
+          <li class="prato-item" id="papardelle-portobello" data-foto="assets/img/pratos/pappardelle.webp" data-confirmar data-foto-alt="Pappardelle com cogumelos e folhas"><h3 class="prato-item__nome">Papardelle &amp; portobello <span class="prato-item__preco"><span class="sr-only">R$ </span>79</span></h3><p>Pasta fresca, portobello, espinafre aglio &amp; olio, manteiga noisette e ricota fresca.</p></li>
+          <li class="prato-item" id="tortelli-di-ossobuco" data-foto="assets/img/pratos-recorte/ig-tortelli.webp" data-recorte data-confirmar data-foto-alt="Tortelli com queijo ralado e manteiga"><h3 class="prato-item__nome">Tortelli di ossobuco <span class="prato-item__preco"><span class="sr-only">R$ </span>82</span></h3><p>Pasta fresca recheada com ragu de ossobuco bovino, manteiga noisette, queijo tulha e melaço de cebola.</p></li>
+          <li class="prato-item" id="caramelle" data-foto="assets/img/pratos-recorte/caramelle.webp" data-recorte data-confirmar data-foto-alt="Caramelle sobre fonduta, com azeite de ervas e pangrattato"><h3 class="prato-item__nome">Caramelle <span class="prato-item__preco"><span class="sr-only">R$ </span>89</span></h3><p>Pasta fresca recheada com ragu de copa lombo suíno ao pomodoro, fonduta de coalhada de ovelha e pangrattato.</p></li>
+          <li class="prato-item" id="orecchiette" data-foto="assets/img/pratos-recorte/orecchiette.webp" data-recorte data-foto-alt="Orecchiette com folhas e queijo ralado"><h3 class="prato-item__nome">Orecchiette <span class="prato-item__preco"><span class="sr-only">R$ </span>86</span></h3><p>Pasta grano duro feita na casa, linguiça finocchiona, friarielli, peperoncino, pangrattato e queijo de ovelha.</p></li>
+          <li class="prato-item" id="cotoletta-alla-milanese" data-foto="assets/img/pratos/cotoletta.webp" data-foto-alt="Cotoletta empanada com osso, picles de mostarda, aioli e salada"><h3 class="prato-item__nome">Cotoletta alla milanese <span class="prato-item__preco"><span class="sr-only">R$ </span>93</span></h3><p>Prime rib suíno empanado e frito em migas de pão da casa, picles de mostarda e aioli. Acompanha salada da casa.</p></li>
           <li class="prato-item" id="pesto-e-pistacchio"><h3 class="prato-item__nome">Pesto e pistacchio <span class="prato-item__preco"><span class="sr-only">R$ </span>83</span></h3><p>Mezze rigate, pesto da casa, stracciatella, siciliano, pistache e pangrattato.</p></li>
           <li class="prato-item" id="amatriciana"><h3 class="prato-item__nome">Amatriciana <span class="prato-item__preco"><span class="sr-only">R$ </span>92</span></h3><p>Mezze rigate, molho de tomate da casa, peperoncino, guanciale e queijo de ovelha.</p></li>
           <li class="prato-item" id="ravioli-doppio"><h3 class="prato-item__nome">Ravioli doppio <span class="prato-item__preco"><span class="sr-only">R$ </span>86</span></h3><p>Pasta fresca recheada com creme de milho doce, ricota fresca e espinafre. Finalizada na manteiga e queijo araritaguaba.</p></li>
           <li class="prato-item" id="spaghetti-al-mare"><h3 class="prato-item__nome">Spaghetti al mare <span class="prato-item__preco"><span class="sr-only">R$ </span>87</span></h3><p>Spaghetti alla chitarra, lulinhas na manteiga de ervas, crudo de atum e bottarga.</p></li>
-          <li class="prato-item" id="papardelle-portobello" data-foto-reserva="assets/img/pratos/pappardelle.webp" data-confirmar data-foto-alt="Pappardelle com cogumelos e folhas"><h3 class="prato-item__nome">Papardelle &amp; portobello <span class="prato-item__preco"><span class="sr-only">R$ </span>79</span></h3><p>Pasta fresca, portobello, espinafre aglio &amp; olio, manteiga noisette e ricota fresca.</p></li>
-          <li class="prato-item" id="tortelli-di-ossobuco" data-foto-reserva="assets/img/pratos-recorte/ig-tortelli.webp" data-recorte data-confirmar data-foto-alt="Tortelli com queijo ralado e manteiga"><h3 class="prato-item__nome">Tortelli di ossobuco <span class="prato-item__preco"><span class="sr-only">R$ </span>82</span></h3><p>Pasta fresca recheada com ragu de ossobuco bovino, manteiga noisette, queijo tulha e melaço de cebola.</p></li>
-          <li class="prato-item" id="caramelle" data-foto="assets/img/pratos-recorte/caramelle.webp" data-recorte data-confirmar data-foto-alt="Caramelle sobre fonduta, com azeite de ervas e pangrattato"><h3 class="prato-item__nome">Caramelle <span class="prato-item__preco"><span class="sr-only">R$ </span>89</span></h3><p>Pasta fresca recheada com ragu de copa lombo suíno ao pomodoro, fonduta de coalhada de ovelha e pangrattato.</p></li>
-          <li class="prato-item" id="orecchiette" data-foto="assets/img/pratos-recorte/orecchiette.webp" data-recorte data-foto-alt="Orecchiette com folhas e queijo ralado"><h3 class="prato-item__nome">Orecchiette <span class="prato-item__preco"><span class="sr-only">R$ </span>86</span></h3><p>Pasta grano duro feita na casa, linguiça finocchiona, friarielli, peperoncino, pangrattato e queijo de ovelha.</p></li>
           <li class="prato-item" id="lasagna"><h3 class="prato-item__nome">Lasagna <span class="prato-item__preco"><span class="sr-only">R$ </span>90</span></h3><p>Pancetta curada, queijo tulha, cogumelos e compota de tomates entre camadas de pasta fresca e fonduta de gorgonzola dolce.</p></li>
-          <li class="prato-item" id="cotoletta-alla-milanese" data-foto="assets/img/pratos/cotoletta.webp" data-foto-alt="Cotoletta empanada com osso, picles de mostarda, aioli e salada"><h3 class="prato-item__nome">Cotoletta alla milanese <span class="prato-item__preco"><span class="sr-only">R$ </span>93</span></h3><p>Prime rib suíno empanado e frito em migas de pão da casa, picles de mostarda e aioli. Acompanha salada da casa.</p></li>
           <li class="prato-item" id="coda-alla-vaccinara"><h3 class="prato-item__nome">Coda alla vaccinara <span class="prato-item__preco"><span class="sr-only">R$ </span>88</span></h3><p>Rabada cozida lentamente, polenta taragna cremosa, alho crocante e saladinha de agrião.</p></li>
         </ul>
       </section>
@@ -174,6 +175,8 @@ imagem: /assets/img/janela/cardapio-1.webp
           </figure>
         </div>
         <ul class="pratos-lista">
+          <li class="prato-item" id="cipolla" data-foto="assets/img/pratos-recorte/ig-pizza.webp" data-recorte data-confirmar data-foto-alt="Pizza bianca com cebolas tostadas, melaço de cebola e ciboulette"><h3 class="prato-item__nome">Cipolla <span class="prato-item__preco"><span class="sr-only">R$ </span>69</span></h3><p>Pizza bianca, mozzarella, requeijão de corte, cebolas tostadas, creme de cebola, melaço de cebola e ciboulette.</p></li>
+          <li class="prato-item" id="pancetta" data-foto="assets/img/pratos/pizza-salame.webp" data-confirmar data-foto-alt="Pizza de forno com pancetta, espinafre e gorgonzola"><h3 class="prato-item__nome">Pancetta <span class="prato-item__preco"><span class="sr-only">R$ </span>72</span></h3><p>Pelati, pancetta curada, requeijão de corte, gorgonzola dolce e espinafre aglio &amp; olio.</p></li>
           <li class="prato-item" id="marguerita"><h3 class="prato-item__nome">Marguerita <span class="prato-item__preco"><span class="sr-only">R$ </span>65</span></h3><p>Pelati, mozzarella, queijo tulha, picles doce de tomate e manjericão.</p></li>
           <li class="prato-item" id="calabresa"><h3 class="prato-item__nome">Calabresa <span class="prato-item__preco"><span class="sr-only">R$ </span>68</span></h3><p>Pelati, calabresa, queijo tulha, pétalas de cebola, tapenade de azeitonas, salsa verde e pimenta calabresa.</p></li>
           <li class="prato-item" id="quatro-queijos-brasileiros"><h3 class="prato-item__nome">Quatro queijos brasileiros <span class="prato-item__preco"><span class="sr-only">R$ </span>69</span></h3><p>Pizza bianca. Queijo tulha Atalaia, mozzarella Roni, requeijão de corte Atalaia e gorgonzola dolce Serra das Antas.</p></li>
@@ -182,9 +185,7 @@ imagem: /assets/img/janela/cardapio-1.webp
           <li class="prato-item" id="carciofi"><h3 class="prato-item__nome">Carciofi <span class="prato-item__preco"><span class="sr-only">R$ </span>71</span></h3><p>Pelati, alcachofra, mozzarella, tapenade de azeitona e manjericão.</p></li>
           <li class="prato-item" id="prosciutto-e-alho-negro"><h3 class="prato-item__nome">Prosciutto e alho negro <span class="prato-item__preco"><span class="sr-only">R$ </span>71</span></h3><p>Pelati, prosciutto, alho negro, mozzarella, gorgonzola dolce, rúcula selvática e figo.</p></li>
           <li class="prato-item" id="zucchine"><h3 class="prato-item__nome">Zucchine <span class="prato-item__preco"><span class="sr-only">R$ </span>67</span></h3><p>Pelati, mozzarella, queijo tulha, escabeche de abobrinha, coalhada de ovelha e ciboulette.</p></li>
-          <li class="prato-item" id="cipolla" data-foto="assets/img/pratos-recorte/ig-pizza.webp" data-recorte data-confirmar data-foto-alt="Pizza bianca com cebolas tostadas, melaço de cebola e ciboulette"><h3 class="prato-item__nome">Cipolla <span class="prato-item__preco"><span class="sr-only">R$ </span>69</span></h3><p>Pizza bianca, mozzarella, requeijão de corte, cebolas tostadas, creme de cebola, melaço de cebola e ciboulette.</p></li>
           <li class="prato-item" id="finocchiona"><h3 class="prato-item__nome">Finocchiona <span class="prato-item__preco"><span class="sr-only">R$ </span>72</span></h3><p>Pelati, mozzarella, finocchiona, queijo tulha, cogumelo portobello e cavolo nero.</p></li>
-          <li class="prato-item" id="pancetta" data-foto="assets/img/pratos/pizza-salame.webp" data-confirmar data-foto-alt="Pizza de forno com pancetta, espinafre e gorgonzola"><h3 class="prato-item__nome">Pancetta <span class="prato-item__preco"><span class="sr-only">R$ </span>72</span></h3><p>Pelati, pancetta curada, requeijão de corte, gorgonzola dolce e espinafre aglio &amp; olio.</p></li>
         </ul>
         <div class="capitulo__fim">
           <p class="capitulo__nota">*Consultar opções veganas com a nossa equipe.</p>
@@ -233,7 +234,7 @@ imagem: /assets/img/janela/cardapio-1.webp
         </div>
         <ul class="pratos-lista">
           <li class="prato-item" id="focaccia-tomilho-alecrim" data-foto="assets/img/forneria/focaccia-tomilho-alecrim.webp" data-foto-alt="Focaccias de tomilho e alecrim douradas sobre a mesa de madeira"><h3 class="prato-item__nome">Focaccia tomilho &amp; alecrim <span class="prato-item__preco"><span class="sr-only">R$ </span>58</span></h3></li>
-          <li class="prato-item" id="focaccia-azeitonas" data-foto-reserva="assets/img/forneria/focaccia-azeitonas.webp" data-foto-alt="Focaccias de azeitonas empilhadas sobre tábua de madeira"><h3 class="prato-item__nome">Focaccia azeitonas <span class="prato-item__preco"><span class="sr-only">R$ </span>68</span></h3></li>
+          <li class="prato-item" id="focaccia-azeitonas" data-foto="assets/img/forneria/focaccia-azeitonas.webp" data-foto-alt="Focaccias de azeitonas empilhadas sobre tábua de madeira"><h3 class="prato-item__nome">Focaccia azeitonas <span class="prato-item__preco"><span class="sr-only">R$ </span>68</span></h3></li>
           <li class="prato-item" id="focaccia-pesto-coalhada" data-foto="assets/img/forneria/focaccia-pesto-coalhada.webp" data-foto-alt="Focaccia com pesto e coalhada de ovelha em travessa"><h3 class="prato-item__nome">Focaccia pesto &amp; coalhada de ovelha <span class="prato-item__preco"><span class="sr-only">R$ </span>68</span></h3></li>
           <li class="prato-item" id="tortano" data-foto="assets/img/forneria/tortano.webp" data-foto-alt="Tortano recheado, com uma fatia cortada mostrando o recheio"><h3 class="prato-item__nome">Tortano <span class="prato-item__preco"><span class="sr-only">R$ </span>72</span></h3></li>
         </ul>
@@ -292,23 +293,28 @@ imagem: /assets/img/janela/cardapio-1.webp
   <button class="icone-btn prato-pop__fechar" type="button" data-fechar aria-label="Fechar">{{icone:fechar}}</button>
 </dialog>
 
-<!-- Forneria por encomenda: foto real em destaque (sangrando até a borda) e texto ao lado, sem cartão.
+<!-- Forneria por encomenda (fim do Cardápio): foto em arco, do mesmo desenho do "Nossa história", sobre um painel
+     de limões deslocado, com o selo da Elea; texto ao lado. A foto tem tamanho contido (no máximo ~430px de largura).
      Peso: "peso médio 900 g" (story Encomendas; produtos-iniciais.js). Sempre como aproximado, nunca exato. -->
-<section class="forneria" aria-labelledby="forneria-titulo">
-  <figure class="forneria__foto">
-    <img src="/assets/img/pessoas/padeiro-focaccias.webp" alt="Cozinheiro da Elea segurando focaccias saídas do forno" width="759" height="900" loading="lazy">
-  </figure>
-  <div class="forneria__texto revelar">
-    <p class="kicker">Forneria · por encomenda</p>
-    <h2 id="forneria-titulo">Focaccias e tortano por encomenda</h2>
-    <p class="forneria__peso"><span class="forneria__peso-aprox">Aproximadamente</span> <strong>900 g</strong> <span class="forneria__peso-de">de focaccia artesanal</span></p>
-    <p class="forneria__frase">Feita à mão na casa, em porção generosa para dividir à mesa.</p>
-    <ul class="forneria__condicoes">
-      <li>{{icone:relogio}}<span>Encomende com no mínimo <strong>24h de antecedência</strong>.</span></li>
-      <li>{{icone:local}}<span>Retire na Elea, em <strong>horário combinado</strong>.</span></li>
-    </ul>
-    <a class="btn btn--primario" href="/encomendas.html">Fazer encomenda {{icone:seta-direita}}</a>
-    <p class="forneria__nota">Peso médio por unidade: pode variar um pouco, como todo pão artesanal.</p>
+<section class="secao secao--papel forneria" aria-labelledby="forneria-titulo">
+  <div class="container forneria__grade">
+    <figure class="forneria__foto revelar">
+      <span class="forneria__limoes" aria-hidden="true"></span>
+      <img class="forneria__img" src="/assets/img/pessoas/padeiro-focaccias.webp" alt="Cozinheiro da Elea segurando três focaccias saídas do forno" width="759" height="900" loading="lazy">
+      <img class="forneria__selo" src="/assets/img/brand/logo-elea-caramelo.png" alt="" width="96" height="96" loading="lazy">
+    </figure>
+    <div class="forneria__texto revelar">
+      <p class="kicker">Forneria · por encomenda</p>
+      <h2 id="forneria-titulo">Focaccias e tortano por encomenda</h2>
+      <p class="forneria__peso"><span class="forneria__peso-aprox">Aproximadamente</span> <strong>900 g</strong> <span class="forneria__peso-de">de focaccia artesanal</span></p>
+      <p class="forneria__frase">Feita à mão na casa, em porção generosa para dividir à mesa.</p>
+      <ul class="forneria__condicoes">
+        <li>{{icone:relogio}}<span>Encomende com no mínimo <strong>24h de antecedência</strong>.</span></li>
+        <li>{{icone:local}}<span>Retire na Elea, em <strong>horário combinado</strong>.</span></li>
+      </ul>
+      <a class="btn btn--primario" href="/encomendas.html">Fazer encomenda {{icone:seta-direita}}</a>
+      <p class="forneria__nota">Peso médio por unidade: pode variar um pouco, como todo pão artesanal.</p>
+    </div>
   </div>
 </section>
 

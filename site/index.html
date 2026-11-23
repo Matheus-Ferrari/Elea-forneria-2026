@@ -62,7 +62,7 @@
     <p class="hero__tagline">Cucina, vino e buoni incontri.</p>
     <a class="hero__cta" href="#a-elea">Conheça a Elea <svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
   </div>
-  <a class="premio-pill" href="#imprensa"><img class="premio-pill__trofeu" src="assets/img/brand/trofeu.svg" alt="" width="64" height="84"><span><strong>Bicampeã</strong> · Melhor Trattoria — Veja SP Comer &amp; Beber 2025 e 2026</span></a>
+  <a class="premio-pill" href="#imprensa"><span class="premio-pill__trofeus" aria-hidden="true"><img class="premio-pill__trofeu" src="assets/img/brand/trofeu.svg" alt="" width="64" height="84"><img class="premio-pill__trofeu" src="assets/img/brand/trofeu.svg" alt="" width="64" height="84"></span><span><strong>Bicampeã</strong> · Melhor Trattoria — Veja SP Comer &amp; Beber 2025 e 2026</span></a>
 </section>
 
 <!-- Letreiro: as duas <ul> precisam ser IGUAIS (o loop anda metade do trilho). Cada uma repete os itens 3x para cobrir telas largas. -->
@@ -143,7 +143,8 @@
       <h2>Reconhecimentos</h2>
       <p class="lead">O que a imprensa de São Paulo tem dito sobre a Elea.</p>
     </div>
-    <!-- Card reutilizável: copie um <article class="jornal"> e troque foto, cabeça, título e fonte. Só material verificado. -->
+    <!-- Card reutilizável: copie um <article class="jornal"> e troque foto, cabeça, título e fonte. Só material verificado.
+         Links conferidos em 23/11/2026 (abrem e o título bate): Veja SP (Blog do Lorençato), Estadão Paladar e Terra. -->
     <div class="jornais" data-parallax>
       <article class="jornal jornal--premio">
         <span class="selo-premio"><span><b>2×</b>Melhor<br>Trattoria</span></span>
@@ -151,14 +152,15 @@
         <div class="jornal__foto"><img src="assets/img/imprensa/veja-comer-beber-premio.webp" alt="Enrico Villela e Manuela Fernandes com a placa da Veja São Paulo Comer & Beber" width="750" height="1000" loading="lazy"></div>
         <h3>Bicampeã: melhor Trattoria de São Paulo</h3>
         <p>Pelo segundo ano consecutivo, a Elea foi eleita a melhor trattoria pela Veja São Paulo Comer &amp; Beber, nas edições 2025 e 2026.</p>
-        <p class="jornal__fonte">Fontes: Veja SP (edição impressa, Comer &amp; Beber 2025) e publicação oficial da Elea, 11/09/2026.</p>
+        <p class="jornal__fonte jornal__fonte--links"><a class="jornal__link" href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-2025-elea-forneria-melhor-trattoria/" target="_blank" rel="noopener">Veja SP, 2025 →</a><a class="jornal__link" href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-2026-elea-forneria-melhor-trattoria/" target="_blank" rel="noopener">Veja SP, 2026 →</a></p>
       </article>
       <article class="jornal">
         <div class="jornal__cabeca"><span>Veja São Paulo</span><span>Reportagem</span></div>
         <div class="jornal__foto"><img src="assets/img/imprensa/veja-sp-revista.webp" alt="Página da Veja São Paulo com a reportagem Da Água Fria para Higienópolis" width="864" height="1080" loading="lazy"></div>
         <h3>“Da Água Fria para Higienópolis”</h3>
         <p>A revista apresenta a Elea como a trattoria número 1 do Comer &amp; Beber 2025 e conta os próximos passos da casa.</p>
-        <p class="jornal__fonte">Fonte: Veja São Paulo, edição impressa. <span class="tbc so-revisao">data/link</span></p>
+        <!-- Página impressa (ed. nº 3011, 4/9/2026). Online, a mesma matéria saiu como "Elea Forneria se prepara para abrir a primeira filial em Higienópolis". -->
+        <p class="jornal__fonte"><a class="jornal__link" href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-elea-forneria-primeira-filial/" target="_blank" rel="noopener">Ler na Veja SP →</a></p>
       </article>
       <!-- Recorte da matéria (img/Elea estadao.png, cortado sem o botão desenhado). O título e o resumo já estão na imagem:
            no card ficam só para leitores de tela e Google (sr-only). -->
@@ -170,7 +172,7 @@
         <p class="jornal__fonte"><a class="jornal__link" href="https://www.estadao.com.br/paladar/restaurantes-e-bares/elea-forneria-celebra-1-ano-com-pratos-especiais-dos-chefs-da-casa-do-borgo-mooca-e-do-bar-moela/" target="_blank" rel="noopener">Ler no Estadão →</a></p>
       </article>
     </div>
-    <p class="tambem revelar">Também na imprensa: Veja SP, <em>“Com pizzas e massas, Elea Forneria é uma surpresa da Zona Norte”</em> · Terra, <em>“Elea Forneria inova o menu com novas opções de pizzas, massas, petiscos e sobremesas”</em></p>
+    <p class="tambem revelar">Também na imprensa: Veja SP, <a href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-elea-forneria-agua-fria-critica/" target="_blank" rel="noopener"><em>“Com pizzas e massas, Elea Forneria é uma surpresa da Zona Norte”</em></a> · Terra, <a href="https://www.terra.com.br/vida-e-estilo/degusta/elea-forneria-inova-o-menu-com-novas-opcoes-de-pizzas-massas-petiscos-e-sobremesas,9723e2350e06e4b9c228ea3db0eaf1c4xaul1hvn.html" target="_blank" rel="noopener"><em>“Elea Forneria inova o menu com novas opções de pizzas, massas, petiscos e sobremesas”</em></a></p>
   </div>
 </section>
 
@@ -269,7 +271,8 @@
 </main>
 <!-- Vagas: faixa própria em bege logo acima do rodapé marrom (aparece em todas as páginas); o menu "Vagas" aponta para #vagas.
      Arte oficial da Elea ("Estamos com vagas abertas"). Ao mudar as vagas, troque a imagem e a lista.
-     PENDENTE: a Elea não informou um e-mail de vagas; por enquanto o contato é o WhatsApp oficial do site. -->
+     E-mail de vagas: eleaforneria@gmail.com (destaque "Vagas" do Instagram: "Vagas abertas para salão e cozinha.
+     Envie seu currículo para eleaforneria@gmail.com"). -->
 <section class="vagas-faixa" id="vagas" aria-labelledby="vagas-titulo">
   <div class="container rodape__vagas">
     <img class="rodape__vagas-foto" src="assets/img/pessoas/vagas-abertas.webp" alt="Cozinheiros da Elea sorrindo enquanto abrem massa fresca, com o anúncio: estamos com vagas abertas para cozinheiro, auxiliar de cozinha e atendimento" width="900" height="779" loading="lazy">
@@ -277,8 +280,8 @@
       <p class="kicker">Vagas abertas</p>
       <h2 id="vagas-titulo">Venha trabalhar com a gente</h2>
       <ul class="rodape__vagas-lista"><li>Cozinheiro</li><li>Auxiliar de cozinha</li><li>Atendimento</li></ul>
-      <p>Quer fazer parte da equipe? Fale com a Elea pelo WhatsApp e conte em qual área quer trabalhar.</p>
-      <a class="btn btn--primario btn--pequeno" href="https://wa.me/5511945099155?text=Ol%C3%A1!%20Tenho%20interesse%20nas%20vagas%20da%20Elea." target="_blank" rel="noopener"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>Falar sobre as vagas</a>
+      <p>Vagas para salão e cozinha. Envie seu currículo para <a class="rodape__vagas-email" href="mailto:eleaforneria@gmail.com?subject=Curr%C3%ADculo%20-%20vagas%20Elea">eleaforneria@gmail.com</a> e conte em qual área quer trabalhar.</p>
+      <a class="btn btn--primario btn--pequeno" href="mailto:eleaforneria@gmail.com?subject=Curr%C3%ADculo%20-%20vagas%20Elea"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Enviar currículo</a>
     </div>
   </div>
 </section>

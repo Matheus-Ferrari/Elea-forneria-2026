@@ -67,8 +67,10 @@ function iniciarLivro(raiz) {
   const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
   const nomeItem = (item) => item.querySelector(".prato-item__nome").firstChild.textContent.trim();
 
-  // 1) Prepara a lista: capítulo de cada item, botão de foto e camada de troca de foto
+  // 1) Prepara a lista: pratos com foto primeiro (mantendo a ordem entre eles), capítulo de cada item,
+  //    botão de foto e camada de troca de foto
   capitulos.forEach((cap) => {
+    cap.querySelectorAll(".pratos-lista").forEach((ul) => ul.prepend(...ul.querySelectorAll(":scope > .prato-item[data-foto]")));
     cap.querySelectorAll(".prato-item").forEach((item) => {
       item.dataset.cap = cap.id;
       if (!item.dataset.foto) return;
@@ -159,14 +161,16 @@ function iniciarLivro(raiz) {
     el("div", "fim__acoes", `<a class="btn btn--terracota btn--pequeno" href="${reservar}" target="_blank" rel="noopener">Reservar uma mesa</a><a class="btn btn--contorno btn--pequeno" href="encomendas.html">Encomendar pães</a>`),
   ] });
 
-  // Itens de um capítulo em quantas páginas forem necessárias (mede o texto de verdade)
+  // Itens de um capítulo em quantas páginas forem necessárias (mede o texto de verdade).
+  // A 1ª página fica de frente para o título do capítulo, então não repete o nome; as seguintes levam
+  // "continuação" no cabeçalho, para não parecer um segundo capítulo com o mesmo nome.
   function paginarItens(cap, limite = Infinity) {
     const blocos = [...cap.querySelectorAll(".pratos-lista > li, .capitulo__fim > *")];
-    const cabeca = `${cap.dataset.num} · ${nomeCap(cap)}`;
+    const cabeca = `${cap.dataset.num} · ${nomeCap(cap)} · continuação`;
     const pgs = [];
     let pg, area, ul, n;
     const nova = () => {
-      pg = pagina("itens", { cap: cap.id, cabeca });
+      pg = pagina("itens", { cap: cap.id, cabeca: pgs.length ? cabeca : "" });
       medida.replaceChildren(pg);
       area = pg.querySelector(".pg__area");
       ul = null; n = 0;

@@ -1,14 +1,14 @@
 # Fotos do cardápio: o que temos e o que falta
 
-Atualizado em 22/11/2026. Inventário de todos os pratos do cardápio (`fonte/paginas/cardapio.html`), com a foto encontrada no projeto, o arquivo e o que falta pedir à Elea.
+Atualizado em 23/11/2026. Inventário de todos os pratos do cardápio (`fonte/paginas/cardapio.html`), com a foto encontrada no projeto, o arquivo e o que falta pedir à Elea.
 
 ## Resumo
 
 - **Pratos no cardápio:** 38, em 5 capítulos com itens. Vinhos ainda não tem itens, porque a carta não chegou.
-- **Na demonstração:** 10 pratos com foto, no máximo 3 por capítulo. Na página aparecem com o ícone de câmera.
-- **Fotos de reserva:** 3, guardadas fora da demonstração e sem ícone de câmera.
+- **No site:** 13 pratos com foto, com o ícone de câmera. Em cada capítulo, **os pratos com foto vêm primeiro** (pedido da agência, 23/11/2026; o `cardapio.js` também garante isso quando entrar uma foto nova).
+- **Fotos de reserva:** nenhuma. As 3 que tinham saído pelo antigo limite de 3 por capítulo (Pappardelle, Tortelli e Focaccia azeitonas) voltaram em 23/11/2026; o limite foi abandonado.
 - **Sem nenhuma foto:** 25 pratos. Cinco deles aparecem só na foto de abertura do capítulo, apontados por um marcador amarelo.
-- **Precisam de confirmação da Elea:** 8 das 10 fotos ativas, a maioria porque o prato foi identificado só pela imagem. Só Mil-folhas de atum e Orecchiette estão confirmados. Lista mais abaixo.
+- **Precisam de confirmação da Elea:** 11 das 13 fotos ativas, a maioria porque o prato foi identificado só pela imagem. Só Mil-folhas de atum e Orecchiette estão confirmados. Lista mais abaixo.
 
 ### Legenda
 
@@ -21,7 +21,7 @@ Atualizado em 22/11/2026. Inventário de todos os pratos do cardápio (`fonte/pa
 | Coluna "Ativo na demonstração" | Significado |
 |---|---|
 | **Sim** | Tem ícone de câmera; passar o mouse mostra o prato e clicar ou tocar abre a foto. |
-| **Não (reserva)** | A foto existe, mas ficou fora para respeitar o limite de 3 por capítulo ou porque aguarda confirmação. |
+| **Não (reserva)** | A foto existe, mas foi guardada fora do site (`data-foto-reserva`). Hoje não há nenhuma. |
 | **Ponto na abertura** | O prato aparece na foto de abertura do capítulo com um marcador amarelo. Passar o mouse no item acende o marcador, mas não há foto individual. |
 
 ## I · Para compartilhar
@@ -49,8 +49,8 @@ Foto de abertura: `pratos/massa-ervilha.webp`, do Instagram (25/10/2026), com tr
 | Amatriciana | Só na foto de abertura: a massa vermelha com queijo | `pratos/massa-ervilha.webp` | Pendente (ponto precisa de confirmação) | Ponto na abertura | Sim |
 | Ravioli doppio | Não | Sugerido: `pratos/ravioli-doppio.webp` | Pendente | Não | Sim |
 | Spaghetti al mare | Não | Sugerido: `pratos/spaghetti-al-mare.webp` | Pendente | Não | Sim |
-| Papardelle & portobello | Pappardelle com cobertura escura desfiada e pinoli (WordPress, 2025). Não mostra ricota e pode ser uma receita antiga | `pratos/pappardelle.webp` | Precisa de confirmação | Não (reserva) | Confirmar ou enviar foto nova |
-| Tortelli di ossobuco | Tortelli com queijo ralado e calda escura (Instagram, 08/11/2026). Há outra parecida do WordPress: `pratos/massa-recheada.webp` | `pratos-recorte/ig-tortelli.webp` | Precisa de confirmação | Não (reserva, limite de 3) | Confirmar |
+| Papardelle & portobello | Pappardelle com cobertura escura desfiada e pinoli (WordPress, 2025). Não mostra ricota e pode ser uma receita antiga | `pratos/pappardelle.webp` | Precisa de confirmação | **Sim** | Confirmar ou enviar foto nova |
+| Tortelli di ossobuco | Tortelli com queijo ralado e calda escura (Instagram, 08/11/2026). Há outra parecida do WordPress: `pratos/massa-recheada.webp` | `pratos-recorte/ig-tortelli.webp` | Precisa de confirmação | **Sim** | Confirmar |
 | Caramelle | Recorte enviado pela agência com o nome "Caramelle". A descrição oficial do prato no Instagram ainda não foi localizada | `pratos-recorte/caramelle.webp` | Precisa de confirmação | **Sim** | Confirmar |
 | Orecchiette | Foto enviada pela agência (`img/Orecchiette.jpg`): orecchiette com folhas e farofa | `pratos-recorte/orecchiette.webp` | **Disponível** | **Sim** | Não |
 | Lasagna | Não | Sugerido: `pratos/lasagna.webp` | Pendente | Não | Sim |
@@ -97,7 +97,7 @@ Foto de abertura: `pessoas/padeiro-focaccias.webp`, do WordPress (2025), com um 
 | Prato | Foto encontrada | Arquivo | Status | Ativo na demonstração | Pedir foto à Elea |
 |---|---|---|---|---|---|
 | Focaccia tomilho & alecrim | Foto de produto enviada pela agência | `forneria/focaccia-tomilho-alecrim.webp` | Precisa de confirmação (origem, ver nota) | **Sim** | Confirmar origem |
-| Focaccia azeitonas | Foto de produto enviada pela agência | `forneria/focaccia-azeitonas.webp` | Precisa de confirmação (origem, ver nota) | Não (reserva, limite de 3) | Confirmar origem |
+| Focaccia azeitonas | Foto de produto enviada pela agência | `forneria/focaccia-azeitonas.webp` | Precisa de confirmação (origem, ver nota) | **Sim** | Confirmar origem |
 | Focaccia pesto & coalhada de ovelha | Foto de produto enviada pela agência | `forneria/focaccia-pesto-coalhada.webp` | Precisa de confirmação (origem, ver nota) | **Sim** | Confirmar origem |
 | Tortano | Foto de produto enviada pela agência | `forneria/tortano.webp` | Precisa de confirmação (origem, ver nota) | **Sim** | Confirmar origem |
 
@@ -122,13 +122,14 @@ Só aparecem no desktop, que mostra duas páginas abertas. Cada uma fecha o seu 
 
 ## O que pedir à Elea
 
-1. **Confirmar as 8 fotos ativas identificadas pela imagem ou de origem a confirmar:**
+1. **Confirmar as 11 fotos ativas identificadas pela imagem ou de origem a confirmar:**
    - Burrata
+   - Pappardelle & portobello (pode ser receita antiga) e Tortelli di ossobuco
    - Caramelle
    - Cotoletta
    - Cipolla
    - Pancetta
-   - Focaccia tomilho & alecrim, Focaccia pesto & coalhada e Tortano (origem das imagens; a da Focaccia azeitonas, que está na reserva, também)
+   - as 4 fotos dos pães: Focaccia tomilho & alecrim, Focaccia azeitonas, Focaccia pesto & coalhada e Tortano (origem das imagens)
    - e também os pratos apontados na foto de abertura de Principais (Pesto e pistacchio, Amatriciana)
 2. **Fotos novas, por prioridade:**
    - primeiro, 1 a 3 sobremesas, porque o capítulo está sem nenhuma foto;
@@ -145,7 +146,7 @@ Só aparecem no desktop, que mostra duas páginas abertas. Cada uma fecha o seu 
 
 1. Coloque a imagem em `img/` e rode `python ferramentas/gerar_imagens.py`. A imagem vai para `site/assets/img/extras/`; renomeie ou mova para `site/assets/img/pratos/<nome-do-prato>.webp`.
 2. Em `fonte/paginas/cardapio.html`, no `<li class="prato-item">` do prato, acrescente `data-foto="assets/img/pratos/<nome>.webp" data-foto-alt="descrição da foto"`. Para foto redonda sem fundo, acrescente também `data-recorte`.
-3. Para ativar uma foto de reserva, troque `data-foto-reserva` por `data-foto`. Para tirar uma da demonstração, faça o contrário.
+3. Para guardar uma foto fora do site, troque `data-foto` por `data-foto-reserva` (sem câmera). Para voltar, faça o contrário.
 4. Quando a Elea confirmar, apague `data-confirmar` do item. Esse atributo só mostra o aviso "confirmar com a Elea" no modo revisão (`?revisao` na URL).
 5. Rode `node ferramentas/montar-paginas.mjs`.
-6. Mantenha no máximo 3 fotos por capítulo na demonstração.
+6. Não precisa mudar a ordem: os pratos com foto sobem sozinhos para o começo do capítulo (no HTML eles também já estão em cima).

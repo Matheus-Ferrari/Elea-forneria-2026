@@ -12,21 +12,26 @@ if (!calmo && !economia && "IntersectionObserver" in window) {
 
 /*
  * Prato a prato — carrossel arrastável e infinito.
- * Os pratos são triplicados (cópias aria-hidden) e, quando o índice sai do bloco do meio,
- * o trilho "pula" sem transição para a cópia equivalente. Passa sozinho a cada 2,2 s.
+ * Os pratos aparecem em 5 blocos iguais (o do meio é o original; os outros são cópias aria-hidden).
+ * O índice SEMPRE termina no bloco do meio: antes de andar, se o destino sairia dele, o trilho pula sem
+ * transição para a cópia equivalente e só então anima. Assim sobram pelo menos 5 pratos de cada lado.
+ * Antes isso dependia do fim da animação (transitionend): com várias passadas seguidas, ou com a aba em
+ * segundo plano (timer rodando e animação parada), o índice passava do fim das cópias e a mesa ficava vazia.
+ * Passa sozinho a cada 2,2 s.
  */
 const slider = document.querySelector("[data-giro]");
 if (slider) {
   const trilho = slider.querySelector(".giro__trilho");
   const originais = [...trilho.children];
   const n = originais.length;
+  const BLOCOS_LADO = 2; // cópias de cada lado do bloco original
   const copia = (el) => { const c = el.cloneNode(true); c.setAttribute("aria-hidden", "true"); c.querySelector("img").alt = ""; return c; };
-  trilho.prepend(...originais.map(copia));
-  trilho.append(...originais.map(copia));
+  for (let k = 0; k < BLOCOS_LADO; k++) { trilho.prepend(...originais.map(copia)); trilho.append(...originais.map(copia)); }
   const itens = [...trilho.children];
+  const meio = BLOCOS_LADO * n; // 1º índice do bloco do meio
   slider.closest(".giro").classList.add("giro--ativo");
 
-  let indice = n, arrasto = null, timer = null, visivel = false;
+  let indice = meio, arrasto = null, timer = null, visivel = false;
   const passo = () => itens[0].offsetWidth + parseFloat(getComputedStyle(trilho).columnGap || 0);
   const base = () => slider.clientWidth / 2 - itens[0].offsetWidth / 2 - indice * passo();
 
@@ -43,15 +48,18 @@ if (slider) {
     trilho.offsetWidth; // aplica antes de religar a transição
     trilho.classList.remove("is-sem-transicao");
   }
-  function ir(novo) { indice = novo; pintar(); }
-  trilho.addEventListener("transitionend", (e) => {
-    if (e.target !== trilho) return;
-    if (indice < n || indice >= 2 * n) semTransicao(() => ir(((indice % n) + n) % n + n));
-  });
+  // anda `pulos` pratos (no máximo um bloco por vez) e termina sempre no bloco do meio
+  function ir(pulos) {
+    pulos = Math.max(-n, Math.min(n, pulos));
+    const destino = ((indice + pulos - meio) % n + n) % n + meio;
+    if (destino - pulos !== indice) semTransicao(() => { indice = destino - pulos; pintar(); }); // mesma imagem, outra cópia
+    indice = destino;
+    pintar();
+  }
 
   // Autoplay: só com a seção na tela, sem movimento reduzido e sem interação.
   const parar = () => { clearInterval(timer); timer = null; };
-  const tocar = () => { parar(); if (!calmo && visivel && !arrasto && !document.hidden) timer = setInterval(() => ir(indice + 1), 2200); };
+  const tocar = () => { parar(); if (!calmo && visivel && !arrasto && !document.hidden) timer = setInterval(() => ir(1), 2200); };
   new IntersectionObserver(([e]) => {
     visivel = e.isIntersecting;
     if (visivel) slider.querySelectorAll("img[loading=lazy]").forEach((img) => (img.loading = "eager"));
@@ -77,7 +85,8 @@ if (slider) {
       slider.classList.add("is-arrastando");
       slider.setPointerCapture(e.pointerId);
     }
-    pintar(arrasto.dx);
+    const lim = (n - 1) * passo(); // nunca arrasta além das cópias
+    pintar(Math.max(-lim, Math.min(lim, arrasto.dx)));
   });
   const soltar = () => {
     if (!arrasto) return;
@@ -86,14 +95,14 @@ if (slider) {
     slider.classList.remove("is-arrastando");
     trilho.classList.remove("is-sem-transicao");
     const pulos = Math.abs(dx) < 50 ? 0 : -Math.sign(dx) * Math.max(1, Math.round(Math.abs(dx) / passo()));
-    ir(indice + pulos);
+    ir(pulos);
     tocar();
   };
   slider.addEventListener("pointerup", soltar);
   slider.addEventListener("pointercancel", soltar);
   slider.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowRight") { e.preventDefault(); ir(indice + 1); }
-    if (e.key === "ArrowLeft") { e.preventDefault(); ir(indice - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); ir(1); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); ir(-1); }
   });
   addEventListener("resize", () => semTransicao(() => pintar()));
   semTransicao(() => pintar());

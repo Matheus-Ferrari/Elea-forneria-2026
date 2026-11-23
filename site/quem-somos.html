@@ -73,7 +73,11 @@
   </div>
 </section>
 
-<!-- Equipe em fundo bege que se dissolve no creme em cima e embaixo (funde-*). -->
+<!-- QUEM FAZ: um perfil por pessoa/equipe (foto grande, papel, texto e, quando houver, uma 2ª foto no canto).
+     Sem JS: os perfis aparecem um embaixo do outro. Com JS (quem-somos.js): os cartões com o rosto viram abas e
+     mostram um perfil por vez, sem a página crescer. Para incluir alguém: copie um <article class="perfil">
+     (data-rosto = foto do cartão; data-rosto-pos = onde fica o rosto nessa foto).
+     Só informações verificadas (Veja SP, Instagram e o próprio site). -->
 <section class="secao secao--bege funde-topo funde-base" id="equipe" style="--funde-de: var(--creme); --funde-para: var(--creme)">
   <div class="container">
     <div class="secao__topo revelar">
@@ -81,44 +85,83 @@
       <h2>As pessoas por trás da Elea</h2>
       <p class="lead">Os irmãos e sócios Enrico Villela e Manuela Fernandes, ao lado das equipes da cozinha e do salão.</p>
     </div>
-    <!-- Cards: nome em <strong>, papel em <span>, descrição curta em .pessoa__desc. Só informações confirmadas (Veja SP, Instagram, página). -->
-    <div class="pessoas pessoas--pagina">
-      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="assets/img/pessoas/enrico-villela.webp" alt="Enrico Villela provando uma massa" width="750" height="1000" loading="lazy"></div><figcaption><strong>Enrico Villela</strong><span>Chef e sócio</span><span class="pessoa__desc">À frente da cozinha da Elea.</span></figcaption></figure>
-      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="assets/img/pessoas/manuela-vinhos.webp" alt="Manuela Fernandes cercada de taças de vinho" width="750" height="1000" loading="lazy"></div><figcaption><strong>Manuela Fernandes</strong><span>Sommelière e sócia</span><span class="pessoa__desc">Responsável pela carta de vinhos da casa.</span></figcaption></figure>
-      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="assets/img/pessoas/equipe.webp" alt="Três cozinheiros da Elea provando a comida na cozinha" width="750" height="1000" loading="lazy"></div><figcaption><strong>Equipe da cozinha</strong><span>Preparo dos pratos</span><span class="pessoa__desc">Os profissionais responsáveis pela preparação de cada prato.</span></figcaption></figure>
-      <!-- Mesma equipe da cozinha, mostrando o preparo da massa (não é outro cargo). A foto também é usada como página editorial no cardápio. -->
-      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="assets/img/pessoas/equipe-massa.webp" alt="Dois cozinheiros da Elea abrindo massa fresca com as mãos" width="1200" height="1200" loading="lazy"></div><figcaption><strong>Massa fresca</strong><span>Feita na casa</span><span class="pessoa__desc">Aberta à mão pela equipe da cozinha.</span></figcaption></figure>
-      <figure class="pessoa revelar"><div class="pessoa__foto"><img src="assets/img/pessoas/equipe-salao.webp" alt="Equipe do salão da Elea sorrindo com garrafas de vinho" width="900" height="1200" loading="lazy"></div><figcaption><strong>Equipe do salão</strong><span>Atendimento</span><span class="pessoa__desc">A equipe que recebe você no salão e na varanda.</span></figcaption></figure>
+    <div class="elenco revelar" data-elenco>
+      <article class="perfil" id="perfil-enrico" data-rosto="assets/img/pessoas/enrico-villela.webp" data-rosto-pos="50% 38%">
+        <div class="perfil__fotos">
+          <img class="perfil__foto" src="assets/img/pessoas/enrico-villela.webp" alt="Enrico Villela provando uma massa à mesa" width="750" height="1000" loading="lazy">
+        </div>
+        <div class="perfil__texto">
+          <p class="perfil__papel">Chef e sócio</p>
+          <h3 class="perfil__nome">Enrico Villela</h3>
+          <p class="perfil__bio">Comanda a cozinha da Elea: massas frescas, pizzas de forno e pratos para dividir. Com ele à frente, a casa foi eleita a melhor trattoria de São Paulo pelo Comer &amp; Beber da Veja SP, em 2025 e em 2026.</p>
+          <ul class="perfil__marcas"><li>Massas frescas</li><li>Pizzas de forno</li><li>Pratos para dividir</li></ul>
+        </div>
+      </article>
+      <article class="perfil" id="perfil-manuela" data-rosto="assets/img/pessoas/manuela-vinhos.webp" data-rosto-pos="42% 44%">
+        <div class="perfil__fotos">
+          <img class="perfil__foto" src="assets/img/pessoas/manuela-vinhos.webp" alt="Manuela Fernandes cercada de mãos brindando com taças de vinho" width="750" height="1000" loading="lazy">
+          <img class="perfil__extra" src="assets/img/pessoas/manuela-fernandes.webp" alt="Manuela Fernandes brincando com um fio de espaguete" width="750" height="1000" loading="lazy">
+        </div>
+        <div class="perfil__texto">
+          <p class="perfil__papel">Sommelière e sócia</p>
+          <h3 class="perfil__nome">Manuela Fernandes</h3>
+          <p class="perfil__bio">Irmã e sócia de Enrico, assina a carta de vinhos da Elea, pensada para acompanhar as massas, as pizzas e os pratos da casa.</p>
+          <ul class="perfil__marcas"><li>Carta de vinhos</li><li>Sócia da Elea</li></ul>
+        </div>
+      </article>
+      <article class="perfil" id="perfil-cozinha" data-rosto="assets/img/pessoas/equipe.webp" data-rosto-pos="50% 28%">
+        <div class="perfil__fotos">
+          <img class="perfil__foto" src="assets/img/pessoas/equipe.webp" alt="Três cozinheiros da Elea provando a comida na cozinha" width="750" height="1000" loading="lazy">
+          <img class="perfil__extra" src="assets/img/pessoas/equipe-massa.webp" alt="Dois cozinheiros da Elea abrindo massa fresca com as mãos" width="1200" height="1200" loading="lazy">
+        </div>
+        <div class="perfil__texto">
+          <p class="perfil__papel">Cozinha</p>
+          <h3 class="perfil__nome">Equipe da cozinha</h3>
+          <p class="perfil__bio">Prepara cada prato do cardápio, da massa fresca aberta à mão na casa às pizzas que saem do forno.</p>
+          <ul class="perfil__marcas"><li>Massa aberta à mão</li><li>Pizzas de forno</li><li>Focaccias por encomenda</li></ul>
+        </div>
+      </article>
+      <article class="perfil" id="perfil-salao" data-rosto="assets/img/pessoas/equipe-salao.webp" data-rosto-pos="50% 30%">
+        <div class="perfil__fotos">
+          <img class="perfil__foto" src="assets/img/pessoas/equipe-salao.webp" alt="Equipe do salão da Elea sorrindo com garrafas de vinho" width="900" height="1200" loading="lazy">
+        </div>
+        <div class="perfil__texto">
+          <p class="perfil__papel">Salão e atendimento</p>
+          <h3 class="perfil__nome">Equipe do salão</h3>
+          <p class="perfil__bio">Recebe você no salão e na varanda e cuida da mesa do começo ao fim, do primeiro prato à última taça.</p>
+          <ul class="perfil__marcas"><li>Salão</li><li>Varanda</li><li>Vinhos</li></ul>
+        </div>
+      </article>
     </div>
   </div>
 </section>
 
-<section class="secao" id="momentos">
-  <div class="container">
+<!-- MOMENTOS E AMBIENTE: uma faixa só, que corre para o lado, com as fotos INTEIRAS (mesma altura, cada uma na
+     proporção dela). Arrastar, rolar ou usar as setas; clique amplia (site.js, [data-galeria]).
+     Ordem: um passeio da varanda à fachada à noite, com os momentos à mesa no meio. -->
+<section class="secao momentos-casa" id="momentos" aria-labelledby="momentos-titulo">
+  <div class="container momentos-casa__topo">
     <div class="secao__topo revelar">
-      <p class="kicker">Momentos</p>
-      <h2>Mesa cheia, conversa longa</h2>
-      <p class="lead">Pratos no centro da mesa, taças cheias e encontros sem pressa.</p>
+      <p class="kicker">Momentos e ambiente</p>
+      <h2 id="momentos-titulo">Mesa cheia, conversa longa</h2>
+      <p class="lead">Da varanda coberta pela pérgola ao salão de pé-direito alto: madeira, plantas, pratos no centro da mesa e encontros sem pressa.</p>
     </div>
-    <div class="momentos">
-      <figure class="prato revelar"><img src="assets/img/momentos/momento-juntos.webp" alt="Amigos à mesa da Elea com pizzas, massas e vinho" width="1050" height="1400" loading="lazy"><figcaption>Amigos à mesa</figcaption></figure>
-      <figure class="prato revelar"><img src="assets/img/momentos/comer-em-fartura.webp" alt="Mesa vista de cima com vários pratos sendo compartilhados" width="1050" height="1400" loading="lazy"><figcaption>Pratos para dividir</figcaption></figure>
-      <figure class="prato revelar"><img src="assets/img/pessoas/manuela-fernandes.webp" alt="Manuela Fernandes brincando com um fio de espaguete" width="750" height="1000" loading="lazy"><figcaption>Sem cerimônia</figcaption></figure>
+    <div class="rolo__setas" data-rolo-setas hidden>
+      <button class="rolo__seta" type="button" data-rolo-passo="-1" aria-label="Fotos anteriores"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+      <button class="rolo__seta" type="button" data-rolo-passo="1" aria-label="Próximas fotos"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
     </div>
-
-    <h2 class="subtitulo revelar" id="ambiente">Madeira, plantas e mesa longa</h2>
-    <p class="lead subtitulo__texto revelar">Da varanda coberta pela pérgola ao salão de pé-direito alto: madeira, plantas e janelas verdes, de dia e à noite.</p>
-    <!-- Fotos do local INTEIRAS (mosaico em colunas, cada uma na proporção original). Clique amplia (site.js, [data-galeria]).
-         Ordem conta um passeio: varanda → mesa posta → salão → fachada à noite (é também a ordem da caixa de luz). -->
-    <div class="galeria-local" data-galeria>
-      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Varanda com pérgola"><img src="assets/img/ambiente/varanda.webp" alt="Varanda coberta com pérgola de madeira" width="750" height="779" loading="lazy"></button><figcaption>Varanda com pérgola</figcaption></figure>
-      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Mesa posta na varanda"><img src="assets/img/ambiente/mesa-varanda.webp" alt="Mesa posta na varanda" width="750" height="938" loading="lazy"></button><figcaption>Mesa posta na varanda</figcaption></figure>
-      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Salão de pé-direito alto"><img src="assets/img/ambiente/salao-pe-direito.webp" alt="Salão de pé-direito alto com janelões" width="750" height="854" loading="lazy"></button><figcaption>Salão de pé-direito alto</figcaption></figure>
-      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Salão entre plantas"><img src="assets/img/ambiente/salao-plantas.webp" alt="Salão da Elea com plantas, mesas de madeira e janelas verdes" width="960" height="1200" loading="lazy"></button><figcaption>Salão entre plantas</figcaption></figure>
-      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Banco do salão"><img src="assets/img/ambiente/salao-banco.webp" alt="Banco estofado e mesas no salão" width="1100" height="1200" loading="lazy"></button><figcaption>Banco do salão</figcaption></figure>
-      <figure class="revelar"><button type="button" class="galeria-local__abrir" aria-label="Ampliar foto: Fachada à noite"><img src="assets/img/ambiente/fachada-noite-2.webp" alt="Fachada da Elea iluminada à noite, com clientes na varanda" width="960" height="1200" loading="lazy"></button><figcaption>Fachada à noite, varanda cheia</figcaption></figure>
-    </div>
-
+  </div>
+  <div class="rolo" id="ambiente" data-galeria data-rolo tabindex="0" role="region" aria-label="Fotos da Elea. Role para o lado para ver mais.">
+    <figure><button type="button" class="rolo__abrir" aria-label="Ampliar foto: Varanda com pérgola"><img src="assets/img/ambiente/varanda.webp" alt="Varanda coberta com pérgola de madeira" width="750" height="779" loading="lazy"></button><figcaption>Varanda com pérgola</figcaption></figure>
+    <figure><button type="button" class="rolo__abrir" aria-label="Ampliar foto: Mesa posta na varanda"><img src="assets/img/ambiente/mesa-varanda.webp" alt="Mesa posta na varanda" width="750" height="938" loading="lazy"></button><figcaption>Mesa posta na varanda</figcaption></figure>
+    <figure><button type="button" class="rolo__abrir" aria-label="Ampliar foto: Amigos à mesa"><img src="assets/img/momentos/momento-juntos.webp" alt="Amigos à mesa da Elea com pizzas, massas e vinho" width="1050" height="1400" loading="lazy"></button><figcaption>Amigos à mesa</figcaption></figure>
+    <figure><button type="button" class="rolo__abrir" aria-label="Ampliar foto: Pratos para dividir"><img src="assets/img/momentos/comer-em-fartura.webp" alt="Mesa vista de cima com vários pratos sendo compartilhados" width="1050" height="1400" loading="lazy"></button><figcaption>Pratos para dividir</figcaption></figure>
+    <figure><button type="button" class="rolo__abrir" aria-label="Ampliar foto: Salão de pé-direito alto"><img src="assets/img/ambiente/salao-pe-direito.webp" alt="Salão de pé-direito alto com janelões" width="750" height="854" loading="lazy"></button><figcaption>Salão de pé-direito alto</figcaption></figure>
+    <figure><button type="button" class="rolo__abrir" aria-label="Ampliar foto: Salão entre plantas"><img src="assets/img/ambiente/salao-plantas.webp" alt="Salão da Elea com plantas, mesas de madeira e janelas verdes" width="960" height="1200" loading="lazy"></button><figcaption>Salão entre plantas</figcaption></figure>
+    <figure><button type="button" class="rolo__abrir" aria-label="Ampliar foto: Banco do salão"><img src="assets/img/ambiente/salao-banco.webp" alt="Banco estofado e mesas no salão" width="1100" height="1200" loading="lazy"></button><figcaption>Banco do salão</figcaption></figure>
+    <figure><button type="button" class="rolo__abrir" aria-label="Ampliar foto: Fachada à noite"><img src="assets/img/ambiente/fachada-noite-2.webp" alt="Fachada da Elea iluminada à noite, com clientes na varanda" width="960" height="1200" loading="lazy"></button><figcaption>Fachada à noite, varanda cheia</figcaption></figure>
+  </div>
+  <div class="container">
     <div class="chamada-final">
       <a class="btn btn--terracota" href="https://wa.me/5511945099155?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva%20na%20Elea." target="_blank" rel="noopener"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>Reservar uma mesa</a>
       <a class="btn btn--contorno" href="cardapio.html">Ver o cardápio <svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
@@ -128,7 +171,8 @@
 </main>
 <!-- Vagas: faixa própria em bege logo acima do rodapé marrom (aparece em todas as páginas); o menu "Vagas" aponta para #vagas.
      Arte oficial da Elea ("Estamos com vagas abertas"). Ao mudar as vagas, troque a imagem e a lista.
-     PENDENTE: a Elea não informou um e-mail de vagas; por enquanto o contato é o WhatsApp oficial do site. -->
+     E-mail de vagas: eleaforneria@gmail.com (destaque "Vagas" do Instagram: "Vagas abertas para salão e cozinha.
+     Envie seu currículo para eleaforneria@gmail.com"). -->
 <section class="vagas-faixa" id="vagas" aria-labelledby="vagas-titulo">
   <div class="container rodape__vagas">
     <img class="rodape__vagas-foto" src="assets/img/pessoas/vagas-abertas.webp" alt="Cozinheiros da Elea sorrindo enquanto abrem massa fresca, com o anúncio: estamos com vagas abertas para cozinheiro, auxiliar de cozinha e atendimento" width="900" height="779" loading="lazy">
@@ -136,8 +180,8 @@
       <p class="kicker">Vagas abertas</p>
       <h2 id="vagas-titulo">Venha trabalhar com a gente</h2>
       <ul class="rodape__vagas-lista"><li>Cozinheiro</li><li>Auxiliar de cozinha</li><li>Atendimento</li></ul>
-      <p>Quer fazer parte da equipe? Fale com a Elea pelo WhatsApp e conte em qual área quer trabalhar.</p>
-      <a class="btn btn--primario btn--pequeno" href="https://wa.me/5511945099155?text=Ol%C3%A1!%20Tenho%20interesse%20nas%20vagas%20da%20Elea." target="_blank" rel="noopener"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>Falar sobre as vagas</a>
+      <p>Vagas para salão e cozinha. Envie seu currículo para <a class="rodape__vagas-email" href="mailto:eleaforneria@gmail.com?subject=Curr%C3%ADculo%20-%20vagas%20Elea">eleaforneria@gmail.com</a> e conte em qual área quer trabalhar.</p>
+      <a class="btn btn--primario btn--pequeno" href="mailto:eleaforneria@gmail.com?subject=Curr%C3%ADculo%20-%20vagas%20Elea"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Enviar currículo</a>
     </div>
   </div>
 </section>
@@ -177,5 +221,6 @@
 <a class="whats-flutuante" href="https://wa.me/5511945099155?text=Ol%C3%A1%2C%20Elea!%20Vim%20pelo%20site." target="_blank" rel="noopener" aria-label="Falar com a Elea no WhatsApp"><span class="whats-flutuante__logo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.42.25-.69.25-1.29.18-1.41-.08-.13-.27-.2-.57-.35m-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9a11.82 11.82 0 0 0-3.48-8.4Z"/></svg></span><span class="whats-flutuante__texto">WhatsApp</span></a>
 <div class="toast" role="status" aria-live="polite" data-toast></div>
 <script type="module" src="assets/js/site.js"></script>
+<script type="module" src="assets/js/quem-somos.js"></script>
 </body>
 </html>
