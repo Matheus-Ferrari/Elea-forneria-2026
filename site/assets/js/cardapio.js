@@ -246,6 +246,7 @@ function iniciarLivro(raiz) {
     L = folhas.length;
     medida.remove();
     chaveMedida = chave();
+    encaixarRotulos(miolo);
 
     // volta para onde estava (ou para o capítulo do endereço, ex.: cardapio.html#pizzas)
     const alvo = capAntes || (capPorId[location.hash.slice(1)] ? location.hash.slice(1) : "");
@@ -561,6 +562,27 @@ function iniciarLivro(raiz) {
     ir(s + passo);
   });
 
+  // 7b) Rótulos dos pontos amarelos: sempre dentro da foto. Se não cabe do lado previsto, vai para o outro lado;
+  //     se não cabe de nenhum, é empurrado para dentro (--desloc). Antes, no celular, o rótulo passava da borda,
+  //     alargava a página e o botão do WhatsApp ia junto para fora da tela.
+  function encaixarRotulos(escopo) {
+    escopo.querySelectorAll(".ponto").forEach((p) => {
+      const rot = p.querySelector(".ponto__rotulo"), quadro = p.offsetParent;
+      if (!rot || !quadro) return;
+      if (!("ladoOriginal" in p.dataset)) p.dataset.ladoOriginal = p.dataset.lado || "";
+      p.style.removeProperty("--desloc");
+      const W = quadro.offsetWidth, x = p.offsetLeft, w = rot.offsetWidth, M = 6, G = 24;
+      if (!W || !w) return;
+      const cabeDir = x + G + w <= W - M, cabeEsq = x - G - w >= M;
+      let lado = p.dataset.ladoOriginal === "esq" ? "esq" : "dir";
+      if (lado === "dir" && !cabeDir && (cabeEsq || x > W / 2)) lado = "esq";
+      else if (lado === "esq" && !cabeEsq && (cabeDir || x < W / 2)) lado = "dir";
+      if (lado === "esq") p.dataset.lado = "esq"; else delete p.dataset.lado;
+      const sobra = lado === "dir" ? W - M - (x + G + w) : x - G - w - M;
+      if (sobra < 0) p.style.setProperty("--desloc", `${Math.round(sobra)}px`);
+    });
+  }
+
   // 8) Livro ou lista
   function trocarModo(m) {
     soltarFoto(true);
@@ -569,14 +591,17 @@ function iniciarLivro(raiz) {
     lista.hidden = m === "livro";
     modos.querySelectorAll("[data-modo]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.modo === m)));
     if (m === "livro" && chave() !== chaveMedida) montar();
-    if (m === "lista") marcadores.forEach((x) => x.setAttribute("aria-current", "false"));
+    if (m === "lista") { marcadores.forEach((x) => x.setAttribute("aria-current", "false")); encaixarRotulos(lista); }
     else atualizar();
   }
 
   let espera;
   addEventListener("resize", () => {
     clearTimeout(espera);
-    espera = setTimeout(() => { if (modo === "livro" && chave() !== chaveMedida) montar(); }, 200);
+    espera = setTimeout(() => {
+      if (modo === "livro" && chave() !== chaveMedida) montar();
+      if (modo === "lista") encaixarRotulos(lista);
+    }, 200);
   });
 
   // abre a capa sozinho na primeira vez que o livro aparece (se a pessoa ainda não mexeu)

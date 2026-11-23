@@ -83,6 +83,7 @@ function renderGaveta() {
     return;
   }
   corpo.innerHTML = itens.map((i) => `<div class="item-carrinho">
+      ${i.imagem ? `<img class="item-carrinho__foto" src="${esc(i.imagem)}" alt="" width="64" height="64" loading="lazy">` : '<span class="item-carrinho__foto" aria-hidden="true"></span>'}
       <div><strong>${esc(i.nome)}</strong><br><small>${reais(i.preco)} cada*</small></div>
       <div>${controleQtd(i.id, i.qtd, i.nome)}</div></div>`).join("");
   rodape.innerHTML = `<div class="total"><span>Total estimado*</span><span>${reais(total(itens))}</span></div>

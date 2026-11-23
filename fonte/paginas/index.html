@@ -8,12 +8,14 @@ ativo: home
 
 <!-- Hero (referência aprovada): foto REAL de um prato da Elea, desfocada de leve com véu marrom; nome, frase e botão no centro. -->
 <section class="hero" aria-labelledby="hero-titulo">
-  <!-- Fotos que se revezam a cada 7 s (home.js). Para trocar/adicionar: mesma proporção 1672×941. Sem JS ou com movimento reduzido: fica a 1ª. -->
+  <!-- Fotos que se revezam a cada 7 s (home.js). Para trocar/adicionar: mesma proporção 1672×941. Sem JS ou com movimento reduzido: fica a 1ª.
+       Celular (até 700px): as fotos com versão vertical 9:16 (941×1672, <picture> + .hero__slide--celular) usam essa versão,
+       com o prato inteiro. A 1ª (nhoque, provisória) ainda não tem versão vertical: no celular mostra o centro da foto deitada. -->
   <div class="hero__bg" aria-hidden="true">
     <div class="hero__slide is-ativa"><img src="/assets/img/hero/nhoque-verde.webp" alt="" width="1672" height="941" fetchpriority="high"></div>
-    <div class="hero__slide"><img src="/assets/img/hero/hero-2.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
-    <div class="hero__slide"><img src="/assets/img/hero/hero-3.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
-    <div class="hero__slide"><img src="/assets/img/hero/hero-4.webp" alt="" width="1672" height="941" fetchpriority="low"></div>
+    <div class="hero__slide hero__slide--celular"><picture><source media="(max-width: 700px)" srcset="/assets/img/hero/hero-2-celular.webp" width="941" height="1672"><img src="/assets/img/hero/hero-2.webp" alt="" width="1672" height="941" fetchpriority="low"></picture></div>
+    <div class="hero__slide hero__slide--celular"><picture><source media="(max-width: 700px)" srcset="/assets/img/hero/hero-3-celular.webp" width="941" height="1672"><img src="/assets/img/hero/hero-3.webp" alt="" width="1672" height="941" fetchpriority="low"></picture></div>
+    <div class="hero__slide hero__slide--celular"><picture><source media="(max-width: 700px)" srcset="/assets/img/hero/hero-4-celular.webp" width="941" height="1672"><img src="/assets/img/hero/hero-4.webp" alt="" width="1672" height="941" fetchpriority="low"></picture></div>
   </div>
   <div class="container hero__centro">
     <h1 id="hero-titulo" class="hero__marca">Elea <span>Forneria</span></h1>

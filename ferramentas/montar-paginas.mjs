@@ -78,7 +78,7 @@ function atalhos(html) {
 // Na fonte pode continuar escrevendo "/assets/...", "/cardapio.html", "/#visite".
 const relativos = (html) => html
   .replace(/(href|src|poster|action)="\/(?=["#])/g, '$1="./') // "/" e "/#ancora" -> "./" e "./#ancora"
-  .replace(/(href|src|poster|action)="\/(?!\/)/g, '$1="')     // "/assets/x" -> "assets/x"
+  .replace(/(href|src|srcset|poster|action)="\/(?!\/)/g, '$1="') // "/assets/x" -> "assets/x" (srcset: uma URL só)
   .replace(/url\((['"]?)\/(?!\/)/g, "url($1");                // style="--foto: url('/assets/...')"
 
 function lerPagina(arquivo) {

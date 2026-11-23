@@ -21,6 +21,9 @@ M=[ # (src, dest, maxdim)
  (J(I,'Imagem 2 hero.png'),'hero/hero-2.webp',1920),
  (J(I,'imagem 3 hero.png'),'hero/hero-3.webp',1920),
  (J(I,'Imagem 4 hero.png'),'hero/hero-4.webp',1920),
+ (J(I,'Imagem 2 hero celular.png'),'hero/hero-2-celular.webp',1672), # versões verticais (9:16) para celular (<picture> na Home)
+ (J(I,'imagem 3 hero celular.png'),'hero/hero-3-celular.webp',1672),
+ (J(I,'Imagem 4 hero celular.png'),'hero/hero-4-celular.webp',1672),
  (J(I,'Orecchiette.jpg'),'pratos/orecchiette.webp',1100),
  (J(I,'Orecchiette.jpg'),'janela/orecchiette.webp',2000),
  (J(I,'Cardapio Banner.png'),'janela/cardapio-1.webp',1920), # abertura do Cardápio: 3 fotos revezando

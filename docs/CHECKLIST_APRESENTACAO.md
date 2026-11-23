@@ -22,6 +22,12 @@ Documentos relacionados:
   - links verificados em 23/11/2026: Veja SP Comer & Beber 2025 e 2026 (Melhor Trattoria), a matéria da filial em Higienópolis (online com o título "Elea Forneria se prepara para abrir a primeira filial em Higienópolis"), a crítica da Veja SP (2023) e a matéria do Terra (2024). O link do Estadão continua.
 - [x] **Perfil (Minha conta):** o ícone voltou ao cabeçalho. O aviso técnico da página só aparece no modo `?revisao`.
 - [x] **Bloco das focaccias, 2º ajuste:** o painel de limões virou um arco igual ao da foto, só deslocado (antes deixava uma ponta solta), e saiu o fio de contorno que cruzava os limões.
+- [x] **Celular, 3ª leva (23/11/2026):**
+  - **Hero:** as imagens 2, 3 e 4 têm versão vertical 9:16 (`hero/hero-N-celular.webp`, de `img/… hero celular.png`); no celular o prato aparece inteiro, sem o zoom da foto deitada. A imagem 1 (nhoque, provisória) ainda não tem versão vertical;
+  - **WhatsApp cortado no Cardápio:** no modo Lista, os rótulos dos pontos amarelos passavam da borda e alargavam a página, levando o botão para fora da tela. Agora o rótulo troca de lado ou entra na foto quando não cabe, e a página nunca passa da largura da tela;
+  - **Câmera cortada:** o 1º prato da página ficava colado no topo da área do texto e o círculo da câmera era cortado; ganhou uma folga;
+  - **Livro no celular:** a seta "próxima" ficava embaixo do WhatsApp; as setas e o contador agora ficam à esquerda do botão. Marcadores com as pontas esfumadas, para mostrar que a fileira rola;
+  - **Carrinho:** cada item da lista de encomenda mostra a foto do pão.
 - [x] **Vagas:** o contato é o e-mail **eleaforneria@gmail.com**, tirado do destaque "Vagas" do Instagram: "Vagas abertas para salão e cozinha. Envie seu currículo para…". Tem botão "Enviar currículo", que abre o e-mail com o assunto preenchido.
 - [x] **Quem Somos repensado:**
   - **Quem faz:** um perfil por pessoa ou equipe (Enrico, Manuela, cozinha e salão), com foto grande, papel, texto curto e uma segunda foto quando há. Os cartões com o rosto de cada um trocam o perfil; tem setas, teclado e deslizar no celular;
