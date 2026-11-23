@@ -20,6 +20,8 @@ Documentos relacionados:
 - [x] **Home, Imprensa:**
   - as fotos dos cards aparecem inteiras desde o início. O zoom animado cortava as bordas, e o "veja" do logo da Veja sumia;
   - links verificados em 23/11/2026: Veja SP Comer & Beber 2025 e 2026 (Melhor Trattoria), a matéria da filial em Higienópolis (online com o título "Elea Forneria se prepara para abrir a primeira filial em Higienópolis"), a crítica da Veja SP (2023) e a matéria do Terra (2024). O link do Estadão continua.
+- [x] **Perfil (Minha conta):** o ícone voltou ao cabeçalho. O aviso técnico da página só aparece no modo `?revisao`.
+- [x] **Bloco das focaccias, 2º ajuste:** o painel de limões virou um arco igual ao da foto, só deslocado (antes deixava uma ponta solta), e saiu o fio de contorno que cruzava os limões.
 - [x] **Vagas:** o contato é o e-mail **eleaforneria@gmail.com**, tirado do destaque "Vagas" do Instagram: "Vagas abertas para salão e cozinha. Envie seu currículo para…". Tem botão "Enviar currículo", que abre o e-mail com o assunto preenchido.
 - [x] **Quem Somos repensado:**
   - **Quem faz:** um perfil por pessoa ou equipe (Enrico, Manuela, cozinha e salão), com foto grande, papel, texto curto e uma segunda foto quando há. Os cartões com o rosto de cada um trocam o perfil; tem setas, teclado e deslizar no celular;
@@ -87,7 +89,7 @@ Documentos relacionados:
   - o checkout (login obrigatório, formulário e "pedido enviado") virou contato direto: a pessoa monta a lista e envia pelo WhatsApp;
   - o site diz claramente que a encomenda só vale depois do retorno da equipe e que os valores estão sujeitos à confirmação;
   - nada é salvo e nenhum dado pessoal é pedido.
-- [x] "Minha conta" saiu do cabeçalho e do rodapé. A área do cliente ainda não funciona de verdade; as páginas continuam no projeto para o futuro.
+- [x] "Minha conta" saiu do cabeçalho e do rodapé. **Voltou ao cabeçalho em 23/11/2026, a pedido da agência** (ícone de perfil). O aviso técnico "Modo demonstração… admin@" agora só aparece com `?revisao`.
 - [x] **Vagas:**
   - o cartão saiu de dentro do rodapé marrom e virou uma faixa clara própria;
   - o texto quebrado "Envie seu currículo para [e-mail de vagas]" virou "Fale com a Elea pelo WhatsApp", com botão.
@@ -139,7 +141,7 @@ Detalhes em `PENDENCIAS_IMAGENS_CARDAPIO.md`.
 |---|---|---|
 | Encomendas pelo site | **Contato direto.** A lista é montada no site e enviada pelo WhatsApp. Não há pedido salvo, pagamento online nem login | "Você escolhe no site e combina com a equipe pelo WhatsApp." |
 | Checkout e pagamento online | **Não existe nesta etapa** | Proposta futura, em `EVOLUCOES_FUTURAS.md` |
-| Área do cliente (`conta.html`) | Código de demonstração: os dados ficam só no navegador. **Sem link público** | Não mostrar como pronta |
+| Área do cliente (`conta.html`) | Ícone de perfil no cabeçalho. Funciona em demonstração: os dados ficam só no navegador de quem usa | Mostrar como "área do cliente em preparação"; fica real com o Firebase |
 | Painel da equipe (`admin.html`) | Código de demonstração, sem link público | Não mostrar como pronto |
 | Banco de dados e login (Firebase) | **Não configurado** (`config.js` vazio) | Proposta futura |
 | Fotos do cardápio | 13 de 38 pratos | "O cardápio cresce conforme chegam as fotos." |

@@ -33,7 +33,8 @@
         <a class="btn btn--terracota menu__reservar" href="{{whatsapp:Olá! Gostaria de fazer uma reserva na Elea.}}" target="_blank" rel="noopener">Reservar</a>
     </nav>
     <div class="topo__acoes">
-      <!-- "Minha conta" (conta.html) fica fora do menu até a área do cliente ser contratada (docs/EVOLUCOES_FUTURAS.md). -->
+      <!-- Minha conta (perfil): volta em 23/11/2026 a pedido da agência. Sem Firebase ligado, os dados ficam só no navegador. -->
+      <a class="icone-btn" href="/conta.html" aria-label="Minha conta">{{icone:usuario}}</a>
       <a class="icone-btn" href="/encomendas.html#carrinho" aria-label="Lista de encomenda">{{icone:carrinho}}<span class="badge" data-carrinho-qtd hidden>0</span></a>
       <a class="btn btn--terracota topo__reservar" href="{{whatsapp:Olá! Gostaria de fazer uma reserva na Elea.}}" target="_blank" rel="noopener">Reservar</a>
       <button class="icone-btn menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">{{icone:menu}}</button>

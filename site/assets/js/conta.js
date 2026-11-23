@@ -8,7 +8,8 @@ const raiz = document.querySelector("[data-conta]");
 const titulo = document.querySelector("[data-conta-titulo]");
 // Só aceita voltar para páginas do próprio site, em caminho relativo (evita redirecionamento aberto).
 const voltar = (() => { const v = new URLSearchParams(location.search).get("voltar") || ""; return /^[a-z0-9-]+\.html(#[a-z-]+)?$/i.test(v) ? v : ""; })();
-const aviso = modo === "demo" ? '<p class="aviso aviso--demo"><strong>Modo demonstração:</strong> qualquer senha funciona e nada sai deste navegador. Use um e-mail começando por <code>admin@</code> para ver o painel.</p>' : "";
+// aviso técnico: só no modo revisão (?revisao), nunca para o visitante
+const aviso = modo === "demo" ? '<p class="aviso aviso--demo so-revisao"><strong>Modo demonstração:</strong> qualquer senha funciona e nada sai deste navegador. Use um e-mail começando por <code>admin@</code> para ver o painel.</p>' : "";
 
 const formularios = {
   entrar: `<form class="form" data-acao="entrar">

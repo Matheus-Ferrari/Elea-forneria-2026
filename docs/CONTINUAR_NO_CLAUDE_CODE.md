@@ -15,7 +15,7 @@
 - **WhatsApp flutuante:** pílula branca com o logo oficial verde (#25D366) e "WhatsApp" ao lado; no celular, só o círculo verde.
 - **Junções entre fundos:** classes `funde-topo`/`funde-base` + variáveis `--funde-de`/`--funde-para` (o fundo se dissolve na cor da seção vizinha).
 - **Loja de encomendas** (`/encomendas`, atualizado em 22/11/2026): catálogo e "lista de encomenda" (gaveta) que envia os itens pelo **WhatsApp** (`config.js`). Sem checkout, login, pedido salvo ou pagamento nesta etapa (decisão da agência; ver `docs/EVOLUCOES_FUTURAS.md`). Peso médio ~900 g, 24h de antecedência, retirada em horário combinado, valores sujeitos à confirmação.
-- **Minha conta** (`/conta`): entrar, criar conta, Google, esqueci a senha, dados e histórico de pedidos. **Sem link público** desde 22/11/2026 (o ícone saiu do cabeçalho e do rodapé); fica para a fase com Firebase.
+- **Minha conta** (`/conta`): entrar, criar conta, Google, esqueci a senha, dados e histórico de pedidos. Ícone de perfil no cabeçalho (saiu em 22/11 e **voltou em 23/11/2026** a pedido da agência). Sem Firebase, funciona só no navegador; o aviso "Modo demonstração" tem `so-revisao` (aparece só com `?revisao`). Fica real na fase com Firebase.
 - **Painel** (`/admin`): pedidos (filtro, mudar situação, alerta se o total não bate com o catálogo) e produtos (editar, preço, ativo, importar iniciais).
 - **Modo demonstração:** com `FIREBASE` vazio em `config.js`, tudo roda no navegador (localStorage). Admin no demo = e-mail que começa com `admin@`. Testado ponta a ponta.
 - `firestore.rules` (cliente só cria pedido próprio com status "recebido" e retirada ≥ 23h; só a equipe altera).

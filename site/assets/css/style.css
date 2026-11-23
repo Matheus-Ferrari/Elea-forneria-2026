@@ -450,21 +450,22 @@ p { margin: 0 0 1em; }
 .cardapio-cat + .cardapio-cat { margin-top: clamp(36px, 5vw, 64px); }
 .cardapio-cat h2 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); margin-bottom: 18px; }
 .cardapio-cat h2 em { color: var(--caramelo-escuro); }
-/* Forneria por encomenda (fim do Cardápio): foto em ARCO de tamanho contido (mesmo desenho do "Nossa história"),
-   sobre um painel de limões deslocado, com o selo da Elea no canto; texto ao lado. No celular, foto em cima. */
+/* Forneria por encomenda (fim do Cardápio): foto em ARCO de tamanho contido (mesmo desenho do "Nossa história").
+   Atrás, um arco de limões IGUAL ao da foto, só deslocado para baixo e para a esquerda (aparece como uma sombra
+   de limões contínua; antes era um painel menor que deixava uma ponta solta). Selo da Elea no canto. */
 .forneria__grade {
   display: grid; grid-template-columns: minmax(0, 430px) minmax(0, 560px); justify-content: center; align-items: center;
   gap: clamp(48px, 7vw, 110px);
 }
-.forneria__foto { position: relative; margin: 0 0 40px 40px; isolation: isolate; }
+.forneria__foto { position: relative; margin: 0 0 32px 32px; isolation: isolate; }
 .forneria__img {
   width: 100%; height: auto; aspect-ratio: 759 / 900; object-fit: cover;
-  border-radius: 999px 999px var(--raio) var(--raio); box-shadow: 0 34px 60px -30px rgba(47, 34, 22, .65);
-  outline: 1px solid var(--caramelo); outline-offset: 10px;
+  border-radius: 999px 999px var(--raio) var(--raio); border: 6px solid var(--papel); /* fio de papel separa a foto dos limões */
+  box-shadow: 0 34px 60px -30px rgba(47, 34, 22, .65);
 }
-.forneria__limoes { /* painel de limões atrás da foto, deslocado para a esquerda e para baixo */
-  position: absolute; z-index: -1; inset: 64px 64px -40px -40px; border-radius: 999px 999px var(--raio) var(--raio);
-  background: url("../img/brand/padrao-limoes.jpg") 0 0 / 96px; box-shadow: inset 0 0 0 1px rgba(74, 52, 35, .08);
+.forneria__limoes { /* mesmo arco da foto, deslocado */
+  position: absolute; z-index: -1; inset: 0; translate: -32px 32px; border-radius: 999px 999px var(--raio) var(--raio);
+  background: url("../img/brand/padrao-limoes.jpg") 0 0 / 96px; box-shadow: 0 24px 40px -26px rgba(47, 34, 22, .55);
 }
 .forneria__selo {
   position: absolute; right: -30px; bottom: 34px; width: 104px; height: 104px; padding: 10px; border-radius: 50%;
@@ -490,8 +491,8 @@ p { margin: 0 0 1em; }
 .secao--chamada .chamada-final { margin-top: 0; }
 @media (max-width: 820px) {
   .forneria__grade { grid-template-columns: minmax(0, 1fr); gap: 44px; }
-  .forneria__foto { width: min(74%, 330px); margin: 0 auto 24px; translate: 12px 0; }
-  .forneria__limoes { inset: 40px 40px -26px -26px; background-size: 78px; }
+  .forneria__foto { width: min(74%, 330px); margin: 0 auto 22px; translate: 11px 0; }
+  .forneria__limoes { translate: -22px 22px; background-size: 78px; }
   .forneria__selo { width: 82px; height: 82px; right: -22px; bottom: 22px; padding: 8px; }
   .forneria__texto { max-width: none; }
   .forneria__texto .btn { width: 100%; }
@@ -869,6 +870,7 @@ p { margin: 0 0 1em; }
 
 .aviso { padding: 14px 18px; border-radius: 10px; background: rgba(244, 196, 48, .18); border: 1px solid rgba(169, 122, 76, .35); font-size: .9rem; margin-bottom: 22px; }
 .aviso--demo { background: rgba(142, 161, 120, .2); border-color: var(--salvia); }
+.revisao .aviso.so-revisao { display: block; } /* aviso técnico em bloco, só no modo revisão */
 .aviso--erro { background: rgba(107, 46, 46, .1); border-color: rgba(107, 46, 46, .4); color: var(--vinho); }
 /* nota neutra e discreta (Encomendas: combinar pelo WhatsApp, valores sujeitos à confirmação) */
 .aviso--nota { background: var(--creme); border-color: var(--bege); color: var(--texto-suave); }
