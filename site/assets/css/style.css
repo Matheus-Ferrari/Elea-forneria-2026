@@ -261,12 +261,16 @@ p { margin: 0 0 1em; }
   background: rgba(47, 34, 22, .7); padding: 8px 14px; border-radius: 99px; color: var(--creme);
 }
 @media (max-width: 700px) {
-  /* celular em pé: a foto deitada não cabe inteira atrás do texto; mostra o centro do prato */
-  .hero__centro { min-height: clamp(520px, calc(88svh - var(--header-h)), 760px); padding-block: 40px 128px; }
-  .hero__marca { font-size: clamp(3.3rem, 18vw, 5.4rem); }
+  /* celular em pé: nas fotos verticais o prato ocupa o meio (~26–72% da altura) e sobra madeira em cima e embaixo.
+     Nome e frase vão para o espaço de cima; o botão desce para o de baixo, logo acima do selo; o prato fica livre. */
+  .hero__centro {
+    min-height: clamp(520px, calc(88svh - var(--header-h)), 760px); padding-block: clamp(18px, 4svh, 40px) 104px;
+    justify-content: flex-start;
+  }
+  .hero__marca { font-size: clamp(3.1rem, 16vw, 5rem); }
   .hero__marca span { letter-spacing: .3em; padding-left: .3em; }
-  .hero__tagline { margin: 22px 0 34px; font-size: clamp(1.55rem, 7vw, 2.1rem); }
-  .hero__cta { min-height: 54px; padding: 14px 32px; font-size: 1.02rem; }
+  .hero__tagline { margin: 10px 0 0; font-size: clamp(1.4rem, 6.2vw, 1.95rem); }
+  .hero__cta { margin-top: auto; min-height: 50px; padding: 12px 30px; font-size: 1rem; }
 }
 @media (max-width: 600px) {
   .premio-pill { font-size: .78rem; text-align: left; padding-left: 84px; }

@@ -23,7 +23,7 @@ Documentos relacionados:
 - [x] **Perfil (Minha conta):** o ícone voltou ao cabeçalho. O aviso técnico da página só aparece no modo `?revisao`.
 - [x] **Bloco das focaccias, 2º ajuste:** o painel de limões virou um arco igual ao da foto, só deslocado (antes deixava uma ponta solta), e saiu o fio de contorno que cruzava os limões.
 - [x] **Celular, 3ª leva (23/11/2026):**
-  - **Hero:** as imagens 2, 3 e 4 têm versão vertical 9:16 (`hero/hero-N-celular.webp`, de `img/… hero celular.png`); no celular o prato aparece inteiro, sem o zoom da foto deitada. A imagem 1 (nhoque, provisória) ainda não tem versão vertical;
+  - **Hero:** as imagens 2, 3 e 4 têm versão vertical 9:16 (`hero/hero-N-celular.webp`, de `img/… hero celular.png`); no celular o prato aparece inteiro, sem o zoom da foto deitada. No celular, o nome e a frase ficam no espaço de cima da foto e o botão no de baixo, logo acima do selo, para não cobrir o prato. A imagem 1 (nhoque, provisória) ainda não tem versão vertical;
   - **WhatsApp cortado no Cardápio:** no modo Lista, os rótulos dos pontos amarelos passavam da borda e alargavam a página, levando o botão para fora da tela. Agora o rótulo troca de lado ou entra na foto quando não cabe, e a página nunca passa da largura da tela;
   - **Câmera cortada:** o 1º prato da página ficava colado no topo da área do texto e o círculo da câmera era cortado; ganhou uma folga;
   - **Livro no celular:** a seta "próxima" ficava embaixo do WhatsApp; as setas e o contador agora ficam à esquerda do botão. Marcadores com as pontas esfumadas, para mostrar que a fileira rola;
