@@ -1,4 +1,4 @@
-/* Home: vídeos que tocam só quando aparecem, carrossel "Prato a prato" e parallax leve da imprensa. */
+/* Home: vídeos que tocam só quando aparecem, carrossel "Prato a prato" e os jornais da Imprensa. */
 const calmo = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const economia = navigator.connection?.saveData;
 
@@ -13,10 +13,15 @@ if (!calmo && !economia && "IntersectionObserver" in window) {
 /*
  * Prato a prato — carrossel arrastável e infinito.
  * Os pratos aparecem em 5 blocos iguais (o do meio é o original; os outros são cópias aria-hidden).
- * O índice SEMPRE termina no bloco do meio: antes de andar, se o destino sairia dele, o trilho pula sem
- * transição para a cópia equivalente e só então anima. Assim sobram pelo menos 5 pratos de cada lado.
- * Antes isso dependia do fim da animação (transitionend): com várias passadas seguidas, ou com a aba em
- * segundo plano (timer rodando e animação parada), o índice passava do fim das cópias e a mesa ficava vazia.
+ * O trilho anda até `pos` (em pratos, pode ser fracionária) e cada prato gira conforme a distância até o centro
+ * (centro reto, esquerda -10°, direita +10°), com a mesma curva e duração de antes; no arraste o giro fica parado
+ * e só muda ao soltar, como antes. A animação é feita aqui, quadro a quadro, e não por transição de CSS. Por quê (problemas vistos passando rápido no celular, 27/11/2026):
+ *  - encostar o dedo no meio de uma animação cortava a transição e o trilho SALTAVA até ~60px ("travada");
+ *    agora o prato congela onde está e segue o dedo;
+ *  - a barra de endereço do celular aparecendo/sumindo (resize) também cortava a animação;
+ *  - cada prato com transição virava uma camada de vídeo, e vários juntos formavam uma de ~3900px de largura.
+ * Para o loop ser infinito, `alvo` sempre volta ao bloco do meio, e `pos` anda o mesmo bloco junto: como as
+ * cópias são idênticas, nada muda na tela, a qualquer momento (inclusive no meio da animação ou do arraste).
  * Passa sozinho a cada 2,2 s.
  */
 const slider = document.querySelector("[data-giro]");
@@ -31,98 +36,326 @@ if (slider) {
   const meio = BLOCOS_LADO * n; // 1º índice do bloco do meio
   slider.closest(".giro").classList.add("giro--ativo");
 
-  let indice = meio, arrasto = null, timer = null, visivel = false;
-  const passo = () => itens[0].offsetWidth + parseFloat(getComputedStyle(trilho).columnGap || 0);
-  const base = () => slider.clientWidth / 2 - itens[0].offsetWidth / 2 - indice * passo();
+  const GIRO = 10; // graus dos pratos laterais
+  const DURACAO = calmo ? 0 : 700;
+  const suave = (t) => 1 - (1 - t) ** 5; // a mesma curva do CSS antigo: cubic-bezier(.22, 1, .36, 1)
+  let pos = meio, alvo = meio; // prato mostrado (fracionário durante a animação) e prato de destino
+  let posGiro = meio; // de onde sai o giro dos pratos: igual a pos, mas fica parado durante o arraste (como antes)
+  let anim = null, quadro = 0; // animação em curso { de, deGiro, t0 } e requestAnimationFrame pendente
+  let passo = 0, centro = 0; // medidas: largura prato+espaço e onde o 1º prato fica centralizado
+  let arrasto = null, timer = null, visivel = false, iCentro = -1;
+  const giros = itens.map(() => null), pertos = itens.map(() => false); // último valor escrito (evita mexer no DOM à toa)
 
-  function pintar(desloc = 0) {
-    trilho.style.transform = `translate3d(${base() + desloc}px,0,0)`;
-    itens.forEach((el, i) => {
-      el.classList.toggle("is-centro", i === indice);
-      el.classList.toggle("is-antes", i < indice);
-    });
+  function medir() {
+    const gap = parseFloat(getComputedStyle(trilho).columnGap) || 0;
+    passo = itens[0].offsetWidth + gap;
+    centro = slider.clientWidth / 2 - itens[0].offsetWidth / 2;
   }
-  function semTransicao(fn) {
-    trilho.classList.add("is-sem-transicao");
-    fn();
-    trilho.offsetWidth; // aplica antes de religar a transição
-    trilho.classList.remove("is-sem-transicao");
+  function pintar() {
+    trilho.style.transform = `translate3d(${(centro - pos * passo).toFixed(2)}px,0,0)`;
+    for (let i = 0; i < itens.length; i++) {
+      const g = Math.round(Math.max(-1, Math.min(1, i - posGiro)) * GIRO * 100) / 100;
+      if (giros[i] !== g) { giros[i] = g; itens[i].style.transform = g ? `rotate(${g}deg)` : "none"; }
+      // só os pratos perto da tela ganham camada própria de vídeo (girar sem redesenhar a sombra)
+      const perto = Math.abs(i - pos) < 1.6; // o do centro e os vizinhos (os únicos que giram numa passada)
+      if (pertos[i] !== perto) { pertos[i] = perto; itens[i].classList.toggle("is-perto", perto); }
+    }
+    if (alvo !== iCentro) { itens[iCentro]?.classList.remove("is-centro"); itens[alvo].classList.add("is-centro"); iCentro = alvo; }
   }
-  // anda `pulos` pratos (no máximo um bloco por vez) e termina sempre no bloco do meio
-  function ir(pulos) {
-    pulos = Math.max(-n, Math.min(n, pulos));
-    const destino = ((indice + pulos - meio) % n + n) % n + meio;
-    if (destino - pulos !== indice) semTransicao(() => { indice = destino - pulos; pintar(); }); // mesma imagem, outra cópia
-    indice = destino;
+  function laco(agora) {
+    quadro = 0;
+    if (anim) {
+      const t = DURACAO ? Math.min(1, Math.max(0, (agora - anim.t0) / DURACAO)) : 1;
+      pos = anim.de + (alvo - anim.de) * suave(t);
+      posGiro = anim.deGiro + (alvo - anim.deGiro) * suave(t);
+      if (t >= 1) { pos = posGiro = alvo; anim = null; }
+    }
     pintar();
+    if (anim) quadro = requestAnimationFrame(laco);
+  }
+  const desenhar = () => { if (!quadro) quadro = requestAnimationFrame(laco); };
+  // destino de volta ao bloco do meio; pos (e o início da animação/arraste) andam o mesmo tanto
+  function normalizar() {
+    const k = Math.floor((alvo - meio) / n) * n;
+    if (!k) return;
+    alvo -= k; pos -= k; posGiro -= k;
+    if (anim) { anim.de -= k; anim.deGiro -= k; }
+    if (arrasto) arrasto.pos0 -= k;
+  }
+  // anda `pulos` pratos a partir do destino atual (cada passada conta, mesmo no meio da anterior)
+  function ir(pulos) {
+    alvo += Math.max(-n, Math.min(n, pulos));
+    normalizar();
+    anim = { de: pos, deGiro: posGiro, t0: performance.now() };
+    desenhar();
   }
 
   // Autoplay: só com a seção na tela, sem movimento reduzido e sem interação.
   const parar = () => { clearInterval(timer); timer = null; };
   const tocar = () => { parar(); if (!calmo && visivel && !arrasto && !document.hidden) timer = setInterval(() => ir(1), 2200); };
-  new IntersectionObserver(([e]) => {
-    visivel = e.isIntersecting;
-    if (visivel) slider.querySelectorAll("img[loading=lazy]").forEach((img) => (img.loading = "eager"));
-    tocar();
-  }, { rootMargin: "100px 0px" }).observe(slider);
+  new IntersectionObserver(([e]) => { visivel = e.isIntersecting; tocar(); }, { rootMargin: "100px 0px" }).observe(slider);
   document.addEventListener("visibilitychange", tocar);
   slider.addEventListener("mouseenter", parar);
   slider.addEventListener("mouseleave", tocar);
   slider.addEventListener("focusin", parar);
   slider.addEventListener("focusout", tocar);
 
-  // Arrastar (mouse e toque). touch-action: pan-y deixa a rolagem vertical livre no celular.
+  // Arrastar (mouse e toque). touch-action: pan-y deixa a rolagem vertical livre no celular. Um dedo por vez.
   slider.addEventListener("pointerdown", (e) => {
-    if (e.button !== 0) return;
-    arrasto = { x: e.clientX, dx: 0, id: e.pointerId };
+    if (e.button !== 0 || (arrasto && !e.isPrimary)) return; // 2º dedo: ignora (um novo 1º dedo substitui um arraste perdido)
+    anim = null; // congela o prato exatamente onde está (sem salto)
+    // traz pos para perto do bloco do meio (troca de cópia invisível): sobram pratos dos dois lados para arrastar
+    const k = Math.round((pos - meio - (n - 1) / 2) / n) * n;
+    pos -= k; alvo -= k; posGiro -= k;
+    arrasto = { x: e.clientX, dx: 0, id: e.pointerId, pos0: pos, rastro: [[e.timeStamp, e.clientX]] };
     parar();
-    trilho.classList.add("is-sem-transicao");
+    desenhar();
   });
   slider.addEventListener("pointermove", (e) => {
     if (!arrasto || e.pointerId !== arrasto.id) return;
     arrasto.dx = e.clientX - arrasto.x;
+    arrasto.rastro.push([e.timeStamp, e.clientX]);
+    if (arrasto.rastro.length > 6) arrasto.rastro.shift();
     if (Math.abs(arrasto.dx) > 6 && !slider.classList.contains("is-arrastando")) {
       slider.classList.add("is-arrastando");
-      slider.setPointerCapture(e.pointerId);
+      try { slider.setPointerCapture(e.pointerId); } catch {}
     }
-    const lim = (n - 1) * passo(); // nunca arrasta além das cópias
-    pintar(Math.max(-lim, Math.min(lim, arrasto.dx)));
+    const lim = n - 1; // nunca arrasta além das cópias
+    pos = arrasto.pos0 - Math.max(-lim, Math.min(lim, arrasto.dx / passo));
+    desenhar();
   });
-  const soltar = () => {
-    if (!arrasto) return;
-    const { dx } = arrasto;
+  const soltar = (e) => {
+    if (!arrasto || e.pointerId !== arrasto.id) return;
+    const { dx, rastro } = arrasto;
+    const [t0, x0] = rastro[0], [t1, x1] = rastro[rastro.length - 1];
+    const vel = t1 > t0 ? (x1 - x0) / (t1 - t0) : 0; // px/ms no fim do gesto
     arrasto = null;
     slider.classList.remove("is-arrastando");
-    trilho.classList.remove("is-sem-transicao");
-    const pulos = Math.abs(dx) < 50 ? 0 : -Math.sign(dx) * Math.max(1, Math.round(Math.abs(dx) / passo()));
+    let pulos = Math.abs(dx) < 50 ? 0 : -Math.sign(dx) * Math.max(1, Math.round(Math.abs(dx) / passo));
+    if (!pulos && Math.abs(dx) > 15 && Math.abs(vel) > 0.4) pulos = -Math.sign(dx); // peteleco curto e rápido
     ir(pulos);
     tocar();
   };
   slider.addEventListener("pointerup", soltar);
   slider.addEventListener("pointercancel", soltar);
+  slider.addEventListener("lostpointercapture", soltar);
   slider.addEventListener("keydown", (e) => {
     if (e.key === "ArrowRight") { e.preventDefault(); ir(1); }
     if (e.key === "ArrowLeft") { e.preventDefault(); ir(-1); }
   });
-  addEventListener("resize", () => semTransicao(() => pintar()));
-  semTransicao(() => pintar());
+  // Só a LARGURA importa: a barra de endereço do celular (que muda a altura) não mexe no carrossel.
+  if ("ResizeObserver" in window) new ResizeObserver(() => { medir(); pintar(); }).observe(slider);
+  else addEventListener("resize", () => { medir(); pintar(); });
+  medir();
+  pintar();
+
+  // Pré-carregamento: as fotos dos pratos (1000×1000 com transparência) baixam e são decodificadas logo depois que
+  // a página termina de carregar, ou antes, se a pessoa rolar até perto do carrossel. No 1º arraste já estão
+  // prontas (antes só começavam a 100px da tela e decodificavam no meio da passada). Com economia de dados, só perto.
+  let preparado = false;
+  const preparar = () => {
+    if (preparado) return;
+    preparado = true;
+    itens.forEach((li) => (li.querySelector("img").loading = "eager"));
+    originais.forEach((li) => li.querySelector("img").decode?.().catch(() => {}));
+  };
+  const perto = new IntersectionObserver(([e]) => { if (e.isIntersecting) { preparar(); perto.disconnect(); } }, { rootMargin: "150% 0px" });
+  perto.observe(slider);
+  if (!economia) {
+    const ocioso = () => ("requestIdleCallback" in window ? requestIdleCallback(preparar, { timeout: 3000 }) : setTimeout(preparar, 1500));
+    document.readyState === "complete" ? ocioso() : addEventListener("load", ocioso, { once: true });
+  }
 }
 
-// "Jornal vivo": cada recorte se desloca em velocidade diferente ao rolar (máx. ~24px).
-const grupo = document.querySelector("[data-parallax]");
-if (grupo && !calmo && matchMedia("(min-width: 901px)").matches) {
-  const cards = [...grupo.children];
-  const vel = [0.06, -0.04, 0.05];
-  let pendente = false;
-  const mover = () => {
-    pendente = false;
-    const r = grupo.getBoundingClientRect();
-    const centro = r.top + r.height / 2 - innerHeight / 2;
-    if (Math.abs(centro) > innerHeight * 1.5) return;
-    cards.forEach((c, i) => c.style.setProperty("--par", `${Math.max(-24, Math.min(24, -centro * vel[i % 3]))}px`));
+// Demais fotos da Home (A Elea, Imprensa, Da cozinha à taça, Local): começam a baixar ~1,5 tela antes de
+// aparecer. O "lazy" do navegador (principalmente no iPhone) espera a foto quase entrar na tela, e rolando
+// rápido ela surgia em branco ou dava um tranco ao decodificar.
+if ("IntersectionObserver" in window) {
+  const antes = new IntersectionObserver((itens) => itens.forEach(({ target: img, isIntersecting }) => {
+    if (!isIntersecting) return;
+    img.loading = "eager";
+    img.decode?.().catch(() => {});
+    antes.unobserve(img);
+  }), { rootMargin: "150% 0px" });
+  document.querySelectorAll('img[loading="lazy"]').forEach((img) => { if (!img.closest("[data-giro]")) antes.observe(img); });
+}
+
+/* ---------- Imprensa: 3 jornais abertos numa mesa 3D (data-pos 0 = centro, 1 = direita, 2 = esquerda) ----------
+   Clique (ou aba/seta/deslizar) traz qualquer jornal para o centro; os outros dois vão para as laterais, sempre visíveis.
+   O que troca de lado passa por trás do centro (mesmo mecanismo de "Da cozinha à taça"). Entrada em cena ao chegar na seção. */
+const imprensa = document.querySelector(".imprensa");
+const mesa = imprensa?.querySelector("[data-gazetas]");
+if (imprensa && "IntersectionObserver" in window) {
+  // foto "viva" e brilho só com a seção na tela (fora dela, as camadas animadas ocupavam memória de vídeo)
+  new IntersectionObserver(([e]) => imprensa.classList.toggle("is-na-tela", e.isIntersecting)).observe(imprensa);
+} else imprensa?.classList.add("is-na-tela");
+if (mesa) {
+  const jornais = [...mesa.querySelectorAll(".gazeta")];
+  const nav = imprensa.querySelector("[data-gazetas-nav]");
+  const abas = [...nav.querySelectorAll("[data-alvo]")];
+  const leitura = imprensa.querySelector("[data-leitura]");
+  const botaoLer = nav.querySelector("[data-ler]");
+  const celular = matchMedia("(max-width: 700px)");
+  let ordem = jornais.slice();
+
+  // escala: o jornal do centro ocupa ~60% da largura (78% no celular); a altura da mesa acompanha
+  const escalar = () => {
+    const w = mesa.clientWidth;
+    const e = Math.min(.78, (w * (w < 701 ? .78 : w < 1100 ? .6 : .62)) / 1000);
+    mesa.style.setProperty("--escala", e.toFixed(3));
   };
-  addEventListener("scroll", () => { if (!pendente) { pendente = true; requestAnimationFrame(mover); } }, { passive: true });
-  mover();
+  if ("ResizeObserver" in window) new ResizeObserver(escalar).observe(mesa);
+  escalar();
+
+  function aplicar() {
+    ordem.forEach((j, pos) => {
+      j.dataset.pos = pos;
+      j.querySelectorAll("a").forEach((a) => (pos ? a.setAttribute("tabindex", "-1") : a.removeAttribute("tabindex")));
+      if (pos) { const c = j.querySelector(".gazeta__corpo"); c.style.removeProperty("--rx"); c.style.removeProperty("--ry"); }
+    });
+    const i = jornais.indexOf(ordem[0]);
+    abas.forEach((b, k) => b.setAttribute("aria-pressed", String(k === i)));
+    if (!leitura.hidden) ler(); // leitura aberta acompanha o jornal escolhido
+  }
+  function escolher(j) {
+    const k = ordem.indexOf(j);
+    if (k <= 0) return;
+    const antes = new Map(ordem.map((c, i) => [c, i]));
+    ordem = ordem.slice(k).concat(ordem.slice(0, k));
+    const contorna = ordem.find((c) => antes.get(c) > 0 && ordem.indexOf(c) > 0);
+    if (calmo || !contorna?.animate) return aplicar();
+    contorna.getAnimations().filter((a) => a.id === "contorno").forEach((a) => a.cancel());
+    const de = getComputedStyle(contorna).transform;
+    aplicar();
+    const para = getComputedStyle(contorna).transform;
+    contorna.classList.add("is-contornando");
+    const anim = contorna.animate([{ transform: de }, { transform: "translateX(0) rotateY(0deg) scale(.42)" }, { transform: para }],
+      { duration: 1000, easing: "cubic-bezier(.45, 0, .25, 1)", id: "contorno" });
+    const fim = () => { if (!contorna.getAnimations().some((a) => a.id === "contorno")) contorna.classList.remove("is-contornando"); };
+    anim.finished.then(fim, fim);
+  }
+
+  // clique num jornal lateral: vem para o centro (sem seguir o link de dentro dele)
+  let deslizou = false;
+  mesa.addEventListener("click", (e) => {
+    if (deslizou) { deslizou = false; e.preventDefault(); return; }
+    const j = e.target.closest(".gazeta");
+    if (j && j.dataset.pos !== "0") { e.preventDefault(); escolher(j); }
+  });
+  // deslizar para o lado (toque): para a esquerda traz o da direita; para a direita, o da esquerda
+  let inicio = null;
+  mesa.addEventListener("pointerdown", (e) => { inicio = { x: e.clientX, y: e.clientY }; deslizou = false; });
+  mesa.addEventListener("pointercancel", () => (inicio = null));
+  mesa.addEventListener("pointerup", (e) => {
+    if (!inicio) return;
+    const dx = e.clientX - inicio.x, dy = e.clientY - inicio.y;
+    inicio = null;
+    // toque curto num jornal lateral: decide pelo ponto real do dedo (o navegador "puxa" o clique para o link mais
+    // próximo, que costuma ser o do jornal do centro, e a faixa visível das laterais no celular é estreita)
+    if (e.pointerType !== "mouse" && Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+      const j = document.elementFromPoint(e.clientX, e.clientY)?.closest(".gazeta");
+      if (j && j.dataset.pos !== "0") { deslizou = true; escolher(j); }
+      return;
+    }
+    if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)) return;
+    deslizou = true;
+    escolher(ordem[dx < 0 ? 1 : 2]);
+  });
+  nav.addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    if (b.dataset.alvo) escolher(jornais[Number(b.dataset.alvo)]);
+    if (b.dataset.passo) escolher(ordem[b.dataset.passo === "1" ? 1 : 2]);
+  });
+  nav.hidden = false;
+
+  // inclinação 3D sutil acompanhando o mouse (jornal do centro) e parallax dentro da foto sob o cursor
+  if (!calmo && matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    let pendente = null;
+    mesa.addEventListener("pointermove", (e) => {
+      if (pendente) return;
+      pendente = requestAnimationFrame(() => {
+        pendente = null;
+        const j = e.target.closest?.('.gazeta[data-pos="0"]');
+        const corpo = ordem[0].querySelector(".gazeta__corpo");
+        if (!j) { corpo.style.removeProperty("--rx"); corpo.style.removeProperty("--ry"); return; }
+        const r = j.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        corpo.style.setProperty("--ry", `${(x * 7).toFixed(2)}deg`);
+        corpo.style.setProperty("--rx", `${(-y * 5).toFixed(2)}deg`);
+        const m = e.target.closest(".gazeta__moldura");
+        if (m) {
+          const q = m.getBoundingClientRect(), quadro = m.firstElementChild;
+          quadro.style.setProperty("--px", `${(((e.clientX - q.left) / q.width - .5) * -10).toFixed(1)}px`);
+          quadro.style.setProperty("--py", `${(((e.clientY - q.top) / q.height - .5) * -10).toFixed(1)}px`);
+        }
+      });
+    });
+    mesa.addEventListener("pointerleave", () => {
+      jornais.forEach((j) => { const c = j.querySelector(".gazeta__corpo"); c.style.removeProperty("--rx"); c.style.removeProperty("--ry"); });
+    });
+  }
+
+  // "Ampliar" (telas estreitas): as 2 páginas do jornal do centro em tamanho de leitura, uma embaixo da outra
+  const conteudo = leitura.querySelector("[data-leitura-conteudo]");
+  function ler() {
+    const copia = ordem[0].querySelector(".gazeta__corpo").cloneNode(true);
+    copia.removeAttribute("style");
+    copia.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
+    copia.querySelectorAll("[tabindex]").forEach((el) => el.removeAttribute("tabindex"));
+    conteudo.replaceChildren(copia);
+    leitura.hidden = false;
+    botaoLer.setAttribute("aria-expanded", "true");
+  }
+  botaoLer.addEventListener("click", () => { ler(); leitura.scrollIntoView({ behavior: calmo ? "auto" : "smooth", block: "start" }); });
+  leitura.querySelector("[data-fechar-leitura]").addEventListener("click", () => {
+    leitura.hidden = true;
+    conteudo.replaceChildren();
+    botaoLer.setAttribute("aria-expanded", "false");
+    mesa.scrollIntoView({ behavior: calmo ? "auto" : "smooth", block: "center" });
+  });
+
+  aplicar();
+
+  // Entrada em cena: os jornais chegam de direções diferentes girando, as páginas se abrem a partir da dobra,
+  // manchetes, textos e fotos aparecem em sequência e o selo de bicampeã é carimbado por último.
+  if (!calmo && mesa.animate && mesa.getBoundingClientRect().top > innerHeight) {
+    imprensa.classList.add("is-esperando");
+    const entrada = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      entrada.disconnect();
+      imprensa.classList.remove("is-esperando");
+      const leve = celular.matches;
+      const curva = "cubic-bezier(.16, .84, .3, 1)";
+      const origens = [
+        "translateX(0%) translateY(-55%) rotateX(-38deg) rotateZ(-5deg) scale(.6)", // centro: cai sobre a mesa
+        "translateX(140%) translateY(-25%) rotateY(-70deg) rotateZ(16deg) scale(.5)", // direita
+        "translateX(-140%) translateY(20%) rotateY(70deg) rotateZ(-14deg) scale(.5)", // esquerda
+      ];
+      ordem.forEach((j, pos) => {
+        const atraso = [260, 0, 130][pos];
+        j.animate([{ transform: origens[pos] }, { transform: getComputedStyle(j).transform }], { duration: leve ? 900 : 1400, delay: atraso, easing: curva, fill: "backwards" });
+        if (!leve) {
+          const [esq, dir] = j.querySelectorAll(".gazeta__pag");
+          esq.animate([{ transform: "rotateY(70deg)" }, { transform: "rotateY(5deg)" }], { duration: 1100, delay: atraso + 350, easing: curva, fill: "backwards" });
+          dir.animate([{ transform: "rotateY(-70deg)" }, { transform: "rotateY(-5deg)" }], { duration: 1100, delay: atraso + 350, easing: curva, fill: "backwards" });
+        }
+        j.querySelectorAll("[data-revela]").forEach((el, i) => {
+          const foto = !leve && el.matches(".gazeta__foto, .gazeta__dupla");
+          el.animate(foto
+            ? [{ clipPath: "inset(0 0 100% 0)", opacity: .4 }, { clipPath: "inset(0 0 0% 0)", opacity: 1 }]
+            : [{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "none" }],
+          { duration: foto ? 900 : 600, delay: atraso + (leve ? 500 : 900) + i * 70, easing: "ease-out", fill: "backwards" });
+        });
+      });
+      imprensa.querySelector(".selo-premio")?.animate([
+        { transform: "translateZ(24px) rotate(-28deg) scale(2.6)", opacity: 0 },
+        { transform: "translateZ(24px) rotate(13deg) scale(.9)", opacity: 1, offset: .72 },
+        { transform: "translateZ(24px) rotate(10deg) scale(1)", opacity: 1 },
+      ], { duration: 650, delay: leve ? 1400 : 2200, easing: "cubic-bezier(.3, 0, .2, 1)", fill: "backwards" });
+    }, { rootMargin: "0px 0px -12% 0px" });
+    entrada.observe(mesa);
+  }
 }
 
 // Popup do prato (Prato a prato): clique sem arrastar, ou Enter no carrossel, abre nome e descrição.

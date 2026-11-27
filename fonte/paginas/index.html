@@ -103,34 +103,143 @@ ativo: home
       <h2>Reconhecimentos</h2>
       <p class="lead">O que a imprensa de São Paulo tem dito sobre a Elea.</p>
     </div>
-    <!-- Card reutilizável: copie um <article class="jornal"> e troque foto, cabeça, título e fonte. Só material verificado.
-         Links conferidos em 23/11/2026 (abrem e o título bate): Veja SP (Blog do Lorençato), Estadão Paladar e Terra. -->
-    <div class="jornais" data-parallax>
-      <article class="jornal jornal--premio">
+    <!-- Jornais abertos (27/11/2026): 3 exemplares de 2 páginas numa mesa 3D. data-pos: 0 = centro, 1 = direita, 2 = esquerda
+         (já funciona sem JS). home.js: entrada em cena, clicar/deslizar traz o jornal para o centro, inclinação com o mouse e
+         "Ampliar" (leitura) no celular. SÓ material verificado: blocos "Na imprensa" = resumo da matéria + link original (links
+         conferidos em 23/11/2026); blocos "Da casa" = conteúdo institucional da Elea (textos do site), identificado como tal.
+         As páginas têm tamanho fixo (500×660, escalado por --escala): texto a mais é cortado no pé da página. -->
+    <div class="gazetas" data-gazetas>
+      <article class="gazeta gazeta--premio" data-pos="0" aria-labelledby="gz-premio">
+        <div class="gazeta__corpo">
+          <div class="gazeta__pag gazeta__pag--esq">
+            <header class="gazeta__cabeca"><span>Elea Forneria</span><span>Na imprensa</span></header>
+            <p class="gazeta__fonte" data-revela>Veja São Paulo · Comer &amp; Beber 2025 e 2026</p>
+            <h3 class="gazeta__manchete" id="gz-premio" data-revela>Bicampeã: melhor trattoria de São Paulo</h3>
+            <div class="gazeta__grade">
+              <figure class="gazeta__foto gazeta__foto--principal" data-revela>
+                <div class="gazeta__moldura"><div class="gazeta__quadro"><img src="/assets/img/imprensa/veja-comer-beber-premio.webp" alt="Enrico Villela e Manuela Fernandes com a placa da Veja São Paulo Comer & Beber" width="750" height="1000" loading="lazy"></div></div>
+                <figcaption>Enrico Villela e Manuela Fernandes com a placa do Comer &amp; Beber.</figcaption>
+              </figure>
+              <div class="gazeta__texto" data-revela>
+                <p class="gazeta__capitular">Pelo segundo ano consecutivo, a Elea foi eleita a melhor trattoria pela Veja São Paulo Comer &amp; Beber, nas edições 2025 e 2026.</p>
+                <p class="gazeta__links"><a href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-2025-elea-forneria-melhor-trattoria/" target="_blank" rel="noopener">Veja SP, 2025 →</a><a href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-2026-elea-forneria-melhor-trattoria/" target="_blank" rel="noopener">Veja SP, 2026 →</a></p>
+                <div class="gazeta__box">
+                  <p class="gazeta__box-titulo">Também na imprensa</p>
+                  <p><a href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-elea-forneria-agua-fria-critica/" target="_blank" rel="noopener">Veja SP: “Com pizzas e massas, Elea Forneria é uma surpresa da Zona Norte”</a></p>
+                  <p><a href="https://www.terra.com.br/vida-e-estilo/degusta/elea-forneria-inova-o-menu-com-novas-opcoes-de-pizzas-massas-petiscos-e-sobremesas,9723e2350e06e4b9c228ea3db0eaf1c4xaul1hvn.html" target="_blank" rel="noopener">Terra: “Elea Forneria inova o menu com novas opções de pizzas, massas, petiscos e sobremesas”</a></p>
+                </div>
+              </div>
+            </div>
+            <span class="gazeta__num">2</span>
+          </div>
+          <div class="gazeta__pag gazeta__pag--dir">
+            <header class="gazeta__cabeca"><span>Da casa</span><span>São Paulo · Água Fria</span></header>
+            <p class="gazeta__casa" data-revela>Da casa · conteúdo da Elea</p>
+            <h4 class="gazeta__sub" data-revela>Quem faz a Elea</h4>
+            <div class="gazeta__dupla" data-revela>
+              <figure class="gazeta__foto"><div class="gazeta__moldura"><div class="gazeta__quadro"><img src="/assets/img/pessoas/enrico-villela.webp" alt="Enrico Villela, chef e sócio da Elea" width="750" height="1000" loading="lazy"></div></div><figcaption>Enrico Villela, chef e sócio.</figcaption></figure>
+              <figure class="gazeta__foto"><div class="gazeta__moldura"><div class="gazeta__quadro"><img src="/assets/img/pessoas/manuela-fernandes.webp" alt="Manuela Fernandes, sommelière e sócia da Elea" width="750" height="1000" loading="lazy"></div></div><figcaption>Manuela Fernandes, sommelière e sócia.</figcaption></figure>
+            </div>
+            <div class="gazeta__texto gazeta__texto--2col" data-revela>
+              <p class="gazeta__capitular">À frente da casa estão os irmãos e sócios Enrico Villela, chef da cozinha, e Manuela Fernandes, sommelière.</p>
+              <p>Enrico comanda a cozinha da Elea: massas frescas, pizzas de forno e pratos para dividir. Manuela assina a carta de vinhos, pensada para acompanhar as massas, as pizzas e os pratos da casa.</p>
+              <p><b>Um sonho italiano na Zona Norte.</b> A Elea Forneria nasceu na Água Fria do desejo de compartilhar a paixão pela cozinha italiana.</p>
+            </div>
+            <span class="gazeta__num">3</span>
+          </div>
+        </div>
         <span class="selo-premio"><span><b>2×</b>Melhor<br>Trattoria</span></span>
-        <div class="jornal__cabeca"><span>Veja São Paulo</span><span>Comer &amp; Beber</span></div>
-        <div class="jornal__foto"><img src="/assets/img/imprensa/veja-comer-beber-premio.webp" alt="Enrico Villela e Manuela Fernandes com a placa da Veja São Paulo Comer & Beber" width="750" height="1000" loading="lazy"></div>
-        <h3>Bicampeã: melhor Trattoria de São Paulo</h3>
-        <p>Pelo segundo ano consecutivo, a Elea foi eleita a melhor trattoria pela Veja São Paulo Comer &amp; Beber, nas edições 2025 e 2026.</p>
-        <p class="jornal__fonte jornal__fonte--links"><a class="jornal__link" href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-2025-elea-forneria-melhor-trattoria/" target="_blank" rel="noopener">Veja SP, 2025 →</a><a class="jornal__link" href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-2026-elea-forneria-melhor-trattoria/" target="_blank" rel="noopener">Veja SP, 2026 →</a></p>
       </article>
-      <article class="jornal">
-        <div class="jornal__cabeca"><span>Veja São Paulo</span><span>Reportagem</span></div>
-        <div class="jornal__foto"><img src="/assets/img/imprensa/veja-sp-revista.webp" alt="Página da Veja São Paulo com a reportagem Da Água Fria para Higienópolis" width="864" height="1080" loading="lazy"></div>
-        <h3>“Da Água Fria para Higienópolis”</h3>
-        <p>A revista apresenta a Elea como a trattoria número 1 do Comer &amp; Beber 2025 e conta os próximos passos da casa.</p>
-        <!-- Página impressa (ed. nº 3011, 4/9/2026). Online, a mesma matéria saiu como "Elea Forneria se prepara para abrir a primeira filial em Higienópolis". -->
-        <p class="jornal__fonte"><a class="jornal__link" href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-elea-forneria-primeira-filial/" target="_blank" rel="noopener">Ler na Veja SP →</a></p>
+
+      <article class="gazeta" data-pos="1" aria-labelledby="gz-veja">
+        <div class="gazeta__corpo">
+          <div class="gazeta__pag gazeta__pag--esq">
+            <header class="gazeta__cabeca"><span>Elea Forneria</span><span>Na imprensa</span></header>
+            <!-- Página impressa (ed. nº 3011, 4/9/2026). Online, a mesma matéria saiu como "Elea Forneria se prepara para abrir a primeira filial em Higienópolis". -->
+            <p class="gazeta__fonte" data-revela>Veja São Paulo · Reportagem · Ed. nº 3011</p>
+            <h3 class="gazeta__manchete" id="gz-veja" data-revela>“Da Água Fria para Higienópolis”</h3>
+            <div class="gazeta__grade gazeta__grade--foto">
+              <figure class="gazeta__foto gazeta__foto--principal" data-revela>
+                <div class="gazeta__moldura"><div class="gazeta__quadro"><img src="/assets/img/imprensa/veja-sp-revista.webp" alt="Página da Veja São Paulo com a reportagem Da Água Fria para Higienópolis" width="864" height="1080" loading="lazy"></div></div>
+                <figcaption>A reportagem na edição impressa da Veja São Paulo.</figcaption>
+              </figure>
+              <div class="gazeta__texto" data-revela>
+                <p class="gazeta__capitular">A revista apresenta a Elea como a trattoria número 1 do Comer &amp; Beber 2025 e conta os próximos passos da casa.</p>
+                <p>Online, a mesma matéria saiu com o título “Elea Forneria se prepara para abrir a primeira filial em Higienópolis”.</p>
+                <p class="gazeta__links"><a href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-elea-forneria-primeira-filial/" target="_blank" rel="noopener">Ler na Veja SP →</a></p>
+              </div>
+            </div>
+            <span class="gazeta__num">4</span>
+          </div>
+          <div class="gazeta__pag gazeta__pag--dir">
+            <header class="gazeta__cabeca"><span>Da casa</span><span>São Paulo · Água Fria</span></header>
+            <p class="gazeta__casa" data-revela>Da casa · conteúdo da Elea</p>
+            <h4 class="gazeta__sub" data-revela>Momentos e ambiente</h4>
+            <figure class="gazeta__foto gazeta__foto--larga" data-revela>
+              <div class="gazeta__moldura"><div class="gazeta__quadro"><img src="/assets/img/ambiente/fachada-noite-wide.webp" alt="Fachada da Elea iluminada à noite" width="600" height="401" loading="lazy"></div></div>
+              <figcaption>A fachada da Elea, na Rua Florinéia.</figcaption>
+            </figure>
+            <div class="gazeta__texto gazeta__texto--2col" data-revela>
+              <p class="gazeta__capitular">Da varanda coberta pela pérgola ao salão de pé-direito alto: madeira, plantas, pratos no centro da mesa e encontros sem pressa.</p>
+              <p><b>Endereço.</b> Rua Florinéia, 270 — Água Fria, São Paulo — SP.</p>
+              <p><b>Reservas.</b> Reservamos apenas o primeiro horário de cada turno. Depois disso, o atendimento é por ordem de chegada.</p>
+            </div>
+            <span class="gazeta__num">5</span>
+          </div>
+        </div>
       </article>
-      <!-- Recorte da matéria (img/Elea estadao.png, cortado sem o botão desenhado). O título e o resumo já estão na imagem:
-           no card ficam só para leitores de tela e Google (sr-only). -->
-      <article class="jornal jornal--recorte">
-        <div class="jornal__cabeca"><span>Estadão</span><span>Paladar</span></div>
-        <div class="jornal__foto"><img src="/assets/img/imprensa/estadao-recorte.webp" alt="Recorte da reportagem do Estadão: Elea Forneria celebra 1 ano com pratos especiais dos chefs da casa, do Borgo Mooca e do Bar Moela, com foto de um prato de massa ao lado do cardápio da Elea" width="655" height="900" loading="lazy"></div>
-        <h3 class="sr-only">“Elea Forneria celebra 1 ano com pratos especiais”</h3>
-        <p class="sr-only">Para comemorar o primeiro aniversário, a casa recebeu chefs convidados do Borgo Mooca e do Bar Moela.</p>
-        <p class="jornal__fonte"><a class="jornal__link" href="https://www.estadao.com.br/paladar/restaurantes-e-bares/elea-forneria-celebra-1-ano-com-pratos-especiais-dos-chefs-da-casa-do-borgo-mooca-e-do-bar-moela/" target="_blank" rel="noopener">Ler no Estadão →</a></p>
+
+      <article class="gazeta" data-pos="2" aria-labelledby="gz-estadao">
+        <div class="gazeta__corpo">
+          <div class="gazeta__pag gazeta__pag--esq">
+            <header class="gazeta__cabeca"><span>Elea Forneria</span><span>Na imprensa</span></header>
+            <p class="gazeta__fonte" data-revela>Estadão · Paladar</p>
+            <h3 class="gazeta__manchete gazeta__manchete--longa" id="gz-estadao" data-revela>“Elea Forneria celebra 1 ano com pratos especiais dos chefs da casa, do Borgo Mooca e do Bar Moela”</h3>
+            <div class="gazeta__grade gazeta__grade--foto">
+              <figure class="gazeta__foto gazeta__foto--principal" data-revela>
+                <div class="gazeta__moldura"><div class="gazeta__quadro"><img src="/assets/img/imprensa/estadao-recorte.webp" alt="Recorte da reportagem do Estadão: Elea Forneria celebra 1 ano com pratos especiais dos chefs da casa, do Borgo Mooca e do Bar Moela, com foto de um prato de massa ao lado do cardápio da Elea" width="655" height="900" loading="lazy"></div></div>
+                <figcaption>O recorte da matéria no Paladar.</figcaption>
+              </figure>
+              <div class="gazeta__texto" data-revela>
+                <p class="gazeta__capitular">Para comemorar o primeiro aniversário, a casa recebeu chefs convidados do Borgo Mooca e do Bar Moela.</p>
+                <p class="gazeta__links"><a href="https://www.estadao.com.br/paladar/restaurantes-e-bares/elea-forneria-celebra-1-ano-com-pratos-especiais-dos-chefs-da-casa-do-borgo-mooca-e-do-bar-moela/" target="_blank" rel="noopener">Ler no Estadão →</a></p>
+              </div>
+            </div>
+            <span class="gazeta__num">6</span>
+          </div>
+          <div class="gazeta__pag gazeta__pag--dir">
+            <header class="gazeta__cabeca"><span>Da casa</span><span>São Paulo · Água Fria</span></header>
+            <p class="gazeta__casa" data-revela>Da casa · conteúdo da Elea</p>
+            <h4 class="gazeta__sub" data-revela>Prato a prato</h4>
+            <div class="gazeta__prato" data-revela>
+              <img src="/assets/img/pratos-recorte/bottoni-nerano.webp" alt="Bottoni alla Nerano" width="1000" height="1000" loading="lazy">
+              <p><b>Bottoni alla Nerano.</b> Massa fresca recheada com stracciatella, alho confit, queijo tulha e siciliano. Finalizada na manteiga, limão e zucchini fritte.</p>
+            </div>
+            <div class="gazeta__prato gazeta__prato--inverso" data-revela>
+              <img src="/assets/img/pratos-recorte/fregola-gamberi-cozze.webp" alt="Fregola, Gamberi & Cozze" width="1000" height="1000" loading="lazy">
+              <p><b>Fregola, Gamberi &amp; Cozze.</b> Pasta grano duro mantecada em pomodoro, chorizo espanhol, mexilhões e peperoncino. Camarão e aioli nero para coroar nossa sugestão.</p>
+            </div>
+            <div class="gazeta__box gazeta__box--forneria" data-revela>
+              <p class="gazeta__box-titulo">Forneria</p>
+              <p>Focaccias e tortano feitos na casa, por encomenda com 24h de antecedência e retirada na Elea. <a href="/encomendas.html">Fazer encomenda →</a></p>
+            </div>
+            <span class="gazeta__num">7</span>
+          </div>
+        </div>
       </article>
+    </div>
+    <div class="gazetas__nav" data-gazetas-nav hidden>
+      <button class="gazetas__seta" type="button" data-passo="-1" aria-label="Jornal anterior">{{icone:seta-esquerda}}</button>
+      <button class="gazetas__aba" type="button" data-alvo="0" aria-pressed="true">Prêmio</button>
+      <button class="gazetas__aba" type="button" data-alvo="1" aria-pressed="false">Reportagem</button>
+      <button class="gazetas__aba" type="button" data-alvo="2" aria-pressed="false">Estadão</button>
+      <button class="gazetas__seta" type="button" data-passo="1" aria-label="Próximo jornal">{{icone:seta-direita}}</button>
+      <button class="gazetas__ler" type="button" data-ler aria-expanded="false">Ampliar</button>
+    </div>
+    <!-- "Ampliar" (telas estreitas): as 2 páginas do jornal do centro, uma embaixo da outra, em tamanho de leitura. -->
+    <div class="leitura" data-leitura hidden>
+      <div data-leitura-conteudo></div>
+      <button class="gazetas__ler" type="button" data-fechar-leitura>Fechar</button>
     </div>
     <p class="tambem revelar">Também na imprensa: Veja SP, <a href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-elea-forneria-agua-fria-critica/" target="_blank" rel="noopener"><em>“Com pizzas e massas, Elea Forneria é uma surpresa da Zona Norte”</em></a> · Terra, <a href="https://www.terra.com.br/vida-e-estilo/degusta/elea-forneria-inova-o-menu-com-novas-opcoes-de-pizzas-massas-petiscos-e-sobremesas,9723e2350e06e4b9c228ea3db0eaf1c4xaul1hvn.html" target="_blank" rel="noopener"><em>“Elea Forneria inova o menu com novas opções de pizzas, massas, petiscos e sobremesas”</em></a></p>
   </div>
