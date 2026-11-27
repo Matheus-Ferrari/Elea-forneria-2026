@@ -198,13 +198,15 @@ if (mesa) {
   const celular = matchMedia("(max-width: 700px)");
   let ordem = jornais.slice();
 
-  // escala: o jornal do centro ocupa ~60% da largura (78% no celular); a altura da mesa acompanha
+  // escala: o jornal do centro ocupa ~58% da largura da tela no computador (78% no celular), sem passar da altura
+  // da tela (o jornal inteiro + as abas cabem de uma vez); a altura da mesa acompanha
   const escalar = () => {
     const w = mesa.clientWidth;
-    const e = Math.min(.78, (w * (w < 701 ? .78 : w < 1100 ? .6 : .62)) / 1000);
+    const e = Math.min(1.2, (innerHeight - 230) / 660, (w * (w < 701 ? .78 : w < 1100 ? .62 : .58)) / 1000);
     mesa.style.setProperty("--escala", e.toFixed(3));
   };
   if ("ResizeObserver" in window) new ResizeObserver(escalar).observe(mesa);
+  addEventListener("resize", escalar); // a altura da tela também conta
   escalar();
 
   function aplicar() {
@@ -303,7 +305,6 @@ if (mesa) {
     copia.removeAttribute("style");
     copia.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
     copia.querySelectorAll("[tabindex]").forEach((el) => el.removeAttribute("tabindex"));
-    copia.querySelectorAll("img[data-leitura-src]").forEach((img) => (img.src = img.dataset.leituraSrc)); // versão horizontal para ler
     conteudo.replaceChildren(copia);
     leitura.hidden = false;
     botaoLer.setAttribute("aria-expanded", "true");

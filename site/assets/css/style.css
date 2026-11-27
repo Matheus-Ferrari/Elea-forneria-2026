@@ -648,7 +648,9 @@ p { margin: 0 0 1em; }
   margin-top: clamp(4px, 1vw, 14px); perspective: 1700px; touch-action: pan-y;
 }
 @media (min-width: 701px) { .gazetas { --escala: .56; --afasta: 61%; --giro: 10deg; --lado: .6; height: calc(660px * var(--escala) + 90px); } }
-@media (min-width: 1100px) { .gazetas { --escala: .7; } }
+@media (min-width: 1100px) { .gazetas { --escala: .82; } }
+/* computador: a mesa sai do container e usa a largura da tela (jornais maiores, laterais até a borda) */
+@media (min-width: 901px) { .gazetas { width: 100vw; margin-left: calc(50% - 50vw); } }
 .gazeta {
   grid-area: 1 / 1; position: relative; width: 1000px; height: 660px; zoom: var(--escala); z-index: 2;
   transform-style: preserve-3d; transform: translateX(0) translateY(0) rotateY(0deg) rotateZ(0deg) scale(1);
@@ -754,7 +756,6 @@ p { margin: 0 0 1em; }
 }
 .imprensa.is-na-tela .gazeta[data-pos="0"] .gazeta__foto--principal .gazeta__moldura::after { display: block; animation: brilho 9s ease-in-out infinite; }
 @keyframes brilho { 0%, 70% { transform: translateX(-60%); } 100% { transform: translateX(60%); } }
-.gazeta__foto--vertical .gazeta__moldura img { aspect-ratio: 9 / 15; object-fit: cover; object-position: 50% 72%; }
 .gazeta__foto--recorte { margin-top: 8px; max-width: 74%; }
 .gazeta__foto--recorte figcaption { font-size: 11px; }
 .gazeta__dupla { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -800,7 +801,6 @@ p { margin: 0 0 1em; }
 .leitura .gazeta__pag--dir .gazeta__nome { display: none; }
 .leitura .gazeta__manchete--longa { font-size: 26px; }
 .leitura .gazeta__moldura img { filter: none; animation: none; }
-.leitura .gazeta__foto--vertical .gazeta__moldura img { aspect-ratio: auto; }
 .leitura .gazeta__foto--recorte { max-width: 220px; }
 @media (max-width: 520px) {
   .leitura .gazeta__grade { grid-template-columns: 1fr; }
