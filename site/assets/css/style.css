@@ -676,7 +676,7 @@ p { margin: 0 0 1em; }
 /* página: papel com grão, dobra escura no meio, pilha de folhas na borda de fora e leve "V" do jornal aberto */
 .gazeta__pag {
   position: relative; flex: 1 1 50%; min-width: 0; height: 100%; padding: 20px 24px 30px; overflow: hidden;
-  display: flex; flex-direction: column; gap: 7px; backface-visibility: hidden;
+  display: flex; flex-direction: column; gap: 6px; backface-visibility: hidden;
   color: #2a231d; background-color: #F1E8D6; font: 400 14.5px/1.4 Georgia, "Times New Roman", serif; text-align: left;
   transition: filter 1s ease;
 }
@@ -709,11 +709,11 @@ p { margin: 0 0 1em; }
   font: 700 56px/1 Georgia, "Times New Roman", serif; letter-spacing: -.015em; text-shadow: 0 1px 0 rgba(255, 250, 238, .6);
 }
 .gazeta__nome-linha {
-  margin: 0; padding: 4px 0; border-top: 1px solid rgba(42, 35, 29, .55); border-bottom: 4px double rgba(42, 35, 29, .8);
+  margin: 0; padding: 3px 0; border-top: 1px solid rgba(42, 35, 29, .55); border-bottom: 4px double rgba(42, 35, 29, .8);
   font: 700 10.5px/1.2 var(--sans); letter-spacing: .22em; text-transform: uppercase; color: #4a3f35;
 }
 .gazeta__casa { align-self: flex-start; margin: 2px 0 0; padding: 5px 9px; border-radius: 2px; background: var(--madeira-escura); color: var(--creme); font: 700 10.5px/1.25 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
-.gazeta__manchete { margin: 0; font: 600 35px/.98 var(--serif); letter-spacing: -.01em; color: #1f1914; text-wrap: balance; }
+.gazeta__manchete { margin: 0; font: 600 33px/.98 var(--serif); letter-spacing: -.01em; color: #1f1914; text-wrap: balance; }
 .gazeta__manchete--longa { font-size: 27px; line-height: 1.02; }
 .gazeta__sub { margin: 0; font: 600 31px/1 var(--serif); color: #1f1914; padding-bottom: 6px; border-bottom: 1px solid rgba(42, 35, 29, .3); }
 .gazeta__grade { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; min-height: 0; padding-top: 2px; border-top: 1px solid rgba(42, 35, 29, .3); }
@@ -758,16 +758,25 @@ p { margin: 0 0 1em; }
 @keyframes brilho { 0%, 70% { transform: translateX(-60%); } 100% { transform: translateX(60%); } }
 .gazeta__foto--recorte { margin-top: 8px; max-width: 74%; }
 .gazeta__foto--recorte figcaption { font-size: 11px; }
+/* várias matérias na mesma página (jornal do Estadão): data, manchete menor, foto e texto lado a lado */
+.gazeta__data { margin: 0; font: 700 10px/1.2 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--vinho); }
+.gazeta__linha-fina { margin: -1px 0 0; font: italic 15.5px/1.35 Georgia, serif; color: #4a3f35; }
+.gazeta__materia { display: flex; flex-direction: column; gap: 6px; }
+.gazeta__materia + .gazeta__materia { margin-top: 0; padding-top: 8px; border-top: 3px double rgba(42, 35, 29, .6); }
+.gazeta__manchete2 { margin: 0; font: 600 23px/1.02 var(--serif); color: #1f1914; text-wrap: balance; }
+.gazeta__materia--menor .gazeta__manchete2 { font-size: 20px; margin-bottom: 5px; }
+.gazeta__materia-corpo { display: grid; grid-template-columns: 150px 1fr; gap: 13px; align-items: start; padding-top: 6px; border-top: 1px solid rgba(42, 35, 29, .3); }
+.gazeta__materia-corpo--inverso { grid-template-columns: 1fr 104px; }
+.gazeta__materia-corpo .gazeta__texto p { font-size: 13px; line-height: 1.36; }
+.gazeta--estadao .gazeta__foto--larga .gazeta__moldura img { aspect-ratio: 600 / 300; }
+/* nome do jornal com o logo do veículo (PNG com fundo transparente), entre as réguas duplas */
+.gazeta__nome--logo .gazeta__nome-titulo { padding: 4px 0 3px; line-height: 0; }
+.gazeta__nome-titulo img { display: inline-block; width: auto; height: 72px; }
+.gazeta--estadao { --azul: #0032AD; }
+.gazeta--estadao .gazeta__data, .gazeta--estadao a, .gazeta--estadao .gazeta__capitular::first-letter { color: var(--azul); }
 .gazeta__dupla { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .gazeta__dupla .gazeta__moldura img { aspect-ratio: 4 / 4.2; object-fit: cover; object-position: 50% 22%; }
 .gazeta__foto--larga .gazeta__moldura img { aspect-ratio: 600 / 340; object-fit: cover; }
-.gazeta__prato { display: grid; grid-template-columns: 158px 1fr; gap: 16px; align-items: center; font-size: 15px; line-height: 1.4; }
-.gazeta__prato p { margin: 0; }
-.gazeta__prato img { width: 158px; height: auto; filter: sepia(.35) saturate(.85) drop-shadow(0 6px 6px rgba(40, 24, 10, .3)); transition: filter 1.2s ease; }
-.gazeta[data-pos="0"] .gazeta__prato img { filter: drop-shadow(0 6px 6px rgba(40, 24, 10, .3)); }
-.gazeta__prato--inverso { grid-template-columns: 1fr 158px; }
-.gazeta__prato--inverso img { order: 2; }
-.gazeta__box--forneria { margin-top: auto; margin-bottom: 8px; }
 /* selo de bicampeã: chancela amarela carimbada sobre o jornal (o mesmo selo de antes, no tamanho do jornal) */
 .selo-premio {
   position: absolute; top: -34px; right: -26px; width: 122px; height: 122px; border-radius: 50%; display: grid; place-items: center; text-align: center;
@@ -798,6 +807,7 @@ p { margin: 0 0 1em; }
 .leitura .gazeta__manchete { font-size: 34px; }
 .leitura .gazeta__nome { width: auto; margin: 0; padding: 0; }
 .leitura .gazeta__nome-titulo { font-size: clamp(34px, 11vw, 52px); }
+.leitura .gazeta__nome-titulo img { height: clamp(34px, 10vw, 50px); }
 .leitura .gazeta__pag--dir .gazeta__nome { display: none; }
 .leitura .gazeta__manchete--longa { font-size: 26px; }
 .leitura .gazeta__moldura img { filter: none; animation: none; }
@@ -806,6 +816,7 @@ p { margin: 0 0 1em; }
   .leitura .gazeta__grade { grid-template-columns: 1fr; }
   .leitura .gazeta__grade > .gazeta__texto { border-left: 0; padding-left: 0; }
   .leitura .gazeta__texto--2col { columns: 1; }
+  .leitura .gazeta__materia-corpo, .leitura .gazeta__materia-corpo--inverso { grid-template-columns: 1fr; }
   .gazetas__nav .gazetas__seta { display: none; } /* no celular: abas, deslizar e Ampliar */
   .gazetas__aba, .gazetas__ler { padding-inline: 13px; font-size: .86rem; }
 }
