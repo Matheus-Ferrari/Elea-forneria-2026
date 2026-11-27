@@ -643,14 +643,14 @@ p { margin: 0 0 1em; }
 /* Jornais abertos: 3 exemplares (2 páginas cada, desenhados em 1000×660 e reduzidos por zoom: --escala) numa mesa 3D.
    data-pos 0 = centro; 1 = direita; 2 = esquerda (menores, girados, um pouco mais escuros, sempre visíveis e clicáveis). */
 .gazetas {
-  --escala: .3; --afasta: 76%; --giro: 14deg; --lado: .7;
+  --escala: .35; --afasta: 70%; --giro: 14deg; --lado: .7;
   position: relative; display: grid; place-items: center; height: calc(660px * var(--escala) + 56px);
   margin-top: clamp(4px, 1vw, 14px); perspective: 1700px; touch-action: pan-y;
 }
 @media (min-width: 701px) { .gazetas { --escala: .56; --afasta: 61%; --giro: 10deg; --lado: .6; height: calc(660px * var(--escala) + 90px); } }
 @media (min-width: 1100px) { .gazetas { --escala: .82; } }
 /* computador: a mesa sai do container e usa a largura da tela (jornais maiores, laterais até a borda) */
-@media (min-width: 901px) { .gazetas { width: 100vw; margin-left: calc(50% - 50vw); } }
+.gazetas { width: 100vw; margin-left: calc(50% - 50vw); } /* mesa na largura toda da tela (no celular também) */
 .gazeta {
   grid-area: 1 / 1; position: relative; width: 1000px; height: 660px; zoom: var(--escala); z-index: 2;
   transform-style: preserve-3d; transform: translateX(0) translateY(0) rotateY(0deg) rotateZ(0deg) scale(1);
@@ -732,19 +732,13 @@ p { margin: 0 0 1em; }
 .gazeta__num { position: absolute; bottom: 9px; font: 600 12px/1 var(--sans); color: #6a5c4e; }
 .gazeta__pag--esq .gazeta__num { left: 24px; }
 .gazeta__pag--dir .gazeta__num { right: 24px; }
-/* fotografias: impressas (sépia, retícula) nas laterais; ganham cor no jornal do centro; com o mouse, zoom e parallax */
+/* fotografias: impressas (sépia) nas laterais; ganham cor no jornal do centro; com o mouse, zoom e parallax */
 .gazeta__foto { margin: 0; min-width: 0; }
 .gazeta__foto figcaption { margin-top: 5px; padding-bottom: 5px; border-bottom: 1px solid rgba(42, 35, 29, .25); font: italic 12px/1.3 Georgia, serif; color: #5b4e41; }
 .gazeta__moldura { position: relative; overflow: hidden; border: 1px solid rgba(42, 35, 29, .4); background: var(--bege); }
-.gazeta__moldura::before { /* retícula de impressão */
-  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .5; transition: opacity 1.2s ease;
-  background: radial-gradient(rgba(30, 20, 10, .3) .7px, transparent 1.3px) 0 0 / 3px 3px;
-}
 .gazeta__quadro { transform: scale(var(--zoom, 1)) translate(var(--px, 0px), var(--py, 0px)); transition: transform 1.2s cubic-bezier(.2, .7, .2, 1); }
 .gazeta__moldura img { display: block; width: 100%; height: auto; filter: sepia(.45) contrast(1.02) saturate(.85); transition: filter 1.2s ease; }
 .gazeta[data-pos="0"] .gazeta__moldura img { filter: none; }
-.gazeta[data-pos="0"] .gazeta__moldura::before { opacity: .14; }
-.gazeta[data-pos="0"] .gazeta__moldura:hover::before { opacity: 0; }
 .gazeta[data-pos="0"] .gazeta__moldura:hover .gazeta__quadro { --zoom: 1.06; transition-duration: .9s; }
 .gazeta[data-pos="0"] .gazeta__moldura:hover img { filter: contrast(1.06) saturate(1.06); }
 /* foto "viva" (só a do centro, com a seção na tela) e o brilho de papel de antes passando pela principal */
@@ -825,9 +819,98 @@ p { margin: 0 0 1em; }
   .gazeta__pag--esq, .gazeta__pag--dir { transform: none; }
   .gazeta, .gazeta__corpo { transform-style: flat; }
   .gazeta::before { transform: translateY(8px); }
+  /* folha mais alta no celular: no Android a fonte serifada substituta é mais larga e o fim do texto era cortado */
+  .gazeta { height: 740px; }
+  .gazetas { height: calc(740px * var(--escala) + 56px); }
 }
 /* esperando a entrada em cena (home.js): escondidos sem achatar o 3D */
 .imprensa.is-esperando .gazeta { visibility: hidden; }
+
+/* ---------- A casa: o ambiente em painel na largura toda, recortado em diagonais (home.js troca a cada 10 s) ----------
+   Computador: 4 recortes verticais inclinados. Celular: 3 faixas horizontais inclinadas. Entre eles, uma fresta de papel.
+   O JS reescreve o clip-path e --x/--w (--y/--h no celular) de cada recorte; aqui fica a 1ª composição (vale sem JS). */
+.casa { --casa-curva: cubic-bezier(.65, 0, .35, 1); position: relative; isolation: isolate; background: var(--papel); color: var(--creme); }
+.casa__painel { position: relative; height: clamp(540px, 88vh, 920px); overflow: hidden; contain: layout paint; }
+.casa__painel::after { /* sombra embaixo para o título */
+  content: ""; position: absolute; inset: auto 0 0; height: 58%; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(24, 15, 8, 0), rgba(24, 15, 8, .38) 45%, rgba(24, 15, 8, .78));
+}
+.casa__recorte {
+  position: absolute; inset: 0; margin: 0; padding: 0; border: 0; border-radius: 0; background: var(--madeira-escura);
+  cursor: zoom-in; -webkit-tap-highlight-color: transparent; transition: clip-path 1.8s var(--casa-curva);
+}
+.casa__recorte:nth-child(1) { --x: 0%; --w: 31%; --y: 0%; --h: 44%; clip-path: polygon(0% 0, calc(31% - 3px) 0, calc(25% - 3px) 100%, 0% 100%); }
+.casa__recorte:nth-child(2) { --x: 25%; --w: 30%; --y: 36%; --h: 42%; clip-path: polygon(calc(31% + 3px) 0, calc(55% - 3px) 0, calc(49% - 3px) 100%, calc(25% + 3px) 100%); }
+.casa__recorte:nth-child(3) { --x: 49%; --w: 30%; --y: 72%; --h: 28%; clip-path: polygon(calc(55% + 3px) 0, calc(79% - 3px) 0, calc(73% - 3px) 100%, calc(49% + 3px) 100%); }
+.casa__recorte:nth-child(4) { --x: 73%; --w: 27%; clip-path: polygon(calc(79% + 3px) 0, 100% 0, 100% 100%, calc(73% + 3px) 100%); }
+.casa__recorte::after { /* escurece os outros recortes quando um está sob o mouse */
+  content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: rgba(28, 18, 10, .34); opacity: 0; transition: opacity .6s ease;
+}
+.casa__camada {
+  position: absolute; top: 0; height: 100%; left: var(--x); width: var(--w); overflow: hidden; visibility: hidden;
+  transition: left 1.8s var(--casa-curva), width 1.8s var(--casa-curva), top 1.8s var(--casa-curva), height 1.8s var(--casa-curva);
+}
+.casa__camada.is-on { visibility: visible; }
+.casa__camada img {
+  display: block; width: 100%; height: 100%; object-fit: cover; scale: 1.08;
+  transform: translate3d(calc(var(--mx, 0) * var(--d, 1) * -22px), calc(var(--my, 0) * var(--d, 1) * -14px), 0);
+  transition: scale 1.6s cubic-bezier(.2, .7, .2, 1), transform 1s cubic-bezier(.2, .7, .2, 1);
+}
+.casa__camada::after { /* nome do ambiente, aparece com o mouse em cima */
+  content: attr(data-nome); position: absolute; left: 50%; top: 28px; z-index: 2; translate: -50% -6px; opacity: 0; white-space: nowrap;
+  padding: 8px 15px; border-radius: 99px; background: rgba(28, 18, 10, .5); color: var(--creme);
+  font: 600 .7rem/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; transition: opacity .5s ease, translate .5s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .casa__recorte:hover .casa__camada img { scale: 1.14; }
+  .casa__recorte:hover .casa__camada::after { opacity: 1; translate: -50% 0; }
+  .casa__painel:hover .casa__recorte:not(:hover)::after { opacity: 1; }
+}
+.casa__painel:has(:focus-visible) .casa__recorte:not(:focus-visible)::after { opacity: 1; }
+.casa__recorte:focus-visible .casa__camada::after { opacity: 1; translate: -50% 0; }
+.casa__recorte:focus-visible { outline: none; }
+.casa__texto {
+  position: absolute; z-index: 2; left: max(24px, calc((100% - var(--container)) / 2)); bottom: clamp(30px, 5vw, 64px);
+  max-width: 540px; pointer-events: none; text-shadow: 0 2px 22px rgba(0, 0, 0, .35);
+}
+.casa__texto h2 { margin: 0 0 .2em; color: var(--creme); }
+.casa__texto h2 em { color: var(--bege); }
+.casa__texto p:last-child { margin: 0; font-size: 1.05rem; color: rgba(245, 239, 230, .9); }
+.casa__ritmo { position: absolute; z-index: 2; right: max(24px, calc((100% - var(--container)) / 2)); bottom: clamp(30px, 5vw, 64px); display: flex; align-items: center; gap: 14px; }
+.casa__ritmo[hidden] { display: none; }
+.casa__barra { width: 92px; height: 2px; border-radius: 2px; overflow: hidden; background: rgba(245, 239, 230, .28); }
+.casa__barra i { display: block; height: 100%; background: var(--creme); transform-origin: left; transform: scaleX(0); }
+.casa__barra i.is-correndo { animation: casa-tempo 10s linear forwards; }
+.casa.is-pausado .casa__barra i, .casa.is-fora .casa__barra i, .casa.is-vendo .casa__barra i { animation-play-state: paused; }
+@keyframes casa-tempo { to { transform: scaleX(1); } }
+.casa__pausa {
+  display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border-radius: 50%; cursor: pointer;
+  border: 1px solid rgba(245, 239, 230, .45); background: rgba(28, 18, 10, .35); color: var(--creme); transition: background .3s ease;
+}
+.casa__pausa:hover { background: rgba(28, 18, 10, .6); }
+.casa__pausa .icone { width: 16px; height: 16px; }
+.casa__ico-tocar { display: none; fill: currentColor; stroke: none; }
+.casa.is-pausado .casa__ico-pausa { display: none; }
+.casa.is-pausado .casa__ico-tocar { display: inline; }
+@media (max-width: 700px) {
+  .casa__painel { height: clamp(520px, 152vw, 700px); }
+  .casa__recorte:nth-child(4) { display: none; }
+  .casa__recorte:nth-child(1) { clip-path: polygon(0 0%, 100% 0%, 100% calc(36% - 3px), 0 calc(44% - 3px)); }
+  .casa__recorte:nth-child(2) { clip-path: polygon(0 calc(44% + 3px), 100% calc(36% + 3px), 100% calc(78% - 3px), 0 calc(72% - 3px)); }
+  .casa__recorte:nth-child(3) { clip-path: polygon(0 calc(72% + 3px), 100% calc(78% + 3px), 100% 100%, 0 100%); }
+  .casa__camada { left: 0; width: 100%; top: var(--y); height: var(--h); }
+  .casa__camada::after { top: 16px; }
+  .casa__painel::after { height: 42%; }
+  .casa__texto { left: 20px; right: 20px; bottom: 24px; }
+  .casa__texto h2 { font-size: 2.2rem; }
+  .casa__texto p:last-child { font-size: .98rem; }
+  .casa__ritmo { top: 16px; right: 16px; bottom: auto; }
+  .casa__barra { width: 56px; }
+  .casa__pausa { width: 36px; height: 36px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .casa__recorte, .casa__camada, .casa__camada img { transition: none; }
+}
 
 /* ---------- Da cozinha à taça: abas + cards em carrossel (mesmo mecanismo do Cucina) ----------
    Sem JS: 3 cards lado a lado. Com JS (home.js → data-baralho-pronto): card do centro em destaque,

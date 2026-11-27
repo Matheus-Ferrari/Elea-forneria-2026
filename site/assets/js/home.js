@@ -131,14 +131,19 @@ if (slider) {
     const vel = t1 > t0 ? (x1 - x0) / (t1 - t0) : 0; // px/ms no fim do gesto
     arrasto = null;
     slider.classList.remove("is-arrastando");
-    let pulos = Math.abs(dx) < 50 ? 0 : -Math.sign(dx) * Math.max(1, Math.round(Math.abs(dx) / passo));
+    // "jogar" o prato: além do quanto o dedo andou, a velocidade no fim do gesto leva mais pratos (como um impulso)
+    const lance = dx + (Math.abs(vel) > 0.3 ? vel * 220 : 0);
+    let pulos = Math.abs(lance) < 50 ? 0 : -Math.sign(lance) * Math.max(1, Math.round(Math.abs(lance) / passo));
     if (!pulos && Math.abs(dx) > 15 && Math.abs(vel) > 0.4) pulos = -Math.sign(dx); // peteleco curto e rápido
-    ir(pulos);
+    ir(Math.max(-4, Math.min(4, pulos)));
     tocar();
   };
   slider.addEventListener("pointerup", soltar);
   slider.addEventListener("pointercancel", soltar);
-  slider.addEventListener("lostpointercapture", soltar);
+  // No toque, o navegador já "prende" o dedo na foto do prato; quando o carrossel pega o dedo para si, a foto recebe
+  // lostpointercapture, que sobe até aqui. Só conta quando quem perdeu o dedo foi o próprio carrossel — antes isso
+  // encerrava o arraste logo nos primeiros pixels e o prato não seguia o dedo no celular (27/11/2026).
+  slider.addEventListener("lostpointercapture", (e) => { if (e.target === slider) soltar(e); });
   slider.addEventListener("keydown", (e) => {
     if (e.key === "ArrowRight") { e.preventDefault(); ir(1); }
     if (e.key === "ArrowLeft") { e.preventDefault(); ir(-1); }
@@ -198,11 +203,11 @@ if (mesa) {
   const celular = matchMedia("(max-width: 700px)");
   let ordem = jornais.slice();
 
-  // escala: o jornal do centro ocupa ~58% da largura da tela no computador (78% no celular), sem passar da altura
+  // escala: o jornal do centro ocupa ~58% da largura da tela no computador (90% no celular), sem passar da altura
   // da tela (o jornal inteiro + as abas cabem de uma vez); a altura da mesa acompanha
   const escalar = () => {
     const w = mesa.clientWidth;
-    const e = Math.min(1.2, (innerHeight - 230) / 660, (w * (w < 701 ? .78 : w < 1100 ? .62 : .58)) / 1000);
+    const e = Math.min(1.2, (innerHeight - 230) / 660, (w * (w < 701 ? .9 : w < 1100 ? .62 : .58)) / 1000);
     mesa.style.setProperty("--escala", e.toFixed(3));
   };
   if ("ResizeObserver" in window) new ResizeObserver(escalar).observe(mesa);
