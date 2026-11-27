@@ -303,6 +303,7 @@ if (mesa) {
     copia.removeAttribute("style");
     copia.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
     copia.querySelectorAll("[tabindex]").forEach((el) => el.removeAttribute("tabindex"));
+    copia.querySelectorAll("img[data-leitura-src]").forEach((img) => (img.src = img.dataset.leituraSrc)); // versão horizontal para ler
     conteudo.replaceChildren(copia);
     leitura.hidden = false;
     botaoLer.setAttribute("aria-expanded", "true");
@@ -349,9 +350,9 @@ if (mesa) {
         });
       });
       imprensa.querySelector(".selo-premio")?.animate([
-        { transform: "translateZ(24px) rotate(-28deg) scale(2.6)", opacity: 0 },
-        { transform: "translateZ(24px) rotate(13deg) scale(.9)", opacity: 1, offset: .72 },
-        { transform: "translateZ(24px) rotate(10deg) scale(1)", opacity: 1 },
+        { transform: "translateZ(80px) rotate(-28deg) scale(2.6)", opacity: 0 },
+        { transform: "translateZ(80px) rotate(13deg) scale(.9)", opacity: 1, offset: .72 },
+        { transform: "translateZ(80px) rotate(10deg) scale(1)", opacity: 1 },
       ], { duration: 650, delay: leve ? 1400 : 2200, easing: "cubic-bezier(.3, 0, .2, 1)", fill: "backwards" });
     }, { rootMargin: "0px 0px -12% 0px" });
     entrada.observe(mesa);

@@ -147,7 +147,7 @@
       <h2>Reconhecimentos</h2>
       <p class="lead">O que a imprensa de São Paulo tem dito sobre a Elea.</p>
     </div>
-    <!-- Jornais abertos (27/11/2026): 3 exemplares de 2 páginas numa mesa 3D. data-pos: 0 = centro, 1 = direita, 2 = esquerda
+    <!-- Jornais abertos (27/11/2026): 3 exemplares de 2 páginas numa mesa 3D. O nome do jornal (.gazeta__nome) atravessa as 2 páginas: cada página tem uma cópia e mostra a sua metade. data-pos: 0 = centro, 1 = direita, 2 = esquerda
          (já funciona sem JS). home.js: entrada em cena, clicar/deslizar traz o jornal para o centro, inclinação com o mouse e
          "Ampliar" (leitura) no celular. SÓ material verificado: blocos "Na imprensa" = resumo da matéria + link original (links
          conferidos em 23/11/2026); blocos "Da casa" = conteúdo institucional da Elea (textos do site), identificado como tal.
@@ -156,8 +156,7 @@
       <article class="gazeta gazeta--premio" data-pos="0" aria-labelledby="gz-premio">
         <div class="gazeta__corpo">
           <div class="gazeta__pag gazeta__pag--esq">
-            <header class="gazeta__cabeca"><span>Elea Forneria</span><span>Na imprensa</span></header>
-            <p class="gazeta__fonte" data-revela>Veja São Paulo · Comer &amp; Beber 2025 e 2026</p>
+            <header class="gazeta__nome"><p class="gazeta__nome-titulo">Veja São Paulo</p><p class="gazeta__nome-linha">Elea Forneria na imprensa · Comer &amp; Beber 2025 e 2026 · Melhor Trattoria</p></header>
             <h3 class="gazeta__manchete" id="gz-premio" data-revela>Bicampeã: melhor trattoria de São Paulo</h3>
             <div class="gazeta__grade">
               <figure class="gazeta__foto gazeta__foto--principal" data-revela>
@@ -177,7 +176,7 @@
             <span class="gazeta__num">2</span>
           </div>
           <div class="gazeta__pag gazeta__pag--dir">
-            <header class="gazeta__cabeca"><span>Da casa</span><span>São Paulo · Água Fria</span></header>
+            <header class="gazeta__nome" aria-hidden="true"><p class="gazeta__nome-titulo">Veja São Paulo</p><p class="gazeta__nome-linha">Elea Forneria na imprensa · Comer &amp; Beber 2025 e 2026 · Melhor Trattoria</p></header>
             <p class="gazeta__casa" data-revela>Da casa · conteúdo da Elea</p>
             <h4 class="gazeta__sub" data-revela>Quem faz a Elea</h4>
             <div class="gazeta__dupla" data-revela>
@@ -198,25 +197,29 @@
       <article class="gazeta" data-pos="1" aria-labelledby="gz-veja">
         <div class="gazeta__corpo">
           <div class="gazeta__pag gazeta__pag--esq">
-            <header class="gazeta__cabeca"><span>Elea Forneria</span><span>Na imprensa</span></header>
+            <header class="gazeta__nome"><p class="gazeta__nome-titulo">Veja São Paulo</p><p class="gazeta__nome-linha">Elea Forneria na imprensa · Reportagem · Edição nº 3011, 4/9/2026</p></header>
             <!-- Página impressa (ed. nº 3011, 4/9/2026). Online, a mesma matéria saiu como "Elea Forneria se prepara para abrir a primeira filial em Higienópolis". -->
-            <p class="gazeta__fonte" data-revela>Veja São Paulo · Reportagem · Ed. nº 3011</p>
             <h3 class="gazeta__manchete" id="gz-veja" data-revela>“Da Água Fria para Higienópolis”</h3>
             <div class="gazeta__grade gazeta__grade--foto">
-              <figure class="gazeta__foto gazeta__foto--principal" data-revela>
-                <div class="gazeta__moldura"><div class="gazeta__quadro"><img src="assets/img/imprensa/veja-sp-revista.webp" alt="Página da Veja São Paulo com a reportagem Da Água Fria para Higienópolis" width="864" height="1080" loading="lazy"></div></div>
-                <figcaption>A reportagem na edição impressa da Veja São Paulo.</figcaption>
+              <!-- Foto de Higienópolis enviada pela agência (27/11/2026): vertical no jornal; a horizontal entra no "Ampliar" (data-leitura-src). -->
+              <figure class="gazeta__foto gazeta__foto--principal gazeta__foto--vertical" data-revela>
+                <div class="gazeta__moldura"><div class="gazeta__quadro"><img src="assets/img/imprensa/higienopolis-vertical.webp" data-leitura-src="assets/img/imprensa/higienopolis.webp" alt="Fachada da Elea em Higienópolis ao entardecer: pérgola de madeira, mesas na varanda, plantas e o letreiro Elea Forneria" width="600" height="1066" loading="lazy"></div></div>
+                <figcaption><span class="tbc">A Elea em Higienópolis.</span></figcaption>
               </figure>
               <div class="gazeta__texto" data-revela>
                 <p class="gazeta__capitular">A revista apresenta a Elea como a trattoria número 1 do Comer &amp; Beber 2025 e conta os próximos passos da casa.</p>
                 <p>Online, a mesma matéria saiu com o título “Elea Forneria se prepara para abrir a primeira filial em Higienópolis”.</p>
                 <p class="gazeta__links"><a href="https://vejasp.abril.com.br/coluna/arnaldo-lorencato/comer-e-beber-elea-forneria-primeira-filial/" target="_blank" rel="noopener">Ler na Veja SP →</a></p>
+                <figure class="gazeta__foto gazeta__foto--recorte">
+                  <div class="gazeta__moldura"><div class="gazeta__quadro"><img src="assets/img/imprensa/veja-sp-revista.webp" alt="Página da Veja São Paulo com a reportagem Da Água Fria para Higienópolis" width="864" height="1080" loading="lazy"></div></div>
+                  <figcaption>A reportagem na edição impressa da Veja São Paulo.</figcaption>
+                </figure>
               </div>
             </div>
             <span class="gazeta__num">4</span>
           </div>
           <div class="gazeta__pag gazeta__pag--dir">
-            <header class="gazeta__cabeca"><span>Da casa</span><span>São Paulo · Água Fria</span></header>
+            <header class="gazeta__nome" aria-hidden="true"><p class="gazeta__nome-titulo">Veja São Paulo</p><p class="gazeta__nome-linha">Elea Forneria na imprensa · Reportagem · Edição nº 3011, 4/9/2026</p></header>
             <p class="gazeta__casa" data-revela>Da casa · conteúdo da Elea</p>
             <h4 class="gazeta__sub" data-revela>Momentos e ambiente</h4>
             <figure class="gazeta__foto gazeta__foto--larga" data-revela>
@@ -236,10 +239,9 @@
       <article class="gazeta" data-pos="2" aria-labelledby="gz-estadao">
         <div class="gazeta__corpo">
           <div class="gazeta__pag gazeta__pag--esq">
-            <header class="gazeta__cabeca"><span>Elea Forneria</span><span>Na imprensa</span></header>
-            <p class="gazeta__fonte" data-revela>Estadão · Paladar</p>
+            <header class="gazeta__nome"><p class="gazeta__nome-titulo">Estadão</p><p class="gazeta__nome-linha">Elea Forneria na imprensa · Paladar · Restaurantes e bares</p></header>
             <h3 class="gazeta__manchete gazeta__manchete--longa" id="gz-estadao" data-revela>“Elea Forneria celebra 1 ano com pratos especiais dos chefs da casa, do Borgo Mooca e do Bar Moela”</h3>
-            <div class="gazeta__grade gazeta__grade--foto">
+            <div class="gazeta__grade">
               <figure class="gazeta__foto gazeta__foto--principal" data-revela>
                 <div class="gazeta__moldura"><div class="gazeta__quadro"><img src="assets/img/imprensa/estadao-recorte.webp" alt="Recorte da reportagem do Estadão: Elea Forneria celebra 1 ano com pratos especiais dos chefs da casa, do Borgo Mooca e do Bar Moela, com foto de um prato de massa ao lado do cardápio da Elea" width="655" height="900" loading="lazy"></div></div>
                 <figcaption>O recorte da matéria no Paladar.</figcaption>
@@ -252,7 +254,7 @@
             <span class="gazeta__num">6</span>
           </div>
           <div class="gazeta__pag gazeta__pag--dir">
-            <header class="gazeta__cabeca"><span>Da casa</span><span>São Paulo · Água Fria</span></header>
+            <header class="gazeta__nome" aria-hidden="true"><p class="gazeta__nome-titulo">Estadão</p><p class="gazeta__nome-linha">Elea Forneria na imprensa · Paladar · Restaurantes e bares</p></header>
             <p class="gazeta__casa" data-revela>Da casa · conteúdo da Elea</p>
             <h4 class="gazeta__sub" data-revela>Prato a prato</h4>
             <div class="gazeta__prato" data-revela>
