@@ -266,6 +266,36 @@ ativo: home
   </div>
 </section>
 
+<!-- A casa: painel do ambiente na largura toda, em recortes diagonais (4 no computador, 3 faixas no celular).
+     home.js: a cada 10 s os recortes mudam de forma e 2 fotos trocam (revelação suave); clique amplia; botão pausa.
+     Sem JS: 4 fotos fixas nos recortes. Movimento reduzido: sem troca automática. Fotos: as do ambiente já usadas no site. -->
+<section class="casa" id="a-casa" aria-labelledby="casa-titulo" data-casa>
+  <div class="casa__painel" data-casa-painel>
+    <button class="casa__recorte" type="button" style="--d: 1"><span class="casa__camada is-on"><img src="/assets/img/ambiente/varanda.webp" alt="Varanda coberta com pérgola de madeira" width="750" height="779" loading="lazy" data-nome="Varanda"></span></button>
+    <button class="casa__recorte" type="button" style="--d: 1.6"><span class="casa__camada is-on"><img src="/assets/img/ambiente/salao-pe-direito.webp" alt="Salão de pé-direito alto com janelões" width="750" height="854" loading="lazy" data-nome="Pé-direito alto"></span></button>
+    <button class="casa__recorte" type="button" style="--d: .8"><span class="casa__camada is-on"><img src="/assets/img/ambiente/fachada-noite-2.webp" alt="Fachada da Elea iluminada à noite" width="960" height="1200" loading="lazy" data-nome="Fachada"></span></button>
+    <button class="casa__recorte" type="button" style="--d: 1.3"><span class="casa__camada is-on"><img src="/assets/img/ambiente/salao-plantas.webp" alt="Salão com plantas, mesas de madeira e janelas verdes" width="960" height="1200" loading="lazy" data-nome="Salão"></span></button>
+  </div>
+  <!-- fotos que entram na troca (só carregam quando a seção se aproxima) -->
+  <template data-casa-fotos>
+    <img src="/assets/img/ambiente/mesa-varanda.webp" alt="Mesa posta na varanda" width="750" height="938" data-nome="Mesa na varanda">
+    <img src="/assets/img/janela/cardapio-2.webp" alt="Mesas da varanda com pratos da Elea e taças de vinho" width="1672" height="941" data-nome="Varanda">
+    <img src="/assets/img/ambiente/salao-banco.webp" alt="Banco estofado e mesas no salão" width="1100" height="1200" data-nome="Salão">
+    <img src="/assets/img/janela/cardapio-1.webp" alt="Mesa do salão com pratos para dividir e vinho branco" width="1672" height="941" data-nome="À mesa">
+  </template>
+  <div class="casa__texto">
+    <p class="kicker kicker--claro">O ambiente</p>
+    <h2 id="casa-titulo">Conheça <em>nossa casa</em></h2>
+    <p>Madeira, plantas, luz natural e uma varanda para ficar sem pressa.</p>
+  </div>
+  <div class="casa__ritmo" data-casa-ritmo hidden>
+    <span class="casa__barra" aria-hidden="true"><i data-casa-barra></i></span>
+    <button class="casa__pausa" type="button" aria-pressed="false" aria-label="Pausar a troca de fotos" data-casa-pausa>
+      <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path class="casa__ico-pausa" d="M9 5v14M15 5v14"/><path class="casa__ico-tocar" d="M8 5.5v13l10-6.5z"/></svg>
+    </button>
+  </div>
+</section>
+
 <!-- Da cozinha à taça: mesmo mecanismo do Cucina ("Do pastifício à sobremesa"). Sem JS, os 3 cards ficam lado a lado.
      Com JS (home.js): abas 01/02/03, card do centro em destaque, laterais inclinados e desfocados; o fundo muda de cor por aba. -->
 <section class="secao experiencia" id="experiencia" aria-labelledby="experiencia-titulo" data-linhas>

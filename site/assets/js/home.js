@@ -1,4 +1,4 @@
-/* Home: vídeos que tocam só quando aparecem, carrossel "Prato a prato" e os jornais da Imprensa. */
+/* Home: vídeos que tocam só quando aparecem, carrossel "Prato a prato", os jornais da Imprensa e o painel do ambiente. */
 const calmo = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const economia = navigator.connection?.saveData;
 
@@ -519,4 +519,220 @@ if (slides.length > 1 && !calmo) {
     atual = proxima;
   }, 7000);
   new IntersectionObserver(([e]) => (noTopo = e.isIntersecting)).observe(slides[0].closest(".hero"));
+}
+
+/* ---------- A casa: o ambiente em recortes diagonais na largura toda ----------
+   Computador: 4 recortes verticais inclinados; a cada 10 s (barra de tempo do canto) mudam de forma e 2 fotos trocam.
+   Celular: uma foto grande, quase inteira, e uma fatia diagonal da próxima na borda direita; a cada 10 s a fatia varre
+   a tela e vira a foto principal (tocar na fatia avança na hora). Clique amplia a foto.
+   Pausa: botão, seção fora da tela ou foto ampliada aberta. Movimento reduzido: sem troca automática. */
+const casa = document.querySelector("[data-casa]");
+if (casa) {
+  const painel = casa.querySelector("[data-casa-painel]");
+  const recortes = [...painel.querySelectorAll(".casa__recorte")];
+  const cel = matchMedia("(max-width: 700px)");
+  const curva = "cubic-bezier(.65, 0, .35, 1)";
+  // computador: fronteiras dos recortes em % da largura, no alto (a) e embaixo (b)
+  const FORMAS = [
+    { a: [0, 31, 55, 79, 100], b: [0, 25, 49, 73, 100] },
+    { a: [0, 23, 51, 71, 100], b: [0, 29, 44, 77, 100] },
+    { a: [0, 38, 58, 80, 100], b: [0, 32, 61, 86, 100] },
+    { a: [0, 21, 45, 69, 100], b: [0, 27, 53, 70, 100] },
+  ];
+  const borda = (v, lado) => (v === 0 || v === 100 ? `${v}%` : `calc(${v}% ${lado > 0 ? "+" : "-"} 3px)`); // fresta de 6px
+
+  const dados = (img) => ({ src: img.getAttribute("src"), alt: img.alt, nome: img.dataset.nome });
+  const todas = [...recortes.map((r) => dados(r.querySelector("img"))),
+    ...[...casa.querySelector("[data-casa-fotos]").content.querySelectorAll("img")].map(dados)];
+  recortes.forEach((r) => { // 2ª camada em cada recorte, para a foto nova entrar por cima
+    const c = r.querySelector(".casa__camada"), outra = c.cloneNode(true);
+    outra.classList.remove("is-on");
+    const img = outra.querySelector("img");
+    img.removeAttribute("src"); img.alt = "";
+    r.append(outra);
+  });
+  const camadas = (r) => [...r.querySelectorAll(".casa__camada")];
+  const por = (c, f) => { const img = c.querySelector("img"); if (img.getAttribute("src") !== f.src) img.src = f.src; c.dataset.nome = f.nome; };
+  const rotular = (r, f) => r.setAttribute("aria-label", `Ampliar foto: ${f.alt}`);
+
+  let ciclo = 0, visiveis = [], fila = []; // computador
+  let im = 0, pri = 0, ocupado = false; // celular: foto principal (índice em todas) e camada que a mostra
+
+  function moldar() {
+    const f = FORMAS[ciclo % FORMAS.length];
+    recortes.forEach((r, i) => {
+      const a0 = borda(f.a[i], 1), a1 = borda(f.a[i + 1], -1), b0 = borda(f.b[i], 1), b1 = borda(f.b[i + 1], -1);
+      const ini = Math.min(f.a[i], f.b[i]);
+      r.style.clipPath = `polygon(${a0} 0, ${a1} 0, ${b1} 100%, ${b0} 100%)`;
+      r.style.setProperty("--x", `${ini}%`);
+      r.style.setProperty("--w", `${Math.max(f.a[i + 1], f.b[i + 1]) - ini}%`);
+    });
+  }
+
+  // celular: a fatia é um corte diagonal com a borda esquerda em P% (embaixo) e P+S% (no alto); a foto dentro
+  // é cortada 6px depois, e a fresta mostra o papel do fundo da camada
+  const S = 8, FATIA = 84, FORA = 101, CHEIA = -S - 4;
+  const corte = (P, px) => `polygon(calc(${P + S}% + ${px}px) 0, 200% 0, 200% 100%, calc(${P}% + ${px}px) 100%)`;
+  function fatiar(c, para, de, dur) {
+    const img = c.querySelector("img");
+    c.style.clipPath = corte(para, 0); img.style.clipPath = corte(para, 6);
+    if (de == null || !dur) return;
+    c.animate([{ clipPath: corte(de, 0) }, { clipPath: corte(para, 0) }], { duration: dur, easing: curva });
+    img.animate([{ clipPath: corte(de, 6) }, { clipPath: corte(para, 6) }], { duration: dur, easing: curva });
+  }
+
+  // monta a composição do zero (no início e quando a tela passa de celular para computador ou o contrário)
+  function montar() {
+    ciclo = 0; ocupado = false;
+    recortes.forEach((r) => {
+      r.style.clipPath = "";
+      camadas(r).forEach((c) => {
+        const img = c.querySelector("img");
+        [...c.getAnimations(), ...img.getAnimations()].forEach((a) => a.cancel());
+        c.style.clipPath = img.style.clipPath = c.style.zIndex = "";
+        c.classList.remove("is-on");
+      });
+    });
+    if (cel.matches) {
+      im = 0; pri = 0;
+      const [c1, c2] = camadas(recortes[0]);
+      por(c1, todas[0]); c1.classList.add("is-on"); c1.style.zIndex = 1;
+      por(c2, todas[1]); c2.classList.add("is-on"); c2.style.zIndex = 2; fatiar(c2, FATIA);
+      recortes[0].style.clipPath = "none";
+      rotular(recortes[0], todas[0]);
+    } else {
+      visiveis = todas.slice(0, recortes.length); fila = todas.slice(recortes.length);
+      recortes.forEach((r, i) => { const [c] = camadas(r); por(c, visiveis[i]); c.classList.add("is-on"); rotular(r, visiveis[i]); });
+      moldar();
+    }
+  }
+  montar();
+  cel.addEventListener("change", montar);
+
+  // computador: troca a foto de um recorte (a nova entra por cima, revelada de lado, com um leve recuo do zoom)
+  async function trocar(i, atraso) {
+    const r = recortes[i], [c1, c2] = camadas(r);
+    const sai = c1.classList.contains("is-on") && c1.style.zIndex !== "1" ? c1 : c2.classList.contains("is-on") ? c2 : c1;
+    const entra = sai === c1 ? c2 : c1;
+    const nova = fila.shift();
+    fila.push(visiveis[i]);
+    visiveis[i] = nova;
+    rotular(r, nova);
+    por(entra, nova);
+    try { await entra.querySelector("img").decode(); } catch {}
+    const lado = i % 2 ? 1 : -1;
+    entra.getAnimations().forEach((a) => a.cancel());
+    sai.style.zIndex = 1; entra.style.zIndex = 2;
+    entra.classList.add("is-on");
+    entra.animate([{ clipPath: lado > 0 ? "inset(0 0 0 100%)" : "inset(0 100% 0 0)" }, { clipPath: "inset(0 0 0 0)" }],
+      { duration: 1500, delay: atraso, easing: curva, fill: "backwards" });
+    entra.animate([{ transform: "scale(1.16)" }, { transform: "scale(1)" }], { duration: 2600, delay: atraso, easing: "cubic-bezier(.2, .7, .2, 1)", fill: "backwards" });
+    setTimeout(() => { if (visiveis[i] === nova) sai.classList.remove("is-on"); }, atraso + 1550);
+  }
+  // celular: a fatia varre a tela e vira a principal; a antiga recebe a foto seguinte e entra como fatia pela direita
+  function avancarCel() {
+    if (ocupado) return;
+    ocupado = true;
+    const cs = camadas(recortes[0]), velha = cs[pri], nova = cs[1 - pri];
+    velha.style.zIndex = 1; nova.style.zIndex = 2;
+    fatiar(nova, CHEIA, FATIA, 1500);
+    im = (im + 1) % todas.length; pri = 1 - pri;
+    rotular(recortes[0], todas[im]);
+    setTimeout(async () => {
+      if (!cel.matches) return;
+      fatiar(velha, FORA);
+      velha.style.zIndex = 3;
+      por(velha, todas[(im + 1) % todas.length]);
+      try { await velha.querySelector("img").decode(); } catch {}
+      fatiar(velha, FATIA, FORA, 1100);
+      setTimeout(() => (ocupado = false), 1150);
+    }, 1550);
+  }
+  function avancar() {
+    if (cel.matches) return avancarCel();
+    ciclo++;
+    moldar();
+    [(ciclo * 2) % 4, (ciclo * 2 + 1) % 4].forEach((i, k) => trocar(i, 200 + k * 380));
+  }
+
+  // as fotos que ainda não apareceram baixam quando a seção se aproxima
+  const perto = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    perto.disconnect();
+    todas.forEach((f) => { const im = new Image(); im.src = f.src; im.decode?.().catch(() => {}); });
+  }, { rootMargin: "150% 0px" });
+  perto.observe(casa);
+
+  // ritmo: a barra de tempo (animação de 10 s no CSS) dispara cada troca; pausar = barra parada
+  let correr = () => {};
+  if (!calmo) {
+    const ritmo = casa.querySelector("[data-casa-ritmo]"), barra = casa.querySelector("[data-casa-barra]"), pausa = casa.querySelector("[data-casa-pausa]");
+    correr = () => { barra.classList.remove("is-correndo"); void barra.offsetWidth; barra.classList.add("is-correndo"); };
+    barra.addEventListener("animationend", () => { avancar(); correr(); });
+    casa.classList.add("is-fora");
+    new IntersectionObserver(([e]) => casa.classList.toggle("is-fora", !e.isIntersecting), { threshold: .25 }).observe(painel);
+    pausa.addEventListener("click", () => {
+      const p = casa.classList.toggle("is-pausado");
+      pausa.setAttribute("aria-pressed", String(p));
+      pausa.setAttribute("aria-label", p ? "Retomar a troca de fotos" : "Pausar a troca de fotos");
+    });
+    ritmo.hidden = false;
+    correr();
+
+    // parallax leve acompanhando o mouse (cada recorte numa profundidade, --d)
+    if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      let pendente = 0;
+      painel.addEventListener("pointermove", (e) => {
+        if (pendente) return;
+        pendente = requestAnimationFrame(() => {
+          pendente = 0;
+          const r = painel.getBoundingClientRect();
+          painel.style.setProperty("--mx", ((e.clientX - r.left) / r.width - .5).toFixed(3));
+          painel.style.setProperty("--my", ((e.clientY - r.top) / r.height - .5).toFixed(3));
+        });
+      });
+      painel.addEventListener("pointerleave", () => { painel.style.setProperty("--mx", 0); painel.style.setProperty("--my", 0); });
+    }
+  }
+
+  // clique: foto ampliada inteira (mesma caixa de luz das galerias), com setas por todas as fotos do ambiente
+  if (typeof HTMLDialogElement === "function") {
+    const svg = (d) => `<svg class="icone" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+    const luz = document.createElement("dialog");
+    luz.className = "luz";
+    luz.setAttribute("aria-label", "Foto do ambiente ampliada");
+    luz.innerHTML = `<figure><img alt=""><figcaption></figcaption></figure>
+      <button class="icone-btn luz__seta luz__seta--ant" type="button" data-passo="-1" aria-label="Foto anterior">${svg('<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>')}</button>
+      <button class="icone-btn luz__seta luz__seta--prox" type="button" data-passo="1" aria-label="Próxima foto">${svg('<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>')}</button>
+      <button class="icone-btn luz__fechar" type="button" data-fechar aria-label="Fechar">${svg('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>')}</button>`;
+    document.body.append(luz);
+    const foto = luz.querySelector("img"), legenda = luz.querySelector("figcaption");
+    let atual = 0;
+    const mostrar = (k) => {
+      atual = (k + todas.length) % todas.length;
+      foto.src = todas[atual].src; foto.alt = todas[atual].alt; legenda.textContent = todas[atual].nome;
+      luz.classList.remove("is-trocando"); void luz.offsetWidth; luz.classList.add("is-trocando");
+    };
+    recortes.forEach((r, i) => r.addEventListener("click", (e) => {
+      let f = visiveis[i];
+      if (cel.matches) {
+        // toque na fatia da direita: passa para a próxima foto
+        if (e.target.closest(".casa__camada") === camadas(recortes[0])[1 - pri]) { avancarCel(); correr(); return; }
+        f = todas[im];
+      }
+      mostrar(todas.indexOf(f));
+      casa.classList.add("is-vendo");
+      luz.showModal();
+    }));
+    luz.addEventListener("click", (e) => {
+      const passo = e.target.closest("[data-passo]");
+      if (passo) return mostrar(atual + Number(passo.dataset.passo));
+      if (e.target === luz || e.target.closest("[data-fechar]")) luz.close();
+    });
+    luz.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") mostrar(atual + 1);
+      if (e.key === "ArrowLeft") mostrar(atual - 1);
+    });
+    luz.addEventListener("close", () => casa.classList.remove("is-vendo"));
+  }
 }
